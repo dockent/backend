@@ -11,7 +11,8 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "ext-phalcon": ">=3.2"
+    "ext-phalcon": ">=3.2",
+    "docker-php/docker-php": "^1.24@dev"
   },
   "require-dev": {
     "phalcon/ide-stubs": "v3.2.1"
