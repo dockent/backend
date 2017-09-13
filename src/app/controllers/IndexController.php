@@ -6,9 +6,7 @@
 
 namespace Dockent\controllers;
 
-use Dockent\enums\DI;
-use Phalcon\Config;
-use Phalcon\Mvc\Controller;
+use Dockent\components\Controller;
 
 /**
  * Class IndexController
@@ -19,10 +17,5 @@ class IndexController extends Controller
     public function indexAction()
     {
         echo '(c) Dockent 2017';
-    }
-
-    public function installAction()
-    {
-
     }
 }
