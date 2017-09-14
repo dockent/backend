@@ -9,6 +9,7 @@
 namespace Dockent\controllers;
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\View;
 
 /**
  * Class InstallController
@@ -16,6 +17,11 @@ use Phalcon\Mvc\Controller;
  */
 class InstallController extends Controller
 {
+    public function initialize()
+    {
+        $this->view->setRenderLevel(View::LEVEL_LAYOUT);
+    }
+
     public function indexAction()
     {
         echo 'Install Dockent';
