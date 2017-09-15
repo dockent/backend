@@ -24,6 +24,11 @@ class InstallController extends Controller
 
     public function indexAction()
     {
-        echo 'Install Dockent';
+        /** Just render view */
+    }
+
+    public function installAction()
+    {
+        echo 'Install Action';
     }
 }
