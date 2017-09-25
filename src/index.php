@@ -10,7 +10,6 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
-use Phalcon\Config;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -32,9 +31,6 @@ $di->set(DI::VIEW, function () {
     $view->setViewsDir('./app/views');
 
     return $view;
-});
-$di->set(DI::CONFIG, function () {
-    return new Config(require './app/config.php');
 });
 
 $application = new Application($di);
