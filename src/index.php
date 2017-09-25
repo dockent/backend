@@ -5,6 +5,9 @@
  */
 
 use Dockent\enums\DI;
+use Docker\Docker;
+use Docker\DockerClient;
+use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Loader;
 use Phalcon\Mvc\Application;
@@ -31,6 +34,21 @@ $di->set(DI::VIEW, function () {
     $view->setViewsDir('./app/views');
 
     return $view;
+});
+$di->set(DI::CONFIG, function () {
+    return new Config(require './app/config.php');
+});
+$di->set(DI::DOCKER, function () use ($di) {
+    /** @var Config $config */
+    $config = $di->get(DI::CONFIG);
+    $config->get('currentConnection');
+    /** @var Config $connection */
+    $connection = $config->get('currentConnection');
+    if ($connection->get('remote_socket') === 'localhost') {
+        return new Docker();
+    }
+    $client = new DockerClient($connection->toArray());
+    return new Docker($client);
 });
 
 $application = new Application($di);

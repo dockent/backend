@@ -32,4 +32,6 @@ final class DI
 {
     const DISPATCHER = 'dispatcher';
     const VIEW = 'view';
+    const CONFIG = 'config';
+    const DOCKER = 'docker';
 }

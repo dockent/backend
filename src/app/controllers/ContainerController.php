@@ -1,7 +1,9 @@
 <?php
 /**
- * @author: Vladyslav Pozdnyakov <scary_donetskiy@live.com>
- * @copyright Dockent 2017
+ * Created by PhpStorm.
+ * User: vpozdnyakov
+ * Date: 25.09.17
+ * Time: 16:26
  */
 
 namespace Dockent\controllers;
@@ -9,10 +11,10 @@ namespace Dockent\controllers;
 use Dockent\components\Controller;
 
 /**
- * Class IndexController
+ * Class ContainerController
  * @package Dockent\controllers
  */
-class IndexController extends Controller
+class ContainerController extends Controller
 {
     public function indexAction()
     {
