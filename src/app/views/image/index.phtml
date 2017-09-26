@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var \Docker\API\Model\ImageItem[] $images
+ */
+?>
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Images</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Repository</th>
+                            <th>Image ID</th>
+                            <th>Created</th>
+                            <th>Size</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($images as $image) : ?>
+                            <tr>
+                                <td><?= implode('; ', $image->getRepoTags()) ?></td>
+                                <td><?= $image->getId() ?></td>
+                                <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
+                                <td><?= $image->getSize() ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /page content -->

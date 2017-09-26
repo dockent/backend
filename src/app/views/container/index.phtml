@@ -1,0 +1,55 @@
+<?php
+/**
+ * @var \Docker\API\Model\ContainerInfo[] $containers
+ */
+?>
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Containers</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Container ID</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Ports</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th>Command</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($containers as $container) : ?>
+                            <tr>
+                                <td><?= $container->getId() ?></td>
+                                <td><?= implode('; ', $container->getNames()) ?></td>
+                                <td><?= $container->getImage() ?></td>
+                                <td>
+                                    <?php foreach ($container->getPorts() as $port) {
+                                        echo $port->getPrivatePort() . ':' . $port->getPublicPort() . '<br>';
+                                    } ?>
+                                </td>
+                                <td><?= date(DateTime::COOKIE, $container->getCreated()) ?></td>
+                                <td><?= $container->getStatus() ?></td>
+                                <td><?= $container->getCommand() ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /page content -->
