@@ -34,4 +34,5 @@ final class DI
     const VIEW = 'view';
     const CONFIG = 'config';
     const DOCKER = 'docker';
+    const QUEUE = 'queue';
 }

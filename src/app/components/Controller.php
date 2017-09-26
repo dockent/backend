@@ -8,6 +8,7 @@
 
 namespace Dockent\components;
 
+use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
 use Docker\Docker;
 use Phalcon\Mvc\Controller as PhalconController;
@@ -25,6 +26,6 @@ class Controller extends PhalconController
 
     public function beforeExecuteRoute()
     {
-        $this->docker = $this->getDI()->get(DI::DOCKER);
+        $this->docker = DIFactory::getDI()->get(DI::DOCKER);
     }
 }

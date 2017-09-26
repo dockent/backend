@@ -9,5 +9,9 @@
 return [
     'currentConnection' => [
         'remote_socket' => 'localhost'
+    ],
+    'queue' => [
+        'host' => '',
+        'port' => ''
     ]
 ];

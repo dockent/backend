@@ -9,8 +9,9 @@
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
-use Dockent\components\Docker;
-use Docker\API\Model\ContainerConfig;
+use Dockent\components\DI as DIFactory;
+use Dockent\enums\DI;
+use Phalcon\Queue\Beanstalk;
 
 /**
  * Class ContainerController
@@ -26,25 +27,15 @@ class ContainerController extends Controller
         ]);
     }
 
-    /**
-     * @todo: Pulling the image with creating the container should be in Queue
-     */
     public function createAction()
     {
         if ($this->request->isPost()) {
-            $containerConfig = new ContainerConfig();
-            Docker::pull($this->request->getPost('image'));
-            $containerConfig->setImage($this->request->getPost('image'));
-            $containerConfig->setCmd($this->request->getPost('cmd'));
-            $parameters = [];
-            $name = $this->request->getPost('name');
-            if ($name) {
-                $parameters['name'] = $name;
-            }
-            $containerCreateResult = $this->docker->getContainerManager()->create($containerConfig, $parameters);
-            if ($this->request->getPost('start')) {
-                $this->docker->getContainerManager()->start($containerCreateResult->getId());
-            }
+            /** @var Beanstalk $queue */
+            $queue = DIFactory::getDI()->get(DI::QUEUE);
+            $queue->put([
+                'action' => 'createContainer',
+                'data' => $this->request->getPost()
+            ]);
             $this->response->redirect('index');
         }
     }
