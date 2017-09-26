@@ -53,7 +53,7 @@ DIFactory::getDI()->set(DI::QUEUE, function () {
     /** @var Config $config */
     $config = DIFactory::getDI()->get(DI::CONFIG);
     return new Beanstalk([
-        'host' => $config->get('queue.host'),
-        'port' => $config->get('queue.port')
+        'host' => $config->path('queue.host'),
+        'port' => $config->path('queue.port')
     ]);
 });
