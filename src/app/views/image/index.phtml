@@ -22,6 +22,7 @@
                             <th>Image ID</th>
                             <th>Created</th>
                             <th>Size</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,14 @@
                                 <td><?= $image->getId() ?></td>
                                 <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
                                 <td><?= $image->getSize() ?></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="/image/remove/<?= $image->getId() ?>"
+                                           class="btn btn-default btn-xs">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

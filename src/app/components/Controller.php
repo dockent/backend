@@ -28,4 +28,12 @@ class Controller extends PhalconController
     {
         $this->docker = DIFactory::getDI()->get(DI::DOCKER);
     }
+
+    /**
+     * @param string $url
+     */
+    public function redirect(string $url)
+    {
+        header("Location: $url");
+    }
 }

@@ -25,12 +25,13 @@
                             <th>Created</th>
                             <th>Status</th>
                             <th>Command</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($containers as $container) : ?>
                             <tr>
-                                <td><?= $container->getId() ?></td>
+                                <td><?= substr($container->getId(), 0, 12) ?></td>
                                 <td><?= implode('; ', $container->getNames()) ?></td>
                                 <td><?= $container->getImage() ?></td>
                                 <td>
@@ -41,6 +42,26 @@
                                 <td><?= date(DateTime::COOKIE, $container->getCreated()) ?></td>
                                 <td><?= $container->getStatus() ?></td>
                                 <td><?= $container->getCommand() ?></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="<?= $container->getCommand() ? '/container/start/' . $container->getId() : '#' ?>"
+                                           class="btn btn-default btn-xs" <?= $container->getCommand() ? '' : 'disabled' ?>>
+                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="<?= $container->getCommand() ? '/container/restart/' . $container->getId() : '#' ?>"
+                                           class="btn btn-default btn-xs" <?= $container->getCommand() ? '' : 'disabled' ?>>
+                                            <i class="fa fa-repeat" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="/container/stop/<?= $container->getId() ?>"
+                                           class="btn btn-default btn-xs">
+                                            <i class="fa fa-stop" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="/container/remove/<?= $container->getId() ?>"
+                                           class="btn btn-default btn-xs">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

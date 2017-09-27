@@ -23,4 +23,13 @@ class ImageController extends Controller
             'images' => $images
         ]);
     }
+
+    /**
+     * @param string $id
+     */
+    public function removeAction(string $id)
+    {
+        $this->docker->getImageManager()->remove($id);
+        $this->redirect('/image');
+    }
 }

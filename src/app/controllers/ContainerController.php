@@ -39,4 +39,45 @@ class ContainerController extends Controller
             $this->response->redirect('index');
         }
     }
+
+    /**
+     * @param string $id
+     */
+    public function startAction(string $id)
+    {
+        $this->docker->getContainerManager()->start($id);
+        $this->redirect('/container');
+    }
+
+    /**
+     * @param string $id
+     */
+    public function stopAction(string $id)
+    {
+        /** @var Beanstalk $queue */
+        $queue = DIFactory::getDI()->get(DI::QUEUE);
+        $queue->put([
+            'action' => 'stopContainer',
+            'data' => $id
+        ]);
+        $this->redirect('/container');
+    }
+
+    /**
+     * @param string $id
+     */
+    public function restartAction(string $id)
+    {
+        $this->docker->getContainerManager()->restart($id);
+        $this->redirect('/container');
+    }
+
+    /**
+     * @param string $id
+     */
+    public function removeAction(string $id)
+    {
+        $this->docker->getContainerManager()->remove($id);
+        $this->redirect('/container');
+    }
 }

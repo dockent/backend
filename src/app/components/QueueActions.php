@@ -21,7 +21,7 @@ class QueueActions
     /**
      * @param array $data
      */
-    public static function createContainer($data)
+    public static function createContainer(array $data)
     {
         $docker = new Docker();
         $containerConfig = new ContainerConfig();
@@ -37,5 +37,13 @@ class QueueActions
         if (array_key_exists('start', $data)) {
             $docker->getContainerManager()->start($containerCreateResult->getId());
         }
+    }
+
+    /**
+     * @param string $id
+     */
+    public static function stopContainer(string $id)
+    {
+        (new Docker())->getContainerManager()->stop($id);
     }
 }
