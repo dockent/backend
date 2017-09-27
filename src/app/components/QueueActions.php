@@ -34,7 +34,7 @@ class QueueActions
             $parameters['name'] = $name;
         }
         $containerCreateResult = $docker->getContainerManager()->create($containerConfig, $parameters);
-        if ($data['start']) {
+        if (array_key_exists('start', $data)) {
             $docker->getContainerManager()->start($containerCreateResult->getId());
         }
     }
