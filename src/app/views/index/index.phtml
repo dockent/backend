@@ -1,5 +1,29 @@
+<?php
+/**
+ * @var \Docker\API\Model\SystemInformation $information
+ */
+?>
 <!-- page content -->
 <div class="right_col" role="main">
-
+    <!-- top tiles -->
+    <div class="row tile_count">
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-cube"></i> Total Containers</span>
+            <div class="count"><?= $information->getContainers() ?></div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-database"></i> Total Images</span>
+            <div class="count"><?= $information->getImages() ?></div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-code-fork"></i> Server Version</span>
+            <div class="count"><?= $information->getServerVersion() ?></div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-linux"></i> Operating System</span>
+            <div class="count"><?= $information->getOperatingSystem() ?></div>
+        </div>
+    </div>
+    <!-- /top tiles -->
 </div>
 <!-- /page content -->
