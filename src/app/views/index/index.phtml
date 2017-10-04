@@ -25,5 +25,93 @@
         </div>
     </div>
     <!-- /top tiles -->
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320 overflow_hidden">
+                <div class="x_title">
+                    <h2>Containers</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table class="" style="width:100%">
+                        <tr>
+                            <th style="width:37%;">
+                                <p></p>
+                            </th>
+                            <th>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <p class="">Status</p>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <p class="">#</p>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <canvas class="canvasDoughnut" height="140" width="140"
+                                        style="margin: 15px 10px 10px 0"></canvas>
+                            </td>
+                            <td>
+                                <table class="tile_info">
+                                    <tr>
+                                        <td>
+                                            <p><i class="fa fa-square aero"></i>Running </p>
+                                        </td>
+                                        <td><?= $information->getContainersRunning() ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><i class="fa fa-square purple"></i>Paused </p>
+                                        </td>
+                                        <td><?= $information->getContainersPaused() ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p><i class="fa fa-square red"></i>Stopped </p>
+                                        </td>
+                                        <td><?= $information->getContainersStopped() ?></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /page content -->
+
+<script>
+    window.chart_doughnut_settings = {
+        type: 'doughnut',
+        tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+        data: {
+            labels: [
+                "Running",
+                "Paused",
+                "Stopped"
+            ],
+            datasets: [{
+                data: [<?= $information->getContainersRunning() ?>,
+                    <?= $information->getContainersPaused() ?>,
+                    <?= $information->getContainersStopped() ?>],
+                backgroundColor: [
+                    "#BDC3C7",
+                    "#9B59B6",
+                    "#E74C3C"
+                ],
+                hoverBackgroundColor: [
+                    "#CFD4D8",
+                    "#B370CF",
+                    "#E95E4F"
+                ]
+            }]
+        },
+        options: {
+            legend: false,
+            responsive: false
+        }
+    };
+</script>

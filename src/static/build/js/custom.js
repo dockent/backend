@@ -689,8 +689,8 @@ if (typeof NProgress != 'undefined') {
 		console.log('init_chart_doughnut');
 	 
 		if ($('.canvasDoughnut').length){
-			
-		var chart_doughnut_settings = {
+
+		var chart_doughnut_settings = window.chart_doughnut_settings || {
 				type: 'doughnut',
 				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 				data: {
