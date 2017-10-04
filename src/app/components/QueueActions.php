@@ -8,7 +8,11 @@
 
 namespace Dockent\components;
 
+use Dockent\components\DI as DIFactory;
+use Dockent\enums\DI;
 use Docker\API\Model\ContainerConfig;
+use Docker\Context\Context;
+use Docker\Context\ContextBuilder;
 use Docker\Docker;
 use Dockent\components\Docker as DockerHelper;
 
@@ -23,7 +27,8 @@ class QueueActions
      */
     public static function createContainer(array $data)
     {
-        $docker = new Docker();
+        /** @var Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
         $containerConfig = new ContainerConfig();
         DockerHelper::pull($data['image']);
         $containerConfig->setImage($data['image']);
@@ -44,6 +49,46 @@ class QueueActions
      */
     public static function stopContainer(string $id)
     {
-        (new Docker())->getContainerManager()->stop($id);
+        /** @var Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->getContainerManager()->stop($id);
+    }
+
+    /**
+     * @param string $path
+     */
+    public static function buildImageByDockerfilePath(string $path)
+    {
+        $context = new Context($path);
+        $inputStream = $context->toStream();
+        /** @var Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->getImageManager()->build($inputStream);
+    }
+
+    /**
+     * @param string $body
+     */
+    public static function buildByDockerfileBodyAction(string $body)
+    {
+        $dockerfile = tmpfile();
+        fwrite($dockerfile, $body);
+        fseek($dockerfile, 0);
+        /** @var Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->getImageManager()->build($dockerfile);
+    }
+
+    /**
+     * @param array $data
+     */
+    public static function buildByContext(array $data)
+    {
+        $contextBuilder = new ContextBuilder();
+        $contextBuilder->from($data['from']);
+        $contextBuilder->run($data['run']);
+        /** @var Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->getImageManager()->build($contextBuilder->getContext()->toStream());
     }
 }
