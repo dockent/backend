@@ -21,4 +21,24 @@ abstract class Docker
     {
         system("docker pull $image");
     }
+
+    /**
+     * @param array $parameters
+     * @return string
+     */
+    public static function generateBody(array $parameters): string
+    {
+        $processMultistringCommands = function (string $prefix, string $commands) {
+            $commands = explode("\n", $commands);
+            $map = [];
+            if (!empty($commands)) {
+                $map = array_map(function ($item) use ($prefix) {
+                    return "$prefix $item";
+                }, $commands);
+            }
+            return implode("\n", $map);
+        };
+
+        return '';
+    }
 }

@@ -1,0 +1,75 @@
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Build image</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="dashboard-widget-content">
+                        <p>You can use one of this methods for building your Docker image</p>
+                        <ul class="list-unstyled timeline widget">
+                            <li>
+                                <div class="block">
+                                    <div class="block_content">
+                                        <h2 class="title">
+                                            <a>By Dockerfile path</a>
+                                        </h2>
+                                        <form action="/builder/buildByDockerfilePath" method="post">
+                                            <p>Enter path to folder with your Dockerfile</p>
+                                            <div class="input-group">
+                                                <input type="text" name="path_to_dockerfile"
+                                                       placeholder="ex. /tmp/my_docker_image" required
+                                                       class="form-control"/>
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="block">
+                                    <div class="block_content">
+                                        <h2 class="title">
+                                            <a>By Dockerfile body</a>
+                                        </h2>
+                                        <form action="/builder/buildByDockerfileBody" method="post"
+                                              class="form-horizontal form-label-left">
+                                            <p>Type your Dockerfile body here</p>
+                                            <div class="form-group">
+                                                <textarea name="dockerfile_body" cols="30" rows="10" required
+                                                          class="form-control"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="block">
+                                    <div class="block_content">
+                                        <h2 class="title">
+                                            <a>Use builder</a>
+                                        </h2>
+                                        <p>You can use <a href="/builder">Docker image builder</a> which we provide</p>
+                                        <div class="form-group">
+                                            <a href="/builder/" class="btn btn-primary" type="button">Start</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->

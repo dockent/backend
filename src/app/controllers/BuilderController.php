@@ -10,6 +10,7 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
+use Dockent\components\Docker;
 use Dockent\enums\DI;
 use Phalcon\Queue\Beanstalk;
 
@@ -21,16 +22,15 @@ class BuilderController extends Controller
 {
     public function buildByDockerfilePathAction()
     {
-//        if ($this->request->isPost()) {
+        if ($this->request->isPost()) {
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
             $queue->put([
                 'action' => 'buildImageByDockerfilePath',
-                'data' => '/tmp/Dockerfile'
-//                'data' => $this->request->getPost('path_to_dockerfile')
+                'data' => $this->request->getPost('path_to_dockerfile')
             ]);
             $this->redirect('/image');
-//        }
+        }
     }
 
     public function buildByDockerfileBodyAction()
@@ -46,9 +46,10 @@ class BuilderController extends Controller
         }
     }
 
-    public function builderAction()
+    public function indexAction()
     {
         if ($this->request->isPost()) {
+            Docker::generateBody($this->request->getPost());
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
             $queue->put([

@@ -71,15 +71,18 @@ class QueueActions
      */
     public static function buildByDockerfileBodyAction(string $body)
     {
-        $dockerfile = tmpfile();
-        fwrite($dockerfile, $body);
-        fseek($dockerfile, 0);
+        $uniquePrefix = uniqid('docker_');
+        $directoryPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $uniquePrefix;
+        mkdir($directoryPath);
+        file_put_contents($directoryPath . DIRECTORY_SEPARATOR . 'Dockerfile', $body);
+        $context = new Context($directoryPath);
         /** @var Docker $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getImageManager()->build($dockerfile);
+        $docker->getImageManager()->build($context->toStream());
     }
 
     /**
+     * @WIP
      * @param array $data
      */
     public static function buildByContext(array $data)
