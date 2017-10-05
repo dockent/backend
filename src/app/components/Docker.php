@@ -28,7 +28,7 @@ abstract class Docker
      */
     public static function generateBody(array $parameters): string
     {
-        $processMultistringCommands = function (string $prefix, string $commands) {
+        $processMultistringCommands = function (string $prefix, string $commands): string {
             $commands = explode("\n", $commands);
             $map = [];
             if (!empty($commands)) {
@@ -38,6 +38,15 @@ abstract class Docker
             }
             return implode("\n", $map);
         };
+
+        $from = $parameters['from'] ? 'FROM ' . $parameters['from'] : '';
+        $maintainer = $parameters['maintainer'] ? 'LABEL maintainer=' . $parameters['maintainer'] : '';
+        $run = $processMultistringCommands('RUN', $parameters['run']);
+        $cmd = $parameters['cmd'] ? 'CMD ' . $parameters['cmd'] : '';
+        $expose = $parameters['expose'] ? 'EXPOSE ' . $parameters['expose'] : '';
+        $env = $processMultistringCommands('ENV', $parameters['env']);
+        $add = $processMultistringCommands('ADD', $parameters['add']);
+        $copy = $processMultistringCommands('COPY', $parameters['copy']);
 
         return '';
     }
