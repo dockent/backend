@@ -87,11 +87,6 @@ class QueueActions
      */
     public static function buildByContext(array $data)
     {
-        $contextBuilder = new ContextBuilder();
-        $contextBuilder->from($data['from']);
-        $contextBuilder->run($data['run']);
-        /** @var Docker $docker */
-        $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getImageManager()->build($contextBuilder->getContext()->toStream());
+        static::buildByDockerfileBodyAction(\Dockent\components\Docker::generateBody($data));
     }
 }

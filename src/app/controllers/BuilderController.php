@@ -49,7 +49,6 @@ class BuilderController extends Controller
     public function indexAction()
     {
         if ($this->request->isPost()) {
-            Docker::generateBody($this->request->getPost());
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
             $queue->put([

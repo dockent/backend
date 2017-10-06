@@ -39,15 +39,30 @@ abstract class Docker
             return implode("\n", $map);
         };
 
-        $from = $parameters['from'] ? 'FROM ' . $parameters['from'] : '';
-        $maintainer = $parameters['maintainer'] ? 'LABEL maintainer=' . $parameters['maintainer'] : '';
+        $from = $parameters['from'] ? 'FROM ' . $parameters['from'] : null;
+        $maintainer = $parameters['maintainer'] ? 'LABEL maintainer=' . $parameters['maintainer'] : null;
         $run = $processMultistringCommands('RUN', $parameters['run']);
-        $cmd = $parameters['cmd'] ? 'CMD ' . $parameters['cmd'] : '';
-        $expose = $parameters['expose'] ? 'EXPOSE ' . $parameters['expose'] : '';
+        $cmd = $parameters['cmd'] ? 'CMD ' . $parameters['cmd'] : null;
+        $expose = $parameters['expose'] ? 'EXPOSE ' . $parameters['expose'] : null;
         $env = $processMultistringCommands('ENV', $parameters['env']);
         $add = $processMultistringCommands('ADD', $parameters['add']);
         $copy = $processMultistringCommands('COPY', $parameters['copy']);
 
-        return '';
+        $volume = null;
+        if ($parameters['volume']) {
+            $volumeValues = explode(',', $parameters['volume']);
+            $volume = array_map(function ($item) {
+                return "\"$item\"";
+            }, $volumeValues);
+            $volume = 'VOLUME [' . implode(',', $volume) . ']';
+        }
+
+        $workdir = $parameters['workdir'] ? 'WORKDIR ' . $parameters['workdir'] : '';
+
+        $resultString = array_filter([$from, $maintainer, $workdir, $run, $cmd, $expose, $env, $add, $copy, $volume], function ($item) {
+            return $item !== null;
+        });
+
+        return implode("\n", $resultString);
     }
 }
