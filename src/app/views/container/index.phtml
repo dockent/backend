@@ -31,7 +31,9 @@
                         <tbody>
                         <?php foreach ($containers as $container) : ?>
                             <tr>
-                                <td><?= substr($container->getId(), 0, 12) ?></td>
+                                <td>
+                                    <i class="fa fa-circle <?= $container->getState() === 'running' ? 'green' : 'red' ?>"></i>
+                                    <?= substr($container->getId(), 0, 12) ?></td>
                                 <td><?= implode('; ', $container->getNames()) ?></td>
                                 <td><?= $container->getImage() ?></td>
                                 <td>
