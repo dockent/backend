@@ -32,4 +32,9 @@ class ImageController extends Controller
         $this->docker->getImageManager()->remove($id);
         $this->redirect('/image');
     }
+
+    public function buildAction()
+    {
+        /** Render default view */
+    }
 }
