@@ -16,5 +16,8 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
+        $this->view->setVars([
+            'information' => $this->docker->getMiscManager()->getSystemInformation()
+        ]);
     }
 }
