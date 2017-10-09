@@ -15,13 +15,9 @@
             <span class="count_top"><i class="fa fa-database"></i> Total Images</span>
             <div class="count"><?= $information->getImages() ?></div>
         </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <div class="col-md-8 col-sm-6 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-code-fork"></i> Server Version</span>
             <div class="count"><?= $information->getServerVersion() ?></div>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-linux"></i> Operating System</span>
-            <div class="count"><?= $information->getOperatingSystem() ?></div>
         </div>
     </div>
     <!-- /top tiles -->
@@ -76,6 +72,65 @@
                             </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel tile fixed_height_320 overflow_hidden">
+                <div class="x_title">
+                    <h2>System Info</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fa fa-square aero"></i> Kernel version </p>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $information->getKernelVersion() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fa fa-square aero"></i> Operating system </p>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $information->getOperatingSystem() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fa fa-square aero"></i> OS type </p>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $information->getOSType() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fa fa-square aero"></i> Architecture </p>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $information->getArchitecture() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fa fa-square aero"></i> CPUs </p>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $information->getNCPU() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fa fa-square aero"></i> Total memory </p>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $information->getMemTotal() ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
