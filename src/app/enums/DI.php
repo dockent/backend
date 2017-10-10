@@ -35,4 +35,5 @@ final class DI
     const CONFIG = 'config';
     const DOCKER = 'docker';
     const QUEUE = 'queue';
+    const ANNOTATIONS = 'annotations';
 }

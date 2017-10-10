@@ -10,6 +10,7 @@ use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
 use Docker\Docker;
 use Docker\DockerClient;
+use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Config;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
@@ -56,4 +57,7 @@ DIFactory::getDI()->set(DI::QUEUE, function () {
         'host' => $config->path('queue.host'),
         'port' => $config->path('queue.port')
     ]);
+});
+DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
+    return new Memory();
 });

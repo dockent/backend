@@ -8,6 +8,7 @@
 
 namespace Dockent\controllers;
 
+use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 
 /**
@@ -16,6 +17,8 @@ use Dockent\components\Controller;
  */
 class ImageController extends Controller
 {
+    use BulkAction;
+
     public function indexAction()
     {
         $images = $this->docker->getImageManager()->findAll();
@@ -26,6 +29,7 @@ class ImageController extends Controller
 
     /**
      * @param string $id
+     * @Bulk
      */
     public function removeAction(string $id)
     {

@@ -8,6 +8,7 @@
 
 namespace Dockent\controllers;
 
+use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
@@ -19,6 +20,8 @@ use Phalcon\Queue\Beanstalk;
  */
 class ContainerController extends Controller
 {
+    use BulkAction;
+
     public function indexAction()
     {
         $containers = $this->docker->getContainerManager()->findAll(['all' => true]);
@@ -42,6 +45,7 @@ class ContainerController extends Controller
 
     /**
      * @param string $id
+     * @Bulk
      */
     public function startAction(string $id)
     {
@@ -51,6 +55,7 @@ class ContainerController extends Controller
 
     /**
      * @param string $id
+     * @Bulk
      */
     public function stopAction(string $id)
     {
@@ -65,6 +70,7 @@ class ContainerController extends Controller
 
     /**
      * @param string $id
+     * @Bulk
      */
     public function restartAction(string $id)
     {
@@ -74,10 +80,21 @@ class ContainerController extends Controller
 
     /**
      * @param string $id
+     * @Bulk
      */
     public function removeAction(string $id)
     {
         $this->docker->getContainerManager()->remove($id);
         $this->redirect('/container');
+    }
+
+    /**
+     * @param string $id
+     */
+    public function viewAction(string $id)
+    {
+        $this->view->setVars([
+            'top' => $this->docker->getContainerManager()->listProcesses($id)
+        ]);
     }
 }

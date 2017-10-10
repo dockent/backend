@@ -14,10 +14,18 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
+                    <form action="#" method="post" id="bulk-form">
+                        <div class="row">
+                            <div class="btn-group">
+                                <a class="btn btn-default" onclick="submit('remove')">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Remove
+                                </a>
+                            </div>
+                        </div>
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th>Repository</th>
                             <th>Image ID</th>
                             <th>Created</th>
@@ -28,6 +36,7 @@
                         <tbody>
                         <?php foreach ($images as $image) : ?>
                             <tr>
+                                <td><input type="checkbox" name="id[]" value="<?= $image->getId() ?>"></td>
                                 <td><?= implode('; ', $image->getRepoTags()) ?></td>
                                 <td><?= $image->getId() ?></td>
                                 <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
@@ -44,7 +53,7 @@
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-
+                    </form>
                 </div>
             </div>
         </div>
@@ -52,3 +61,11 @@
     </div>
 </div>
 <!-- /page content -->
+
+<script>
+    function submit(action) {
+        var form = document.getElementById('bulk-form');
+        form.setAttribute('action', '/image/bulk/' + action);
+        form.submit();
+    }
+</script>
