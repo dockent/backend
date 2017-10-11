@@ -35,21 +35,23 @@
                         </thead>
                         <tbody>
                         <?php foreach ($images as $image) : ?>
+                            <?php foreach ($image->getRepoTags() as $tag) : ?>
                             <tr>
-                                <td><input type="checkbox" name="id[]" value="<?= $image->getId() ?>"></td>
-                                <td><?= implode('; ', $image->getRepoTags()) ?></td>
+                                <td><input type="checkbox" name="id[]" value="<?= $tag ?>"></td>
+                                <td><?= $tag ?></td>
                                 <td><?= $image->getId() ?></td>
                                 <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
                                 <td><?= $image->getSize() ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="/image/remove/<?= $image->getId() ?>"
+                                        <a href="/image/remove/<?= $tag ?>"
                                            class="btn btn-default btn-xs">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </td>
                             </tr>
+                            <?php endforeach; ?>
                         <?php endforeach; ?>
                         </tbody>
                     </table>

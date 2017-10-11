@@ -8,6 +8,9 @@
 
 namespace Dockent\components;
 
+use Dockent\components\DI as DIFactory;
+use Dockent\enums\DI;
+
 /**
  * Class Docker
  * @package Dockent\components
@@ -19,7 +22,18 @@ abstract class Docker
      */
     public static function pull(string $image)
     {
-        system("docker pull $image");
+        $image = explode(':', $image);
+        $parameters = [];
+        if (count($image) === 1) {
+            $parameters['fromImage'] = $image[0];
+            $parameters['tag'] = 'latest';
+        } else {
+            $parameters['fromImage'] = $image[0];
+            $parameters['tag'] = $image[1];
+        }
+        /** @var \Docker\Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->getImageManager()->create(null, $parameters);
     }
 
     /**
