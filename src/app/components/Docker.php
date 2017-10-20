@@ -54,7 +54,6 @@ abstract class Docker
         };
 
         $from = $parameters['from'] ? 'FROM ' . $parameters['from'] : null;
-        $maintainer = $parameters['maintainer'] ? 'LABEL maintainer=' . $parameters['maintainer'] : null;
         $run = $processMultistringCommands('RUN', $parameters['run']);
         $cmd = $parameters['cmd'] ? 'CMD ' . $parameters['cmd'] : null;
         $expose = $parameters['expose'] ? 'EXPOSE ' . $parameters['expose'] : null;
@@ -73,7 +72,7 @@ abstract class Docker
 
         $workdir = $parameters['workdir'] ? 'WORKDIR ' . $parameters['workdir'] : '';
 
-        $resultString = array_filter([$from, $maintainer, $workdir, $run, $cmd, $expose, $env, $add, $copy, $volume], function ($item) {
+        $resultString = array_filter([$from, $workdir, $run, $cmd, $expose, $env, $add, $copy, $volume], function ($item) {
             return $item !== null;
         });
 

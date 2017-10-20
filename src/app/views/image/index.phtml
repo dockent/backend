@@ -20,41 +20,67 @@
                                 <a class="btn btn-default" onclick="submit('remove')">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Remove
                                 </a>
+                                <a class="btn btn-danger" onclick="submit('forceRemove')">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Force Remove
+                                </a>
                             </div>
                         </div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Repository</th>
-                            <th>Image ID</th>
-                            <th>Created</th>
-                            <th>Size</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($images as $image) : ?>
-                            <?php foreach ($image->getRepoTags() as $tag) : ?>
+                        <table class="table">
+                            <thead>
                             <tr>
-                                <td><input type="checkbox" name="id[]" value="<?= $tag ?>"></td>
-                                <td><?= $tag ?></td>
-                                <td><?= $image->getId() ?></td>
-                                <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
-                                <td><?= $image->getSize() ?></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="/image/remove/<?= $tag ?>"
-                                           class="btn btn-default btn-xs">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </td>
+                                <th>#</th>
+                                <th>Repository</th>
+                                <th>Image ID</th>
+                                <th>Created</th>
+                                <th>Size</th>
+                                <th>Actions</th>
                             </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($images as $image) : ?>
+                                <?php if ($image->getRepoTags() !== null) : ?>
+                                    <?php foreach ($image->getRepoTags() as $tag) : ?>
+                                        <tr>
+                                            <td>
+                                                <?php if ($tag === '<none>:<none>') : ?>
+                                                    <input type="checkbox" name="id[]" value="<?= $image->getId() ?>">
+                                                <?php else: ?>
+                                                    <input type="checkbox" name="id[]" value="<?= $tag ?>">
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?= htmlspecialchars($tag) ?></td>
+                                            <td><?= $image->getId() ?></td>
+                                            <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
+                                            <td><?= $image->getSize() ?></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <?php if ($tag === '<none>:<none>') : ?>
+                                                        <a href="/image/remove/<?= $image->getId() ?>"
+                                                           class="btn btn-default btn-xs">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a href="/image/forceRemove/<?= $image->getId() ?>"
+                                                           class="btn btn-danger btn-xs" title="Force Remove">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <a href="/image/remove/<?= $tag ?>"
+                                                           class="btn btn-default btn-xs">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a href="/image/forceRemove/<?= $tag ?>"
+                                                           class="btn btn-danger btn-xs" title="Force Remove">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             <?php endforeach; ?>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
                     </form>
                 </div>
             </div>

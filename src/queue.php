@@ -16,9 +16,18 @@ require __DIR__ . '/bootstrap.php';
 
 /** @var Beanstalk $queue */
 $queue = DIFactory::getDI()->get(DI::QUEUE);
+$failedJobs = [];
 while (($job = $queue->reserve()) !== false) {
     $message = $job->getBody();
-    $action = $message['action'];
-    QueueActions::$action($message['data']);
-    $job->delete();
+    try {
+        $action = $message['action'];
+        QueueActions::$action($message['data']);
+        $job->delete();
+    } catch (Exception $e) {
+        echo $e->getMessage() . PHP_EOL;
+        if (array_search($job->getId(), $failedJobs)) {
+            $job->delete();
+        }
+        $failedJobs[] = $job->getId();
+    }
 }

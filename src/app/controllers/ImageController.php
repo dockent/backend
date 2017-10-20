@@ -33,7 +33,20 @@ class ImageController extends Controller
      */
     public function removeAction(string $id)
     {
-        $this->docker->getImageManager()->remove($id);
+        try {
+            $this->docker->getImageManager()->remove($id);
+        } catch (\Exception $e) {
+        }
+        $this->redirect('/image');
+    }
+
+    /**
+     * @param string $id
+     * @Bulk
+     */
+    public function forceRemoveAction(string $id)
+    {
+        $this->docker->getImageManager()->remove($id, ['force' => true]);
         $this->redirect('/image');
     }
 
