@@ -18,4 +18,9 @@ interface Configurable
      * @return array
      */
     public function pasteToConfig(): array;
+
+    /**
+     * @return bool
+     */
+    public function afterSave(): bool;
 }

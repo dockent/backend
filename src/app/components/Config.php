@@ -39,7 +39,14 @@ class Config extends PhalconConfig
             $result = array_merge($result, $item->pasteToConfig());
         }
 
-        return (bool)file_put_contents('./app/config.php',
+        $save = (bool)file_put_contents('./app/config.php',
             '<?php return ' . var_export($result, true));
+        if ($save) {
+            foreach ($this->storage as $item) {
+                $item->afterSave();
+            }
+        }
+
+        return $save;
     }
 }

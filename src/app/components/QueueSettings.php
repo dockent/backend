@@ -82,4 +82,12 @@ class QueueSettings implements Configurable
             ]
         ];
     }
+
+    /**
+     * @return bool
+     */
+    public function afterSave(): bool
+    {
+        return true;
+    }
 }
