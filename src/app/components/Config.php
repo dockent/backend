@@ -40,7 +40,7 @@ class Config extends PhalconConfig
         }
 
         $save = (bool)file_put_contents('./app/config.php',
-            '<?php return ' . var_export($result, true));
+            '<?php return ' . var_export($result, true) . ';');
         if ($save) {
             foreach ($this->storage as $item) {
                 $item->afterSave();

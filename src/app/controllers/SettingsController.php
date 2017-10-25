@@ -27,6 +27,8 @@ class SettingsController extends Controller
         if ($this->request->isPost()) {
             $config->add(new QueueSettings($this->request->getPost('queue')));
             $config->save();
+
+            $this->redirect('/');
         }
 
         $this->view->setVars([
