@@ -9,10 +9,10 @@
 namespace Dockent\components;
 
 use Dockent\components\DI as DIFactory;
+use Dockent\components\Docker as DockerComponent;
 use Dockent\enums\DI;
 use Docker\API\Model\ContainerConfig;
 use Docker\Context\Context;
-use Docker\Context\ContextBuilder;
 use Docker\Docker;
 use Dockent\components\Docker as DockerHelper;
 
@@ -82,11 +82,10 @@ class QueueActions
     }
 
     /**
-     * @WIP
      * @param array $data
      */
     public static function buildByContext(array $data)
     {
-        static::buildByDockerfileBodyAction(\Dockent\components\Docker::generateBody($data));
+        static::buildByDockerfileBodyAction(DockerComponent::generateBody($data));
     }
 }

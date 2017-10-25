@@ -24,7 +24,7 @@ class DI
     /**
      * @return \Phalcon\Di
      */
-    public static function getDI()
+    public static function getDI(): \Phalcon\Di
     {
         if (static::$di === null) {
             static::$di = new FactoryDefault();
