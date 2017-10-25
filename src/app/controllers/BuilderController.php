@@ -10,7 +10,6 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
-use Dockent\components\Docker;
 use Dockent\enums\DI;
 use Phalcon\Queue\Beanstalk;
 

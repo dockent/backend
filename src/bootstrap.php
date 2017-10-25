@@ -11,7 +11,7 @@ use Dockent\enums\DI;
 use Docker\Docker;
 use Docker\DockerClient;
 use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Config;
+use Dockent\components\Config;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
