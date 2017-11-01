@@ -2,6 +2,9 @@
 /**
  * @var \Docker\API\Model\ContainerInfo[] $containers
  */
+
+use Dockent\enums\ContainerState;
+
 ?>
 
 <!-- page content -->
@@ -50,11 +53,19 @@
                                 <tr>
                                     <td><input type="checkbox" name="id[]" value="<?= $container->getId() ?>"></td>
                                     <td>
-                                        <i class="fa fa-circle <?= $container->getState() === 'running' ? 'green' : 'red' ?>"></i>
-                                        <a href="/container/view/<?= $container->getId() ?>"><?= substr($container->getId(), 0, 12) ?></a>
+                                        <i class="fa fa-circle <?= $container->getState() === ContainerState::RUNNING ? 'green' : 'red' ?>"></i>
+                                        <?php if ($container->getState() === ContainerState::RUNNING) : ?>
+                                            <a href="/container/view/<?= $container->getId() ?>"><?= substr($container->getId(), 0, 12) ?></a>
+                                        <?php else: ?>
+                                            <?= substr($container->getId(), 0, 12) ?>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        <a href="/container/view/<?= $container->getId() ?>"><?= implode('; ', $container->getNames()) ?></a>
+                                        <?php if ($container->getState() === ContainerState::RUNNING) : ?>
+                                            <a href="/container/view/<?= $container->getId() ?>"><?= implode('; ', $container->getNames()) ?></a>
+                                        <?php else: ?>
+                                            <?= implode('; ', $container->getNames()) ?>
+                                        <?php endif; ?>
                                     </td>
                                     <td><?= $container->getImage() ?></td>
                                     <td>
