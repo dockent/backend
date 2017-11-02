@@ -55,6 +55,16 @@ class QueueActions
     }
 
     /**
+     * @param string $id
+     */
+    public static function restartAction(string $id)
+    {
+        /** @var Docker $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->getContainerManager()->restart($id);
+    }
+
+    /**
      * @param string $path
      */
     public static function buildImageByDockerfilePath(string $path)

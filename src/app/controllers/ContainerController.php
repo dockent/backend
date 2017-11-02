@@ -74,7 +74,12 @@ class ContainerController extends Controller
      */
     public function restartAction(string $id)
     {
-        $this->docker->getContainerManager()->restart($id);
+        /** @var Beanstalk $queue */
+        $queue = DIFactory::getDI()->get(DI::QUEUE);
+        $queue->put([
+            'action' => 'restartAction',
+            'data' => $id
+        ]);
         $this->redirect('/container');
     }
 
