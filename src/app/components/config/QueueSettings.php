@@ -6,11 +6,11 @@
  * Time: 15:51
  */
 
-namespace Dockent\components;
+namespace Dockent\components\config;
 
 /**
  * Class QueueSettings
- * @package Dockent\components
+ * @package Dockent\components\config
  */
 class QueueSettings implements Configurable
 {

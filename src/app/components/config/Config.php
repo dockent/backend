@@ -6,13 +6,13 @@
  * Time: 14:49
  */
 
-namespace Dockent\components;
+namespace Dockent\components\config;
 
 use Phalcon\Config as PhalconConfig;
 
 /**
  * Class Config
- * @package Dockent\components
+ * @package Dockent\components\config
  */
 class Config extends PhalconConfig
 {

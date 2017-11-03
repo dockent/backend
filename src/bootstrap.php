@@ -10,8 +10,8 @@ use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
 use Docker\Docker;
 use Docker\DockerClient;
-use Phalcon\Annotations\Adapter\Memory;
-use Dockent\components\Config;
+use Phalcon\Annotations\Adapter\Memory as Annotations;
+use Dockent\components\config\Config;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
@@ -59,5 +59,5 @@ DIFactory::getDI()->set(DI::QUEUE, function () {
     ]);
 });
 DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
-    return new Memory();
+    return new Annotations();
 });

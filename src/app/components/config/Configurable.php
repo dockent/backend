@@ -6,11 +6,11 @@
  * Time: 15:53
  */
 
-namespace Dockent\components;
+namespace Dockent\components\config;
 
 /**
  * Interface Configurable
- * @package Dockent\components
+ * @package Dockent\components\config
  */
 interface Configurable
 {

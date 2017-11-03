@@ -10,9 +10,9 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
-use Dockent\components\QueueSettings;
+use Dockent\components\config\QueueSettings;
 use Dockent\enums\DI;
-use Dockent\components\Config;
+use Dockent\components\config\Config;
 
 /**
  * Class SettingsController

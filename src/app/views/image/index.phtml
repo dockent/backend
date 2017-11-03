@@ -51,7 +51,7 @@
                                             <td><?= htmlspecialchars($tag) ?></td>
                                             <td><?= $image->getId() ?></td>
                                             <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
-                                            <td><?= $image->getSize() ?></td>
+                                            <td><?= formatBytes($image->getSize()) ?></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <?php if ($tag === '<none>:<none>') : ?>
