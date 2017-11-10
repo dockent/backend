@@ -21,7 +21,7 @@ class ImageController extends Controller
 
     public function indexAction()
     {
-        $images = $this->docker->getImageManager()->findAll();
+        $images = $this->docker->ImageResource()->imageList();
         $this->view->setVars([
             'images' => $images
         ]);
@@ -34,7 +34,7 @@ class ImageController extends Controller
     public function removeAction(string $id)
     {
         try {
-            $this->docker->getImageManager()->remove($id);
+            $this->docker->ImageResource()->imageDelete($id);
         } catch (\Exception $e) {
         }
         $this->redirect('/image');
@@ -46,7 +46,7 @@ class ImageController extends Controller
      */
     public function forceRemoveAction(string $id)
     {
-        $this->docker->getImageManager()->remove($id, ['force' => true]);
+        $this->docker->ImageResource()->imageDelete($id, ['force' => true]);
         $this->redirect('/image');
     }
 

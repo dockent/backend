@@ -24,7 +24,7 @@ class ContainerController extends Controller
 
     public function indexAction()
     {
-        $containers = $this->docker->getContainerManager()->findAll(['all' => true]);
+        $containers = $this->docker->ContainerResource()->containerList(['all' => true]);
         $this->view->setVars([
             'containers' => $containers
         ]);
@@ -49,7 +49,7 @@ class ContainerController extends Controller
      */
     public function startAction(string $id)
     {
-        $this->docker->getContainerManager()->start($id);
+        $this->docker->ContainerResource()->containerStart($id);
         $this->redirect('/container');
     }
 
@@ -89,7 +89,7 @@ class ContainerController extends Controller
      */
     public function removeAction(string $id)
     {
-        $this->docker->getContainerManager()->remove($id);
+        $this->docker->ContainerResource()->containerDelete($id);
         $this->redirect('/container');
     }
 
@@ -99,7 +99,7 @@ class ContainerController extends Controller
     public function viewAction(string $id)
     {
         $this->view->setVars([
-            'top' => $this->docker->getContainerManager()->listProcesses($id)
+            'top' => $this->docker->ContainerResource()->containerTop($id)
         ]);
     }
 }

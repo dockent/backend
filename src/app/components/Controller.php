@@ -9,8 +9,8 @@
 namespace Dockent\components;
 
 use Dockent\components\DI as DIFactory;
+use Dockent\Connector\Connector;
 use Dockent\enums\DI;
-use Docker\Docker;
 use Phalcon\Mvc\Controller as PhalconController;
 
 /**
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Controller as PhalconController;
 class Controller extends PhalconController
 {
     /**
-     * @var Docker
+     * @var Connector
      */
     protected $docker;
 

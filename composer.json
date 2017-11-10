@@ -13,9 +13,15 @@
     "php": ">=7.1.0",
     "ext-phalcon": ">=3.2",
     "ext-yaml": "*",
-    "docker-php/docker-php": "^1.24@dev"
+    "scary_donetskiy/dockent-connector": "master"
   },
   "require-dev": {
     "phalcon/ide-stubs": "v3.2.1"
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://Scary_Donetskiy@bitbucket.org/scary_develop/dockent-connector.git"
+    }
+  ]
 }

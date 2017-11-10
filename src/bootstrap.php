@@ -7,9 +7,8 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Dockent\Connector\Connector;
 use Dockent\enums\DI;
-use Docker\Docker;
-use Docker\DockerClient;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
 use Dockent\components\config\Config;
 use Phalcon\Loader;
@@ -39,16 +38,7 @@ DIFactory::getDI()->set(DI::CONFIG, function () {
     return new Config(require './app/config.php');
 });
 DIFactory::getDI()->set(DI::DOCKER, function () {
-    /** @var Config $config */
-    $config = DIFactory::getDI()->get(DI::CONFIG);
-    $config->get('currentConnection');
-    /** @var Config $connection */
-    $connection = $config->get('currentConnection');
-    if ($connection->get('remote_socket') === 'localhost') {
-        return new Docker();
-    }
-    $client = new DockerClient($connection->toArray());
-    return new Docker($client);
+    return new Connector();
 });
 DIFactory::getDI()->set(DI::QUEUE, function () {
     /** @var Config $config */

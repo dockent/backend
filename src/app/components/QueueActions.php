@@ -10,11 +10,10 @@ namespace Dockent\components;
 
 use Dockent\components\DI as DIFactory;
 use Dockent\components\Docker as DockerComponent;
+use Dockent\Connector\Connector;
 use Dockent\enums\DI;
-use Docker\API\Model\ContainerConfig;
-use Docker\Context\Context;
-use Docker\Docker;
 use Dockent\components\Docker as DockerHelper;
+use Dockent\OpenAPI\Model\ContainerConfig;
 
 /**
  * Class QueueActions
@@ -27,7 +26,7 @@ class QueueActions
      */
     public static function createContainer(array $data)
     {
-        /** @var Docker $docker */
+        /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
         $containerConfig = new ContainerConfig();
         DockerHelper::pull($data['image']);
@@ -38,9 +37,9 @@ class QueueActions
         if ($name) {
             $parameters['name'] = $name;
         }
-        $containerCreateResult = $docker->getContainerManager()->create($containerConfig, $parameters);
+        $containerCreateResult = $docker->ContainerResource()->containerCreate($containerConfig, $parameters);
         if (array_key_exists('start', $data)) {
-            $docker->getContainerManager()->start($containerCreateResult->getId());
+            $docker->ContainerResource()->containerStart($containerCreateResult->getId());
         }
     }
 
@@ -49,9 +48,9 @@ class QueueActions
      */
     public static function stopContainer(string $id)
     {
-        /** @var Docker $docker */
+        /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getContainerManager()->stop($id);
+        $docker->ContainerResource()->containerStop($id);
     }
 
     /**
@@ -59,25 +58,27 @@ class QueueActions
      */
     public static function restartAction(string $id)
     {
-        /** @var Docker $docker */
+        /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getContainerManager()->restart($id);
+        $docker->ContainerResource()->containerRestart($id);
     }
 
     /**
      * @param string $path
+     * @todo Fix Docker Context
      */
     public static function buildImageByDockerfilePath(string $path)
     {
         $context = new Context($path);
         $inputStream = $context->toStream();
-        /** @var Docker $docker */
+        /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getImageManager()->build($inputStream);
+        $docker->ImageResource()->imageBuild($inputStream);
     }
 
     /**
      * @param string $body
+     * @todo Fix Docker Context
      */
     public static function buildByDockerfileBodyAction(string $body)
     {
@@ -86,9 +87,9 @@ class QueueActions
         mkdir($directoryPath);
         file_put_contents($directoryPath . DIRECTORY_SEPARATOR . 'Dockerfile', $body);
         $context = new Context($directoryPath);
-        /** @var Docker $docker */
+        /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getImageManager()->build($context->toStream());
+        $docker->ImageResource()->imageBuild($context->toStream());
     }
 
     /**

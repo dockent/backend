@@ -9,6 +9,7 @@
 namespace Dockent\components;
 
 use Dockent\components\DI as DIFactory;
+use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 
 /**
@@ -31,9 +32,9 @@ abstract class Docker
             $parameters['fromImage'] = $image[0];
             $parameters['tag'] = $image[1];
         }
-        /** @var \Docker\Docker $docker */
+        /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->getImageManager()->create(null, $parameters);
+        $docker->ImageResource()->imageCreate(null, $parameters);
     }
 
     /**
