@@ -13,7 +13,7 @@ use Dockent\components\Docker as DockerComponent;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\components\Docker as DockerHelper;
-use Dockent\OpenAPI\Model\ContainerConfig;
+use Dockent\OpenAPI\Model\ContainersCreatePostBody;
 
 /**
  * Class QueueActions
@@ -28,7 +28,7 @@ final class QueueActions
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $containerConfig = new ContainerConfig();
+        $containerConfig = new ContainersCreatePostBody();
         DockerHelper::pull($data['image']);
         $containerConfig->setImage($data['image']);
         $containerConfig->setCmd($data['cmd']);
