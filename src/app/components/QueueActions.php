@@ -19,7 +19,7 @@ use Dockent\OpenAPI\Model\ContainerConfig;
  * Class QueueActions
  * @package Dockent\components
  */
-class QueueActions
+final class QueueActions
 {
     /**
      * @param array $data
@@ -65,20 +65,18 @@ class QueueActions
 
     /**
      * @param string $path
-     * @todo Fix Docker Context
      */
     public static function buildImageByDockerfilePath(string $path)
     {
-        $context = new Context($path);
-        $inputStream = $context->toStream();
-        /** @var Connector $docker */
-        $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->ImageResource()->imageBuild($inputStream);
+        self::makeStreamByPath($path, function ($stream) {
+            /** @var Connector $docker */
+            $docker = DIFactory::getDI()->get(DI::DOCKER);
+            $docker->ImageResource()->imageBuild($stream);
+        });
     }
 
     /**
      * @param string $body
-     * @todo Fix Docker Context
      */
     public static function buildByDockerfileBodyAction(string $body)
     {
@@ -86,10 +84,7 @@ class QueueActions
         $directoryPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $uniquePrefix;
         mkdir($directoryPath);
         file_put_contents($directoryPath . DIRECTORY_SEPARATOR . 'Dockerfile', $body);
-        $context = new Context($directoryPath);
-        /** @var Connector $docker */
-        $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $docker->ImageResource()->imageBuild($context->toStream());
+        self::buildImageByDockerfilePath($directoryPath);
     }
 
     /**
@@ -98,5 +93,22 @@ class QueueActions
     public static function buildByContext(array $data)
     {
         static::buildByDockerfileBodyAction(DockerComponent::generateBody($data));
+    }
+
+    /**
+     * @param string $path
+     * @param \Closure $worker
+     */
+    private static function makeStreamByPath(string $path, \Closure $worker)
+    {
+        $process = proc_open('/usr/bin/env tar c .', [
+            ['pipe', 'r'],
+            ['pipe', 'w'],
+            ['pipe', 'w']
+        ], $pipes, $path);
+        $stream = $pipes[1];
+        $worker($stream);
+        proc_close($process);
+        fclose($stream);
     }
 }
