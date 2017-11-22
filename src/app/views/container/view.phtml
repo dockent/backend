@@ -5,7 +5,7 @@
  * Date: 09.10.2017
  * Time: 14:37
  *
- * @var \Dockent\OpenAPI\Model\ContainersIdTopGetResponse200 $top
+ * @var stdClass $top
  */
 ?>
 
@@ -30,7 +30,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($top->getProcesses() as $process) : ?>
+                        <?php foreach ($top->Processes as $process) : ?>
                             <tr>
                                 <td><?= $process[0] ?></td>
                                 <td><?= $process[1] ?></td>

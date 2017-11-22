@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Dockent\OpenAPI\Model\ContainerSummaryItem[] $containers
+ * @var stdClass[] $containers
  */
 
 use Dockent\enums\ContainerState;
@@ -51,46 +51,50 @@ use Dockent\enums\ContainerState;
                             <tbody>
                             <?php foreach ($containers as $container) : ?>
                                 <tr>
-                                    <td><input type="checkbox" name="id[]" value="<?= $container->getId() ?>"></td>
+                                    <td><input type="checkbox" name="id[]" value="<?= $container->Id ?>"></td>
                                     <td>
-                                        <i class="fa fa-circle <?= $container->getState() === ContainerState::RUNNING ? 'green' : 'red' ?>"></i>
-                                        <?php if ($container->getState() === ContainerState::RUNNING) : ?>
-                                            <a href="/container/view/<?= $container->getId() ?>"><?= substr($container->getId(), 0, 12) ?></a>
+                                        <i class="fa fa-circle <?= $container->State === ContainerState::RUNNING ? 'green' : 'red' ?>"></i>
+                                        <?php if ($container->State === ContainerState::RUNNING) : ?>
+                                            <a href="/container/view/<?= $container->Id ?>"><?= substr($container->Id, 0, 12) ?></a>
                                         <?php else: ?>
-                                            <?= substr($container->getId(), 0, 12) ?>
+                                            <?= substr($container->Id, 0, 12) ?>
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?php if ($container->getState() === ContainerState::RUNNING) : ?>
-                                            <a href="/container/view/<?= $container->getId() ?>"><?= implode('; ', $container->getNames()) ?></a>
+                                        <?php if ($container->State === ContainerState::RUNNING) : ?>
+                                            <a href="/container/view/<?= $container->Id ?>"><?= implode('; ', $container->Names) ?></a>
                                         <?php else: ?>
-                                            <?= implode('; ', $container->getNames()) ?>
+                                            <?= implode('; ', $container->Names) ?>
                                         <?php endif; ?>
                                     </td>
-                                    <td><?= $container->getImage() ?></td>
+                                    <td><?= $container->Image ?></td>
                                     <td>
-                                        <?php foreach ($container->getPorts() as $port) {
-                                            echo $port->getPrivatePort() . ':' . $port->getPublicPort() . '<br>';
+                                        <?php foreach ($container->Ports as $port) {
+                                            echo $port->PrivatePort . ':' . $port->PublicPort . '<br>';
                                         } ?>
                                     </td>
-                                    <td><?= date(DateTime::COOKIE, $container->getCreated()) ?></td>
-                                    <td><?= $container->getStatus() ?></td>
-                                    <td><?= $container->getCommand() ?></td>
+                                    <td><?= date(DateTime::COOKIE, $container->Created) ?></td>
+                                    <td><?= $container->Status ?></td>
+                                    <td><?= $container->Command ?></td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="<?= $container->getCommand() ? '/container/start/' . $container->getId() : '#' ?>"
-                                               class="btn btn-default btn-xs" <?= $container->getCommand() ? '' : 'disabled' ?>>
+                                            <a href="<?= $container->Command ? '/container/start/' . $container->Id : '#' ?>"
+                                               class="btn btn-default btn-xs" <?= $container->Command ? '' : 'disabled' ?>>
                                                 <i class="fa fa-play" aria-hidden="true"></i>
                                             </a>
-                                            <a href="<?= $container->getCommand() ? '/container/restart/' . $container->getId() : '#' ?>"
-                                               class="btn btn-default btn-xs" <?= $container->getCommand() ? '' : 'disabled' ?>>
+                                            <a href="<?= $container->Command ? '/container/restart/' . $container->Id : '#' ?>"
+                                               class="btn btn-default btn-xs" <?= $container->Command ? '' : 'disabled' ?>>
                                                 <i class="fa fa-repeat" aria-hidden="true"></i>
                                             </a>
-                                            <a href="/container/stop/<?= $container->getId() ?>"
+                                            <a href="/container/stop/<?= $container->Id ?>"
                                                class="btn btn-default btn-xs">
                                                 <i class="fa fa-stop" aria-hidden="true"></i>
                                             </a>
-                                            <a href="/container/remove/<?= $container->getId() ?>"
+                                            <a href="/container/rename/<?= $container->Id ?>"
+                                               class="btn btn-default btn-xs">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="/container/remove/<?= $container->Id ?>"
                                                class="btn btn-default btn-xs">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>

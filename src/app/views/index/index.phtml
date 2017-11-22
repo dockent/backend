@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Dockent\OpenAPI\Model\SystemInfo $information
+ * @var stdClass $information
  */
 ?>
 <!-- page content -->
@@ -9,15 +9,15 @@
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-cube"></i> Total Containers</span>
-            <div class="count"><?= $information->getContainers() ?></div>
+            <div class="count"><?= $information->Containers ?></div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-database"></i> Total Images</span>
-            <div class="count"><?= $information->getImages() ?></div>
+            <div class="count"><?= $information->Images ?></div>
         </div>
         <div class="col-md-8 col-sm-6 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-code-fork"></i> Server Version</span>
-            <div class="count"><?= $information->getServerVersion() ?></div>
+            <div class="count"><?= $information->ServerVersion ?></div>
         </div>
     </div>
     <!-- /top tiles -->
@@ -54,19 +54,19 @@
                                         <td>
                                             <p><i class="fa fa-square aero"></i>Running </p>
                                         </td>
-                                        <td><?= $information->getContainersRunning() ?></td>
+                                        <td><?= $information->ContainersRunning ?></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <p><i class="fa fa-square purple"></i>Paused </p>
                                         </td>
-                                        <td><?= $information->getContainersPaused() ?></td>
+                                        <td><?= $information->ContainersPaused ?></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <p><i class="fa fa-square red"></i>Stopped </p>
                                         </td>
-                                        <td><?= $information->getContainersStopped() ?></td>
+                                        <td><?= $information->ContainersStopped ?></td>
                                     </tr>
                                 </table>
                             </td>
@@ -88,7 +88,7 @@
                             <p><i class="fa fa-square aero"></i> Kernel version </p>
                         </div>
                         <div class="col-md-6">
-                            <?= $information->getKernelVersion() ?>
+                            <?= $information->KernelVersion ?>
                         </div>
                     </div>
                     <div class="row">
@@ -96,7 +96,7 @@
                             <p><i class="fa fa-square aero"></i> Operating system </p>
                         </div>
                         <div class="col-md-6">
-                            <?= $information->getOperatingSystem() ?>
+                            <?= $information->OperatingSystem ?>
                         </div>
                     </div>
                     <div class="row">
@@ -104,7 +104,7 @@
                             <p><i class="fa fa-square aero"></i> OS type </p>
                         </div>
                         <div class="col-md-6">
-                            <?= $information->getOSType() ?>
+                            <?= $information->OSType ?>
                         </div>
                     </div>
                     <div class="row">
@@ -112,7 +112,7 @@
                             <p><i class="fa fa-square aero"></i> Architecture </p>
                         </div>
                         <div class="col-md-6">
-                            <?= $information->getArchitecture() ?>
+                            <?= $information->Architecture ?>
                         </div>
                     </div>
                     <div class="row">
@@ -120,7 +120,7 @@
                             <p><i class="fa fa-square aero"></i> CPUs </p>
                         </div>
                         <div class="col-md-6">
-                            <?= $information->getNCPU() ?>
+                            <?= $information->NCPU ?>
                         </div>
                     </div>
                     <div class="row">
@@ -128,7 +128,7 @@
                             <p><i class="fa fa-square aero"></i> Total memory </p>
                         </div>
                         <div class="col-md-6">
-                            <?= $information->getMemTotal() ?>
+                            <?= $information->MemTotal ?>
                         </div>
                     </div>
                 </div>
@@ -149,9 +149,9 @@
                 "Stopped"
             ],
             datasets: [{
-                data: [<?= $information->getContainersRunning() ?>,
-                    <?= $information->getContainersPaused() ?>,
-                    <?= $information->getContainersStopped() ?>],
+                data: [<?= $information->ContainersRunning ?>,
+                    <?= $information->ContainersPaused ?>,
+                    <?= $information->ContainersStopped ?>],
                 backgroundColor: [
                     "#BDC3C7",
                     "#9B59B6",

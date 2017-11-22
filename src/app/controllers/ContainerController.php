@@ -26,7 +26,7 @@ class ContainerController extends Controller
     {
         $containers = $this->docker->ContainerResource()->containerList(['all' => true]);
         $this->view->setVars([
-            'containers' => $containers
+            'containers' => json_decode($containers)
         ]);
     }
 
@@ -99,7 +99,21 @@ class ContainerController extends Controller
     public function viewAction(string $id)
     {
         $this->view->setVars([
-            'top' => $this->docker->ContainerResource()->containerTop($id)
+            'top' => json_decode($this->docker->ContainerResource()->containerTop($id))
+        ]);
+    }
+
+    /**
+     * @param string $id
+     */
+    public function renameAction(string $id)
+    {
+        if ($this->request->isPost()) {
+            $this->docker->ContainerResource()->containerRename($id, ['name' => $this->request->getPost('name')]);
+            $this->redirect('/container');
+        }
+        $this->view->setVars([
+            'model' => json_decode($this->docker->ContainerResource()->containerInspect($id))
         ]);
     }
 }

@@ -23,6 +23,7 @@ final class QueueActions
 {
     /**
      * @param array $data
+     * @todo Make some wrapper for that method or fix Openapi generator for array
      */
     public static function createContainer(array $data)
     {

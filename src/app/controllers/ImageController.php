@@ -23,7 +23,7 @@ class ImageController extends Controller
     {
         $images = $this->docker->ImageResource()->imageList();
         $this->view->setVars([
-            'images' => $images
+            'images' => json_decode($images)
         ]);
     }
 
@@ -53,5 +53,21 @@ class ImageController extends Controller
     public function buildAction()
     {
         /** Render default view */
+    }
+
+    /**
+     * @param string $id
+     */
+    public function tagAction(string $id)
+    {
+        if ($this->request->isPost()) {
+            $this->docker->ImageResource()->imageTag($id, [
+                'tag' => $this->request->getPost('tag')
+            ]);
+            $this->redirect('/image');
+        }
+        $this->view->setVars([
+            'model' => json_decode($this->docker->ImageResource()->imageInspect($id))
+        ]);
     }
 }

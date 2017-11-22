@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Dockent\OpenAPI\Model\ImageSummary[] $images
+ * @var stdClass[] $images
  */
 ?>
 
@@ -38,41 +38,34 @@
                             </thead>
                             <tbody>
                             <?php foreach ($images as $image) : ?>
-                                <?php if ($image->getRepoTags() !== null) : ?>
-                                    <?php foreach ($image->getRepoTags() as $tag) : ?>
+                                <?php if ($image->RepoTags !== null) : ?>
+                                    <?php foreach ($image->RepoTags as $tag) : ?>
                                         <tr>
                                             <td>
                                                 <?php if ($tag === '<none>:<none>') : ?>
-                                                    <input type="checkbox" name="id[]" value="<?= $image->getId() ?>">
+                                                    <input type="checkbox" name="id[]" value="<?= $image->Id ?>">
                                                 <?php else: ?>
                                                     <input type="checkbox" name="id[]" value="<?= $tag ?>">
                                                 <?php endif; ?>
                                             </td>
                                             <td><?= htmlspecialchars($tag) ?></td>
-                                            <td><?= $image->getId() ?></td>
-                                            <td><?= date(DateTime::COOKIE, $image->getCreated()) ?></td>
-                                            <td><?= formatBytes($image->getSize()) ?></td>
+                                            <td><?= $image->Id ?></td>
+                                            <td><?= date(DateTime::COOKIE, $image->Created) ?></td>
+                                            <td><?= formatBytes($image->Size) ?></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <?php if ($tag === '<none>:<none>') : ?>
-                                                        <a href="/image/remove/<?= $image->getId() ?>"
-                                                           class="btn btn-default btn-xs">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        <a href="/image/forceRemove/<?= $image->getId() ?>"
-                                                           class="btn btn-danger btn-xs" title="Force Remove">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    <?php else: ?>
-                                                        <a href="/image/remove/<?= $tag ?>"
-                                                           class="btn btn-default btn-xs">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        <a href="/image/forceRemove/<?= $tag ?>"
-                                                           class="btn btn-danger btn-xs" title="Force Remove">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    <?php endif; ?>
+                                                    <a href="/image/remove/<?= $image->Id ?>"
+                                                       class="btn btn-default btn-xs">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                    <a href="/image/forceRemove/<?= $image->Id ?>"
+                                                       class="btn btn-danger btn-xs" title="Force Remove">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                    <a href="/image/tag/<?= $image->Id ?>"
+                                                       class="btn btn-default btn-xs">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>

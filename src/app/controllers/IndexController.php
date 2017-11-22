@@ -17,7 +17,7 @@ class IndexController extends Controller
     public function indexAction()
     {
         $this->view->setVars([
-            'information' => $this->docker->SystemResource()->systemInfo()
+            'information' => json_decode($this->docker->SystemResource()->systemInfo())
         ]);
     }
 }
