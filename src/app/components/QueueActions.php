@@ -23,24 +23,23 @@ final class QueueActions
 {
     /**
      * @param array $data
-     * @todo Make some wrapper for that method or fix Openapi generator for array
      */
     public static function createContainer(array $data)
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        $containerConfig = new ContainersCreatePostBody();
         DockerHelper::pull($data['image']);
-        $containerConfig->setImage($data['image']);
-        $containerConfig->setCmd($data['cmd']);
         $parameters = [];
         $name = $data['name'];
         if ($name) {
             $parameters['name'] = $name;
         }
-        $containerCreateResult = $docker->ContainerResource()->containerCreate($containerConfig, $parameters);
+        $containerCreateResult = json_decode($docker->ContainerResource()->containerCreate([
+            'Image' => $data['image'],
+            'Cmd' => $data['cmd']
+        ], $parameters));
         if (array_key_exists('start', $data)) {
-            $docker->ContainerResource()->containerStart($containerCreateResult->getId());
+            $docker->ContainerResource()->containerStart($containerCreateResult->Id);
         }
     }
 
