@@ -34,6 +34,7 @@ class Controller extends PhalconController
      */
     public function redirect(string $url)
     {
+        http_response_code(302);
         header("Location: $url");
     }
 }

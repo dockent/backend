@@ -7,110 +7,102 @@ use Dockent\enums\ContainerState;
 
 ?>
 
-<!-- page content -->
-<div class="right_col" role="main">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Containers</h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <form action="#" method="post" id="bulk-form">
-                        <div class="row">
-                            <div class="btn-group">
-                                <a class="btn btn-default" onclick="submit('start')">
-                                    <i class="fa fa-play" aria-hidden="true"></i> Start
-                                </a>
-                                <a class="btn btn-default" onclick="submit('restart')">
-                                    <i class="fa fa-repeat" aria-hidden="true"></i> Restart
-                                </a>
-                                <a class="btn btn-default" onclick="submit('stop')">
-                                    <i class="fa fa-stop" aria-hidden="true"></i> Stop
-                                </a>
-                                <a class="btn btn-default" onclick="submit('remove')">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> Remove
-                                </a>
-                            </div>
-                        </div>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Container ID</th>
-                                <th>Name</th>
-                                <th>Image</th>
-                                <th>Ports</th>
-                                <th>Created</th>
-                                <th>Status</th>
-                                <th>Command</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($containers as $container) : ?>
-                                <tr>
-                                    <td><input type="checkbox" name="id[]" value="<?= $container->Id ?>"></td>
-                                    <td>
-                                        <i class="fa fa-circle <?= $container->State === ContainerState::RUNNING ? 'green' : 'red' ?>"></i>
-                                        <?php if ($container->State === ContainerState::RUNNING) : ?>
-                                            <a href="/container/view/<?= $container->Id ?>"><?= substr($container->Id, 0, 12) ?></a>
-                                        <?php else: ?>
-                                            <?= substr($container->Id, 0, 12) ?>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php if ($container->State === ContainerState::RUNNING) : ?>
-                                            <a href="/container/view/<?= $container->Id ?>"><?= implode('; ', $container->Names) ?></a>
-                                        <?php else: ?>
-                                            <?= implode('; ', $container->Names) ?>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><?= $container->Image ?></td>
-                                    <td>
-                                        <?php foreach ($container->Ports as $port) {
-                                            echo $port->PrivatePort . ':' . $port->PublicPort . '<br>';
-                                        } ?>
-                                    </td>
-                                    <td><?= date(DateTime::COOKIE, $container->Created) ?></td>
-                                    <td><?= $container->Status ?></td>
-                                    <td><?= $container->Command ?></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a href="<?= $container->Command ? '/container/start/' . $container->Id : '#' ?>"
-                                               class="btn btn-default btn-xs" <?= $container->Command ? '' : 'disabled' ?>>
-                                                <i class="fa fa-play" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="<?= $container->Command ? '/container/restart/' . $container->Id : '#' ?>"
-                                               class="btn btn-default btn-xs" <?= $container->Command ? '' : 'disabled' ?>>
-                                                <i class="fa fa-repeat" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="/container/stop/<?= $container->Id ?>"
-                                               class="btn btn-default btn-xs">
-                                                <i class="fa fa-stop" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="/container/rename/<?= $container->Id ?>"
-                                               class="btn btn-default btn-xs">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="/container/remove/<?= $container->Id ?>"
-                                               class="btn btn-default btn-xs">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
+
+<div class="x_title">
+    <h2>Containers</h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <form action="#" method="post" id="bulk-form">
+        <div class="row">
+            <div class="btn-group">
+                <a class="btn btn-default" onclick="submit('start')">
+                    <i class="fa fa-play" aria-hidden="true"></i> Start
+                </a>
+                <a class="btn btn-default" onclick="submit('restart')">
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Restart
+                </a>
+                <a class="btn btn-default" onclick="submit('stop')">
+                    <i class="fa fa-stop" aria-hidden="true"></i> Stop
+                </a>
+                <a class="btn btn-default" onclick="submit('remove')">
+                    <i class="fa fa-trash" aria-hidden="true"></i> Remove
+                </a>
             </div>
         </div>
-
-    </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Container ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Ports</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Command</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($containers as $container) : ?>
+                <tr>
+                    <td><input type="checkbox" name="id[]" value="<?= $container->Id ?>"></td>
+                    <td>
+                        <i class="fa fa-circle <?= $container->State === ContainerState::RUNNING ? 'green' : 'red' ?>"></i>
+                        <?php if ($container->State === ContainerState::RUNNING) : ?>
+                            <a href="/container/view/<?= $container->Id ?>"><?= substr($container->Id, 0, 12) ?></a>
+                        <?php else: ?>
+                            <?= substr($container->Id, 0, 12) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($container->State === ContainerState::RUNNING) : ?>
+                            <a href="/container/view/<?= $container->Id ?>"><?= implode('; ', $container->Names) ?></a>
+                        <?php else: ?>
+                            <?= implode('; ', $container->Names) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= $container->Image ?></td>
+                    <td>
+                        <?php foreach ($container->Ports as $port) {
+                            echo $port->PrivatePort . ':' . $port->PublicPort . '<br>';
+                        } ?>
+                    </td>
+                    <td><?= date(DateTime::COOKIE, $container->Created) ?></td>
+                    <td><?= $container->Status ?></td>
+                    <td><?= $container->Command ?></td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="<?= $container->Command ? '/container/start/' . $container->Id : '#' ?>"
+                               class="btn btn-default btn-xs" <?= $container->Command ? '' : 'disabled' ?>>
+                                <i class="fa fa-play" aria-hidden="true"></i>
+                            </a>
+                            <a href="<?= $container->Command ? '/container/restart/' . $container->Id : '#' ?>"
+                               class="btn btn-default btn-xs" <?= $container->Command ? '' : 'disabled' ?>>
+                                <i class="fa fa-repeat" aria-hidden="true"></i>
+                            </a>
+                            <a href="/container/stop/<?= $container->Id ?>"
+                               class="btn btn-default btn-xs">
+                                <i class="fa fa-stop" aria-hidden="true"></i>
+                            </a>
+                            <a href="/container/rename/<?= $container->Id ?>"
+                               class="btn btn-default btn-xs">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a href="/container/remove/<?= $container->Id ?>"
+                               class="btn btn-default btn-xs">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </form>
 </div>
+
 <!-- /page content -->
 
 <script>

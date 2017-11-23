@@ -9,41 +9,31 @@
  */
 ?>
 
-<!--page content-->
-<div class="right_col" role="main">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2> List process</h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
+<div class="x_title">
+    <h2> List process</h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
 
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th> PID</th>
-                            <th> User</th>
-                            <th> Time</th>
-                            <th> Command</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($top->Processes as $process) : ?>
-                            <tr>
-                                <td><?= $process[0] ?></td>
-                                <td><?= $process[1] ?></td>
-                                <td><?= $process[2] ?></td>
-                                <td><?= $process[3] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th> PID</th>
+            <th> User</th>
+            <th> Time</th>
+            <th> Command</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($top->Processes as $process) : ?>
+            <tr>
+                <td><?= $process[0] ?></td>
+                <td><?= $process[1] ?></td>
+                <td><?= $process[2] ?></td>
+                <td><?= $process[3] ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
 <!-- /page content -->

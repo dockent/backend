@@ -4,44 +4,35 @@
  */
 ?>
 
-<!-- page content -->
-<div class="right_col" role="main">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Tag the image</h2>
-                    <div class="clearfix"></div>
+<div class="x_title">
+    <h2>Tag the image</h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <br/>
+    <form method="post" action="/image/tag/<?= $model->Id ?>" class="form-horizontal form-label-left">
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name-input">Tag <span
+                        class="required">*</span>
+            </label>
+            <?php foreach ($model->RepoTags as $tag) : ?>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="name-input" name="tag[]" required="required"
+                           class="form-control col-md-7 col-xs-12" value="<?= $tag ?>">
                 </div>
-                <div class="x_content">
-                    <br/>
-                    <form method="post" action="/image/tag/<?= $model->Id ?>" class="form-horizontal form-label-left">
+            <?php endforeach; ?>
+        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name-input">Tag <span
-                                    class="required">*</span>
-                            </label>
-                            <?php foreach ($model->RepoTags as $tag) : ?>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="name-input" name="tag[]" required="required"
-                                       class="form-control col-md-7 col-xs-12" value="<?= $tag ?>">
-                            </div>
-                            <?php endforeach; ?>
-                        </div>
-
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <a href="/image/" class="btn btn-primary" type="button">Cancel</a>
-                                <button class="btn btn-primary" type="reset">Reset</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <a href="/image/" class="btn btn-primary" type="button">Cancel</a>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
-    </div>
+
+    </form>
 </div>
 <!-- /page content -->

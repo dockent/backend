@@ -4,60 +4,51 @@
  */
 ?>
 
-<!-- page content -->
-<div class="right_col" role="main">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Dockent Settings</h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <br/>
-                    <div class="alert alert-success alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                        </button>
-                        <strong>Be careful!</strong> Edit this settings only if you are sure of what are you doing <br>
-                        <strong>After save you need to restart next services</strong>: Dockent project, Dockent queue service
-                    </div>
-                    <form method="post" action="/settings" class="form-horizontal form-label-left">
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="queue-host-input">Beanstalkd
-                                Host <span
-                                        class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="queue-host-input" name="queue[host]" required="required"
-                                       class="form-control col-md-7 col-xs-12"
-                                       value="<?= $config->path('queue.host') ?>">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="queue-port-input">Beanstalkd
-                                Port <span
-                                        class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="queue-port-input" name="queue[port]" required="required"
-                                       class="form-control col-md-7 col-xs-12"
-                                       value="<?= $config->path('queue.port') ?>">
-                            </div>
-                        </div>
-
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <a href="/" class="btn btn-primary" type="button">Cancel</a>
-                                <button class="btn btn-primary" type="reset">Reset</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
+<div class="x_title">
+    <h2>Dockent Settings</h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <br/>
+    <div class="alert alert-success alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <strong>Be careful!</strong> Edit this settings only if you are sure of what are you doing <br>
+        <strong>After save you need to restart next services</strong>: Dockent project, Dockent queue service
+    </div>
+    <form method="post" action="/settings" class="form-horizontal form-label-left">
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="queue-host-input">Beanstalkd
+                Host <span
+                        class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="queue-host-input" name="queue[host]" required="required"
+                       class="form-control col-md-7 col-xs-12"
+                       value="<?= $config->path('queue.host') ?>">
             </div>
         </div>
-    </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="queue-port-input">Beanstalkd
+                Port <span
+                        class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="queue-port-input" name="queue[port]" required="required"
+                       class="form-control col-md-7 col-xs-12"
+                       value="<?= $config->path('queue.port') ?>">
+            </div>
+        </div>
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <a href="/" class="btn btn-primary" type="button">Cancel</a>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+
+    </form>
 </div>
 <!-- /page content -->
