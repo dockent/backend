@@ -10,6 +10,7 @@ namespace Dockent\components;
 
 use Phalcon\Logger as PhalconLogger;
 use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\FormatterInterface;
 
 /**
@@ -64,9 +65,12 @@ class Logger implements AdapterInterface
         $this->port = $port;
     }
 
+    /**
+     * Lazy initializing for socket
+     */
     private function socketInitialize()
     {
-
+        $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
     }
 
     /**
@@ -88,6 +92,9 @@ class Logger implements AdapterInterface
      */
     public function getFormatter(): FormatterInterface
     {
+        if ($this->formatter === null) {
+            $this->formatter = new Line();
+        }
         return $this->formatter;
     }
 
@@ -129,9 +136,14 @@ class Logger implements AdapterInterface
                 'message' => $message,
                 'context' => $context
             ];
-        }
-        if ($this->socket === null) {
-            $this->socketInitialize();
+        } else {
+            if ($this->socket === null) {
+                $this->socketInitialize();
+            }
+            if (!is_string($message)) {
+                $message = $this->getFormatter()->format($message, $type, time(), $context);
+            }
+            socket_sendto($this->socket, $message, strlen($message), 0, $this->host, $this->port);
         }
         return $this;
     }
@@ -181,7 +193,10 @@ class Logger implements AdapterInterface
      */
     public function close(): bool
     {
-        // TODO: Implement close() method.
+        if ($this->socket !== null) {
+            socket_close($this->socket);
+        }
+        return true;
     }
 
     /**
