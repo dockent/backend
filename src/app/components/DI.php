@@ -9,6 +9,7 @@
 namespace Dockent\components;
 
 use Phalcon\Di\FactoryDefault;
+use Phalcon\DiInterface;
 
 /**
  * Class DI
@@ -17,14 +18,14 @@ use Phalcon\Di\FactoryDefault;
 class DI
 {
     /**
-     * @var \Phalcon\Di
+     * @var DiInterface
      */
     private static $di;
 
     /**
-     * @return \Phalcon\Di
+     * @return DiInterface
      */
-    public static function getDI(): \Phalcon\Di
+    public static function getDI(): DiInterface
     {
         if (static::$di === null) {
             static::$di = new FactoryDefault();

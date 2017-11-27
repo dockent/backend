@@ -13,7 +13,6 @@ use Dockent\components\Docker as DockerComponent;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\components\Docker as DockerHelper;
-use Dockent\OpenAPI\Model\ContainersCreatePostBody;
 
 /**
  * Class QueueActions

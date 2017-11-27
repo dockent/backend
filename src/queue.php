@@ -10,6 +10,7 @@ use Dockent\components\DI as DIFactory;
 use Dockent\components\QueueActions;
 use Dockent\enums\DI;
 use Phalcon\Queue\Beanstalk;
+use Phalcon\Logger\AdapterInterface as LoggerInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/bootstrap.php';
@@ -24,6 +25,9 @@ while (($job = $queue->reserve()) !== false) {
         QueueActions::$action($message['data']);
         $job->delete();
     } catch (Exception $e) {
+        /** @var LoggerInterface $logger */
+        $logger = DIFactory::getDI()->get(DI::LOGGER);
+        $logger->error($e->getMessage(), $e->getTrace());
         echo $e->getMessage() . PHP_EOL;
         if (array_search($job->getId(), $failedJobs)) {
             $job->delete();

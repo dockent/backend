@@ -5,6 +5,8 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Dockent\enums\DI;
+use Phalcon\Logger\AdapterInterface as LoggerInterface;
 use Phalcon\Mvc\Application;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -28,5 +30,8 @@ try {
     $response = $application->handle();
     $response->send();
 } catch (Exception $e) {
+    /** @var LoggerInterface $logger */
+    $logger = DIFactory::getDI()->get(DI::LOGGER);
+    $logger->error($e->getMessage(), $e->getTrace());
     echo $e->getMessage();
 }
