@@ -99,7 +99,8 @@ class ContainerController extends Controller
     public function viewAction(string $id)
     {
         $this->view->setVars([
-            'top' => json_decode($this->docker->ContainerResource()->containerTop($id))
+            'top' => json_decode($this->docker->ContainerResource()->containerTop($id)),
+            'model' => json_decode($this->docker->ContainerResource()->containerInspect($id))
         ]);
     }
 
