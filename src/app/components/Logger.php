@@ -71,6 +71,7 @@ class Logger implements AdapterInterface
     private function socketInitialize()
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        socket_connect($this->socket, $this->host, $this->port);
     }
 
     /**
@@ -143,10 +144,11 @@ class Logger implements AdapterInterface
             if (!is_string($message)) {
                 $message = $this->getFormatter()->format($message, $type, time(), $context);
             }
-            socket_sendto($this->socket, json_encode([
+            $package = json_encode([
                 'message' => $message,
-                'context' => $context
-            ]), strlen($message), 0, $this->host, $this->port);
+                'trace' => $context
+            ]);
+            socket_send($this->socket, $package, strlen($package), 0);
         }
         return $this;
     }
@@ -291,5 +293,10 @@ class Logger implements AdapterInterface
     {
         $this->log(PhalconLogger::EMERGENCY, $message, $context);
         return $this;
+    }
+
+    public function __destruct()
+    {
+        $this->close();
     }
 }
