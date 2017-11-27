@@ -143,7 +143,10 @@ class Logger implements AdapterInterface
             if (!is_string($message)) {
                 $message = $this->getFormatter()->format($message, $type, time(), $context);
             }
-            socket_sendto($this->socket, $message, strlen($message), 0, $this->host, $this->port);
+            socket_sendto($this->socket, json_encode([
+                'message' => $message,
+                'context' => $context
+            ]), strlen($message), 0, $this->host, $this->port);
         }
         return $this;
     }
