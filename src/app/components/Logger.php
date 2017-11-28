@@ -147,7 +147,7 @@ class Logger implements AdapterInterface
             $package = json_encode([
                 'message' => $message,
                 'trace' => $context
-            ]);
+            ]) . PHP_EOL;
             socket_send($this->socket, $package, strlen($package), 0);
         }
         return $this;
