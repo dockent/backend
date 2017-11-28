@@ -50,18 +50,10 @@ use Dockent\enums\ContainerState;
                     <td><input type="checkbox" name="id[]" value="<?= $container->Id ?>"></td>
                     <td>
                         <i class="fa fa-circle <?= $container->State === ContainerState::RUNNING ? 'green' : 'red' ?>"></i>
-                        <?php if ($container->State === ContainerState::RUNNING) : ?>
-                            <a href="/container/view/<?= $container->Id ?>"><?= substr($container->Id, 0, 12) ?></a>
-                        <?php else: ?>
-                            <?= substr($container->Id, 0, 12) ?>
-                        <?php endif; ?>
+                        <a href="/container/view/<?= $container->Id ?>"><?= substr($container->Id, 0, 12) ?></a>
                     </td>
                     <td>
-                        <?php if ($container->State === ContainerState::RUNNING) : ?>
-                            <a href="/container/view/<?= $container->Id ?>"><?= implode('; ', $container->Names) ?></a>
-                        <?php else: ?>
-                            <?= implode('; ', $container->Names) ?>
-                        <?php endif; ?>
+                        <a href="/container/view/<?= $container->Id ?>"><?= implode('; ', $container->Names) ?></a>
                     </td>
                     <td><?= $container->Image ?></td>
                     <td>

@@ -24,12 +24,19 @@
         <li role="presentation" class=""><a href="#state" role="tab" id="state-tab" data-toggle="tab"
                                             aria-expanded="false">State</a>
         </li>
-        <li role="presentation" class=""><a href="#list_processes" role="tab" id="list-processes-tab" data-toggle="tab"
-                                            aria-expanded="false">List processes</a>
+        <li role="presentation" class=""><a href="#mounts" role="tab" id="mounts-tab" data-toggle="tab"
+                                            aria-expanded="false">Mounts</a>
         </li>
+        <?php if ($top !== null) : ?>
+            <li role="presentation" class=""><a href="#list_processes" role="tab" id="list-processes-tab"
+                                                data-toggle="tab"
+                                                aria-expanded="false">List processes</a>
+            </li>
+        <?php endif; ?>
     </ul>
     <div id="myTabContent" class="tab-content">
-        <div role="tabpanel" class="tab-pane fade active in" id="container_inspect" aria-labelledby="container-inspect-tab">
+        <div role="tabpanel" class="tab-pane fade active in" id="container_inspect"
+             aria-labelledby="container-inspect-tab">
             <div class="x_content">
                 <div class="table-responsive">
                     <table class="table">
@@ -281,30 +288,62 @@
                 </div>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane fade" id="list_processes" aria-labelledby="list-processes-tab">
+        <div role="tabpanel" class="tab-pane fade" id="mounts" aria-labelledby="mounts-tab">
             <div class="x_content">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th> PID</th>
-                        <th> User</th>
-                        <th> Time</th>
-                        <th> Command</th>
+                        <th> Name</th>
+                        <th> Source</th>
+                        <th> Destination</th>
+                        <th> Driver</th>
+                        <th> Mode</th>
+                        <th> RW</th>
+                        <th> Propagation</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($top->Processes as $process) : ?>
+                    <?php foreach ($model->Mounts as $mount) : ?>
                         <tr>
-                            <td><?= $process[0] ?></td>
-                            <td><?= $process[1] ?></td>
-                            <td><?= $process[2] ?></td>
-                            <td><?= $process[3] ?></td>
+                            <td><?= $mount->Name ?></td>
+                            <td><?= $mount->Source ?></td>
+                            <td><?= $mount->Destination ?></td>
+                            <td><?= $mount->Driver ?></td>
+                            <td><?= $mount->Mode ?></td>
+                            <td><?= $mount->RW ?></td>
+                            <td><?= $mount->Propagation ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
+        <?php if ($top !== null) : ?>
+            <div role="tabpanel" class="tab-pane fade" id="list_processes" aria-labelledby="list-processes-tab">
+                <div class="x_content">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th> PID</th>
+                            <th> User</th>
+                            <th> Time</th>
+                            <th> Command</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($top->Processes as $process) : ?>
+                            <tr>
+                                <td><?= $process[0] ?></td>
+                                <td><?= $process[1] ?></td>
+                                <td><?= $process[2] ?></td>
+                                <td><?= $process[3] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <!-- /page content -->

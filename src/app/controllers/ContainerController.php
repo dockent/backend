@@ -11,6 +11,7 @@ namespace Dockent\controllers;
 use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
+use Dockent\enums\ContainerState;
 use Dockent\enums\DI;
 use Phalcon\Queue\Beanstalk;
 
@@ -98,9 +99,14 @@ class ContainerController extends Controller
      */
     public function viewAction(string $id)
     {
+        $top = null;
+        $model = json_decode($this->docker->ContainerResource()->containerInspect($id));
+        if ($model->State->Status === ContainerState::RUNNING) {
+            $top = json_decode($this->docker->ContainerResource()->containerTop($id));
+        }
         $this->view->setVars([
-            'top' => json_decode($this->docker->ContainerResource()->containerTop($id)),
-            'model' => json_decode($this->docker->ContainerResource()->containerInspect($id))
+            'top' => $top,
+            'model' => $model
         ]);
     }
 
