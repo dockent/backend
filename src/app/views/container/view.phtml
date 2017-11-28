@@ -121,7 +121,8 @@
                         </tr>
                         <tr>
                             <th>Hairpin mode</th>
-                            <td><?= $model->NetworkSettings->HairpinMode ?></td>
+                            <td><i class="fa fa<?= $model->NetworkSettings->HairpinMode ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Link local IPv6 address</th>
@@ -179,15 +180,18 @@
                         <tbody>
                         <tr>
                             <th>Attach Stderr</th>
-                            <td><?= $model->Config->AttachStderr ?></td>
+                            <td><i class="fa fa<?= $model->Config->AttachStderr ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Attach Stdin</th>
-                            <td><?= $model->Config->AttachStdin ?></td>
+                            <td><i class="fa fa<?= $model->Config->AttachStdin ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Attach Stdout</th>
-                            <td><?= $model->Config->AttachStdout ?></td>
+                            <td><i class="fa fa<?= $model->Config->AttachStdout ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Cmd</th>
@@ -211,15 +215,18 @@
                         </tr>
                         <tr>
                             <th>Open Stdin</th>
-                            <td><?= $model->Config->OpenStdin ?></td>
+                            <td><i class="fa fa<?= $model->Config->OpenStdin ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Stdin once</th>
-                            <td><?= $model->Config->StdinOnce ?></td>
+                            <td><i class="fa fa<?= $model->Config->StdinOnce ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Tty</th>
-                            <td><?= $model->Config->Tty ?></td>
+                            <td><i class="fa fa<?= $model->Config->Tty ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>User</th>
@@ -253,15 +260,18 @@
                         </tr>
                         <tr>
                             <th>OOM killed</th>
-                            <td><?= $model->State->OOMKilled ?></td>
+                            <td><i class="fa fa<?= $model->State->OOMKilled ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Dead</th>
-                            <td><?= $model->State->Dead ?></td>
+                            <td><i class="fa fa<?= $model->State->Dead ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Paused</th>
-                            <td><?= $model->State->Paused ?></td>
+                            <td><i class="fa fa<?= $model->State->Paused ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Pid</th>
@@ -269,11 +279,13 @@
                         </tr>
                         <tr>
                             <th>Restarting</th>
-                            <td><?= $model->State->Restarting ?></td>
+                            <td><i class="fa fa<?= $model->State->Restarting ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Running</th>
-                            <td><?= $model->State->Running ?></td>
+                            <td><i class="fa fa<?= $model->State->Running ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                         </tr>
                         <tr>
                             <th>Started at</th>
@@ -310,7 +322,8 @@
                             <td><?= $mount->Destination ?></td>
                             <td><?= $mount->Driver ?></td>
                             <td><?= $mount->Mode ?></td>
-                            <td><?= $mount->RW ?></td>
+                            <td><i class="fa fa<?= $mount->RW ? '-check' : '' ?>-square-o"
+                                   aria-hidden="true"></i></td>
                             <td><?= $mount->Propagation ?></td>
                         </tr>
                     <?php endforeach; ?>
