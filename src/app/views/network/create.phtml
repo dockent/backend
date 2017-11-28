@@ -1,0 +1,64 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: vpozdnyakov
+ * Date: 28.11.17
+ * Time: 17:34
+ */
+?>
+
+
+<div class="x_title">
+    <h2>Creating the network</h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <br/>
+    <form method="post" action="/network/create" class="form-horizontal form-label-left">
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name-input">Name <span
+                    class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="name-input" name="Name" required="required"
+                       class="form-control col-md-7 col-xs-12" placeholder="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="driver-input">Driver</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="driver-input" name="Driver"
+                       class="form-control col-md-7 col-xs-12" placeholder="bridge">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" name="CheckDuplicate" class="flat"/> Check duplicate
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" name="Internal" class="flat"/> Internal
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" name="Attachable" class="flat"/> Attachable
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" name="Ingress" class="flat"/> Ingress
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" name="EnableIPv6" class="flat"/> Enable IPv6
+            </div>
+        </div>
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <a href="/network/" class="btn btn-primary" type="button">Cancel</a>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<!-- /page content -->
