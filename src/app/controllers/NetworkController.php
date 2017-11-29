@@ -35,7 +35,8 @@ class NetworkController extends Controller
     {
         try {
             $this->docker->NetworkResource()->networkDelete($id);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
         $this->redirect('/network');
     }
 
