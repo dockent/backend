@@ -24,9 +24,5 @@ function formatBytes(int $size, int $precision = 2): string
     return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[(int)floor($base)];
 }
 
-try {
-    $response = $application->handle();
-    $response->send();
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+$response = $application->handle();
+$response->send();
