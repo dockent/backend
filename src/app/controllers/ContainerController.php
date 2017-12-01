@@ -13,6 +13,7 @@ use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
 use Dockent\enums\DI;
+use Dockent\models\CreateContainer;
 use Phalcon\Queue\Beanstalk;
 
 /**
@@ -33,15 +34,22 @@ class ContainerController extends Controller
 
     public function createAction()
     {
+        $model = new CreateContainer();
         if ($this->request->isPost()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'createContainer',
-                'data' => $this->request->getPost()
-            ]);
-            $this->response->redirect('index');
+            $model->assign($this->request->getPost());
+            if ($model->validate()) {
+                /** @var Beanstalk $queue */
+                $queue = DIFactory::getDI()->get(DI::QUEUE);
+                $queue->put([
+                    'action' => 'createContainer',
+                    'data' => $model
+                ]);
+                $this->response->redirect('index');
+            }
         }
+        $this->view->setVars([
+            'model' => $model
+        ]);
     }
 
     /**

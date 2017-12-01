@@ -13,7 +13,7 @@ use Dockent\components\Docker as DockerComponent;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\components\Docker as DockerHelper;
-use Dockent\OpenAPI\Model\ContainersCreatePostBody;
+use Dockent\models\CreateContainer;
 
 /**
  * Class QueueActions
@@ -22,23 +22,23 @@ use Dockent\OpenAPI\Model\ContainersCreatePostBody;
 final class QueueActions
 {
     /**
-     * @param array $data
+     * @param CreateContainer $data
      */
-    public static function createContainer(array $data)
+    public static function createContainer(CreateContainer $data)
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
-        DockerHelper::pull($data['image']);
+        DockerHelper::pull($data->getImage());
         $parameters = [];
-        $name = $data['name'];
+        $name = $data->getName();
         if ($name) {
             $parameters['name'] = $name;
         }
         $containerCreateResult = json_decode($docker->ContainerResource()->containerCreate([
-            'Image' => $data['image'],
-            'Cmd' => $data['cmd']
+            'Image' => $data->getImage(),
+            'Cmd' => $data->getCmd()
         ], $parameters));
-        if (array_key_exists('start', $data)) {
+        if ($data->isStart()) {
             $docker->ContainerResource()->containerStart($containerCreateResult->Id);
         }
     }
