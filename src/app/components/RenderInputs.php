@@ -17,19 +17,12 @@ use Phalcon\Validation\MessageInterface;
 class RenderInputs
 {
     /**
-     * @param string $value
      * @param MessageInterface[] $errors
-     * @param array $options
      * @return string
      */
-    public static function inputText(string $value, array $errors, array $options): string
+    private static function renderErrors(array $errors): string
     {
-        $html = '<input type="text" class="form-control col-md-7 col-xs-12 ' . empty($errors) ?: 'parsley-error' . '" value="' . $value . '" ';
-        $preparedOptions = [];
-        foreach ($options as $option => $value) {
-            $preparedOptions[] = "$option=\"$value\"";
-        }
-        $html .= implode(' ', $preparedOptions) . '>';
+        $html = '';
         if (!empty($errors)) {
             $html .= '<ul class="parsley-error-list filled">';
             foreach ($errors as $error) {
@@ -37,6 +30,45 @@ class RenderInputs
             }
             $html .= '</ul>';
         }
+
+        return $html;
+    }
+
+    /**
+     * @param string $value
+     * @param MessageInterface[] $errors
+     * @param array $options
+     * @return string
+     */
+    public static function inputText(string $value, array $errors, array $options): string
+    {
+        $html = '<input type="text" class="form-control col-md-7 col-xs-12 ' . (empty($errors) ?: 'parsley-error') . '" value="' . $value . '" ';
+        $preparedOptions = [];
+        foreach ($options as $option => $value) {
+            $preparedOptions[] = "$option=\"$value\"";
+        }
+        $html .= implode(' ', $preparedOptions) . '>';
+        $html .= static::renderErrors($errors);
+
+        return $html;
+    }
+
+    /**
+     * @param bool $checked
+     * @param string $title
+     * @param MessageInterface[] $errors
+     * @param array $options
+     * @return string
+     */
+    public static function inputCheckbox(bool $checked, string $title, array $errors, array $options): string
+    {
+        $html = '<input type="checkbox" class="flat ' . (empty($errors) ?: 'parsley-error') . '" ' . (!$checked ?: 'checked') . ' ';
+        $preparedOptions = [];
+        foreach ($options as $option => $value) {
+            $preparedOptions[] = "$option=\"$value\"";
+        }
+        $html .= implode(' ', $preparedOptions) . '> ' . $title;
+        $html .= static::renderErrors($errors);
 
         return $html;
     }

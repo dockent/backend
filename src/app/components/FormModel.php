@@ -10,6 +10,7 @@ namespace Dockent\components;
 
 use Phalcon\Validation;
 use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\MessageInterface;
 
 /**
  * Class FormModel
@@ -88,6 +89,10 @@ abstract class FormModel
         return $messages;
     }
 
+    /**
+     * @param string $field
+     * @return MessageInterface[]
+     */
     public function getError(string $field): array
     {
         if ($this->messages === null) {

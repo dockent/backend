@@ -5,11 +5,13 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Phalcon\Debug;
 use Phalcon\Mvc\Application;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/bootstrap.php';
 
+(new Debug())->listen();
 $application = new Application(DIFactory::getDI());
 
 /**

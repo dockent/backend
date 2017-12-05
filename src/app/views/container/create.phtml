@@ -54,8 +54,10 @@ use Dockent\components\RenderInputs;
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Options</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" id="start-checkbox" name="start"
-                       class="flat" <?= $model->isStart() ? 'checked' : '' ?>/> Start after creating
+                <?= RenderInputs::inputCheckbox($model->isStart(), 'Start after creating',
+                    $model->getError('Start'), [
+                        'name' => 'Start'
+                    ]) ?>
             </div>
         </div>
 

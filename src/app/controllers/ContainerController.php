@@ -14,6 +14,7 @@ use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
 use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
+use Dockent\models\RenameContainer;
 use Phalcon\Queue\Beanstalk;
 
 /**
@@ -123,12 +124,17 @@ class ContainerController extends Controller
      */
     public function renameAction(string $id)
     {
+        $model = new RenameContainer();
         if ($this->request->isPost()) {
-            $this->docker->ContainerResource()->containerRename($id, ['name' => $this->request->getPost('name')]);
-            $this->redirect('/container');
+            $model->assign($this->request->getPost());
+            if ($model->validate()) {
+                $this->docker->ContainerResource()->containerRename($id, ['name' => $model->getName()]);
+                $this->redirect('/container');
+            }
         }
+        $model->map(json_decode($this->docker->ContainerResource()->containerInspect($id)));
         $this->view->setVars([
-            'model' => json_decode($this->docker->ContainerResource()->containerInspect($id))
+            'model' => $model
         ]);
     }
 }
