@@ -32,6 +32,6 @@ try {
 } catch (Exception $e) {
     /** @var LoggerInterface $logger */
     $logger = DIFactory::getDI()->get(DI::LOGGER);
-    $logger->error($e->getMessage(), $e->getTrace());
+    $logger->error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
     echo $e->getMessage();
 }

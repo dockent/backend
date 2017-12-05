@@ -144,10 +144,7 @@ class Logger implements AdapterInterface
             if (!is_string($message)) {
                 $message = $this->getFormatter()->format($message, $type, time(), $context);
             }
-            $package = json_encode([
-                'message' => $message,
-                'trace' => $context
-            ]) . PHP_EOL;
+            $package = str_replace(PHP_EOL, '<br>', $message) . PHP_EOL;
             socket_send($this->socket, $package, strlen($package), 0);
         }
         return $this;
