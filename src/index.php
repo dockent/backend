@@ -5,6 +5,8 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Dockent\enums\DI;
+use Phalcon\Logger\AdapterInterface as LoggerInterface;
 use Phalcon\Mvc\Application;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -24,5 +26,12 @@ function formatBytes(int $size, int $precision = 2): string
     return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[(int)floor($base)];
 }
 
-$response = $application->handle();
-$response->send();
+try {
+    $response = $application->handle();
+    $response->send();
+} catch (Exception $e) {
+    /** @var LoggerInterface $logger */
+    $logger = DIFactory::getDI()->get(DI::LOGGER);
+    $logger->error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+    echo $e->getMessage();
+}

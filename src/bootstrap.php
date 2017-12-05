@@ -7,6 +7,7 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Dockent\components\Logger;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
@@ -53,4 +54,9 @@ DIFactory::getDI()->set(DI::QUEUE, function () {
 });
 DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
     return new Annotations();
+});
+DIFactory::getDI()->set(DI::LOGGER, function () {
+    /** @var Config $config */
+    $config = DIFactory::getDI()->get(DI::CONFIG);
+    return new Logger($config->path('logstash.host'), $config->path('logstash.port'));
 });
