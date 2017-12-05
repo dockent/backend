@@ -66,12 +66,12 @@ class Logger implements AdapterInterface
     }
 
     /**
-     * Lazy initializing for socket
+     * @return bool
      */
-    private function socketInitialize()
+    private function socketInitialize(): bool
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        socket_connect($this->socket, $this->host, $this->port);
+        return @socket_connect($this->socket, $this->host, $this->port);
     }
 
     /**
@@ -139,7 +139,9 @@ class Logger implements AdapterInterface
             ];
         } else {
             if ($this->socket === null) {
-                $this->socketInitialize();
+                if (!$this->socketInitialize()) {
+                    return $this;
+                }
             }
             if (!is_string($message)) {
                 $message = $this->getFormatter()->format($message, $type, time(), $context);
