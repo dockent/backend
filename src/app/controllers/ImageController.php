@@ -54,20 +54,4 @@ class ImageController extends Controller
     {
         /** Render default view */
     }
-
-    /**
-     * @param string $id
-     */
-    public function tagAction(string $id)
-    {
-        if ($this->request->isPost()) {
-            $this->docker->ImageResource()->imageTag($id, [
-                'tag' => $this->request->getPost('tag')
-            ]);
-            $this->redirect('/image');
-        }
-        $this->view->setVars([
-            'model' => json_decode($this->docker->ImageResource()->imageInspect($id))
-        ]);
-    }
 }
