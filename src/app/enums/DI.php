@@ -19,4 +19,5 @@ final class DI
     const QUEUE = 'queue';
     const ANNOTATIONS = 'annotations';
     const LOGGER = 'logger';
+    const REQUEST = 'request';
 }
