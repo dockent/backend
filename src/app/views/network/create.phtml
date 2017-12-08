@@ -4,7 +4,12 @@
  * User: vpozdnyakov
  * Date: 28.11.17
  * Time: 17:34
+ *
+ * @var \Dockent\models\CreateNetwork $model
  */
+
+use Dockent\components\RenderInputs;
+
 ?>
 
 
@@ -18,35 +23,53 @@
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name-input">Name <span
-                    class="required">*</span>
+                        class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="name-input" name="Name" required="required"
-                       class="form-control col-md-7 col-xs-12" placeholder="">
+                <?= RenderInputs::inputText($model->getName(), $model->getError('Name'), [
+                    'name' => 'Name',
+                    'required' => true
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="driver-input">Driver</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="driver-input" name="Driver"
-                       class="form-control col-md-7 col-xs-12" placeholder="bridge">
+                <?= RenderInputs::inputText($model->getDriver(), $model->getError('Driver'), [
+                    'name' => 'Driver',
+                    'placeholder' => 'bridge'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="CheckDuplicate" class="flat"/> Check duplicate
+                <?= RenderInputs::inputCheckbox($model->isCheckDuplicate(), 'Check duplicate',
+                    $model->getError('CheckDuplicate'), [
+                        'name' => 'CheckDuplicate'
+                    ]) ?>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="Internal" class="flat"/> Internal
+                <?= RenderInputs::inputCheckbox($model->isInternal(), 'Internal',
+                    $model->getError('Internal'), [
+                        'name' => 'Internal'
+                    ]) ?>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="Attachable" class="flat"/> Attachable
+                <?= RenderInputs::inputCheckbox($model->isAttachable(), 'Attachable',
+                    $model->getError('Attachable'), [
+                        'name' => 'Attachable'
+                    ]) ?>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="Ingress" class="flat"/> Ingress
+                <?= RenderInputs::inputCheckbox($model->isIngress(), 'Ingress', $model->getError('Ingress'), [
+                    'name' => 'Ingress'
+                ]) ?>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="EnableIPv6" class="flat"/> Enable IPv6
+                <?= RenderInputs::inputCheckbox($model->isEnableIPv6(), 'Enable IPv6',
+                    $model->getError('EnableIPv6'), [
+                        'name' => 'EnableIPv6'
+                    ]) ?>
             </div>
         </div>
 

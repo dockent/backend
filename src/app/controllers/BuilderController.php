@@ -11,6 +11,9 @@ namespace Dockent\controllers;
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
+use Dockent\models\BuildImageByDockerfileBody;
+use Dockent\models\BuildImageByDockerfilePath;
+use Dockent\models\DockerfileBuilder;
 use Phalcon\Queue\Beanstalk;
 
 /**
@@ -22,12 +25,16 @@ class BuilderController extends Controller
     public function buildByDockerfilePathAction()
     {
         if ($this->request->isPost()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'buildImageByDockerfilePath',
-                'data' => $this->request->getPost('path_to_dockerfile')
-            ]);
+            $model = new BuildImageByDockerfilePath();
+            $model->assign($this->request->getPost());
+            if ($model->validate()) {
+                /** @var Beanstalk $queue */
+                $queue = DIFactory::getDI()->get(DI::QUEUE);
+                $queue->put([
+                    'action' => 'buildImageByDockerfilePath',
+                    'data' => $model->getDockerfilePath()
+                ]);
+            }
             $this->redirect('/image');
         }
     }
@@ -35,26 +42,37 @@ class BuilderController extends Controller
     public function buildByDockerfileBodyAction()
     {
         if ($this->request->isPost()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'buildByDockerfileBodyAction',
-                'data' => $this->request->getPost('dockerfile_body')
-            ]);
+            $model = new BuildImageByDockerfileBody();
+            $model->assign($this->request->getPost());
+            if ($model->validate()) {
+                /** @var Beanstalk $queue */
+                $queue = DIFactory::getDI()->get(DI::QUEUE);
+                $queue->put([
+                    'action' => 'buildByDockerfileBodyAction',
+                    'data' => $model->getDockerfileBody()
+                ]);
+            }
             $this->redirect('/image');
         }
     }
 
     public function indexAction()
     {
+        $model = new DockerfileBuilder();
         if ($this->request->isPost()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'buildByContext',
-                'data' => $this->request->getPost()
-            ]);
-            $this->redirect('/image');
+            $model->assign($this->request->getPost());
+            if ($model->validate()) {
+                /** @var Beanstalk $queue */
+                $queue = DIFactory::getDI()->get(DI::QUEUE);
+                $queue->put([
+                    'action' => 'buildByContext',
+                    'data' => $this->request->getPost()
+                ]);
+                $this->redirect('/image');
+            }
         }
+        $this->view->setVars([
+            'model' => $model
+        ]);
     }
 }

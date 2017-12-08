@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var \Dockent\models\DockerfileBuilder $model
+ */
+
+use Dockent\components\RenderInputs;
+
+?>
 <div class="x_title">
     <h2>Dockerfile Builder</h2>
     <div class="clearfix"></div>
@@ -10,65 +18,91 @@
                         class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="from-input" name="from" required="required"
-                       class="form-control col-md-7 col-xs-12" placeholder="ubuntu:latest">
+                <?= RenderInputs::inputText($model->getFrom(), $model->getError('from'), [
+                    'name' => 'from',
+                    'required' => true,
+                    'placeholder' => 'ubuntu:latest'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="run-input">Run</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea class="form-control" name="run" id="run-input" cols="30" rows="3"
-                                          placeholder="apt-get update"></textarea>
+                <?= RenderInputs::inputTextarea($model->getRun(), $model->getError('run'), [
+                    'name' => 'run',
+                    'cols' => 30,
+                    'rows' => 3,
+                    'placeholder' => 'apt-get update'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cmd-input">Cmd</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="cmd-input" name="cmd"
-                       class="form-control col-md-7 col-xs-12"
-                       placeholder="[&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]">
+                <?= RenderInputs::inputText($model->getCmd(), $model->getError('cmd'), [
+                    'name' => 'cmd',
+                    'placeholder' => '[&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="expose-input">Expose</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="expose-input" name="expose"
-                       class="form-control col-md-7 col-xs-12" placeholder="80">
+                <?= RenderInputs::inputText($model->getExpose(), $model->getError('expose'), [
+                    'name' => 'expose',
+                    'placeholder' => '80'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="env-input">Env</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea class="form-control" name="env" id="env-input" cols="30" rows="3"
-                                          placeholder="<key> <value>"></textarea>
+                <?= RenderInputs::inputTextarea($model->getEnv(), $model->getError('env'), [
+                    'name' => 'env',
+                    'cols' => 30,
+                    'rows' => 3,
+                    'placeholder' => '<key> <value>'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="add-input">Add</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea class="form-control" name="add" id="add-input" cols="30" rows="3"
-                                          placeholder="<src> <dest>"></textarea>
+                <?= RenderInputs::inputTextarea($model->getAdd(), $model->getError('add'), [
+                    'name' => 'add',
+                    'cols' => 30,
+                    'rows' => 3,
+                    'placeholder' => '<src> <dest>'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="copy-input">Copy</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea class="form-control" name="copy" id="copy-input" cols="30"
-                                          rows="3" placeholder="<src> <dest>"></textarea>
+                <?= RenderInputs::inputTextarea($model->getCopy(), $model->getError('copy'), [
+                    'name' => 'copy',
+                    'cols' => 30,
+                    'rows' => 3,
+                    'placeholder' => '<src> <dest>'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volume-input">Volume</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="volume-input" name="volume"
-                       class="form-control col-md-7 col-xs-12" placeholder="/data,/data2">
+                <?= RenderInputs::inputText($model->getVolume(), $model->getError('volume'), [
+                    'name' => 'volume',
+                    'placeholder' => '/data,/data2'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="workdir-input">Workdir</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="workdir-input" name="workdir"
-                       class="form-control col-md-7 col-xs-12" placeholder="/path/to/workdir">
+                <?= RenderInputs::inputText($model->getWorkdir(), $model->getError('workdir'), [
+                    'name' => 'workdir',
+                    'placeholder' => '/path/to/workdir'
+                ]) ?>
             </div>
         </div>
 

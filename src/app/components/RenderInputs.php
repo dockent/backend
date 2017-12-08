@@ -72,4 +72,23 @@ class RenderInputs
 
         return $html;
     }
+
+    /**
+     * @param string $text
+     * @param MessageInterface[] $errors
+     * @param array $options
+     * @return string
+     */
+    public static function inputTextarea(string $text, array $errors, array $options): string
+    {
+        $html = '<textarea class="form-control ' . (empty($errors) ?: 'parsley-error') . '" ';
+        $preparedOptions = [];
+        foreach ($options as $option => $value) {
+            $preparedOptions[] = "$option=\"$value\"";
+        }
+        $html .= implode(' ', $preparedOptions) . '>' . $text . '</textarea>';
+        $html .= static::renderErrors($errors);
+
+        return $html;
+    }
 }
