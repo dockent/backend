@@ -26,7 +26,7 @@ abstract class FormModel
     /**
      * @var Group
      */
-    private $messages;
+    private $messages = [];
 
     /**
      * FormModel constructor.
@@ -44,11 +44,8 @@ abstract class FormModel
         foreach ($inputs as $input => $value) {
             if (property_exists($this, $input)) {
                 $methodName = 'set' . ucfirst($input);
-                $booleanMethodName = 'is' . ucfirst($input);
                 if (method_exists($this, $methodName)) {
                     $this->$methodName($value);
-                } elseif (method_exists($this, $booleanMethodName)) {
-                    $this->$booleanMethodName($value);
                 } else {
                     $this->$input = $value;
                 }
@@ -95,7 +92,7 @@ abstract class FormModel
      */
     public function getError(string $field): array
     {
-        if ($this->messages === null) {
+        if (empty($this->messages)) {
             return [];
         }
         return $this->messages->filter($field);

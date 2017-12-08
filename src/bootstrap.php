@@ -18,9 +18,6 @@ use Phalcon\Mvc\View;
 use Phalcon\Queue\Beanstalk;
 
 $loader = new Loader();
-$loader->registerNamespaces([
-    'Dockent' => './app/'
-]);
 $loader->register();
 
 DIFactory::getDI()->set(DI::DISPATCHER, function () {

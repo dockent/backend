@@ -54,13 +54,19 @@ abstract class Docker
             return implode("\n", $map);
         };
 
-        $from = $parameters['from'] ? 'FROM ' . $parameters['from'] : null;
-        $run = $processMultistringCommands('RUN', $parameters['run']);
-        $cmd = $parameters['cmd'] ? 'CMD ' . $parameters['cmd'] : null;
-        $expose = $parameters['expose'] ? 'EXPOSE ' . $parameters['expose'] : null;
-        $env = $processMultistringCommands('ENV', $parameters['env']);
-        $add = $processMultistringCommands('ADD', $parameters['add']);
-        $copy = $processMultistringCommands('COPY', $parameters['copy']);
+        $from = (array_key_exists('from', $parameters) && $parameters['from']) ? 'FROM ' . $parameters['from']
+            : null;
+        $run = array_key_exists('run', $parameters) ? $processMultistringCommands('RUN', $parameters['run'])
+            : null;
+        $cmd = (array_key_exists('cmd', $parameters) && $parameters['cmd']) ? 'CMD ' . $parameters['cmd'] : null;
+        $expose = (array_key_exists('expose', $parameters) && $parameters['expose'])
+            ? 'EXPOSE ' . $parameters['expose'] : null;
+        $env = array_key_exists('env', $parameters) ? $processMultistringCommands('ENV', $parameters['env'])
+            : null;
+        $add = array_key_exists('add', $parameters) ? $processMultistringCommands('ADD', $parameters['add'])
+            : null;
+        $copy = array_key_exists('copy', $parameters)
+            ? $processMultistringCommands('COPY', $parameters['copy']) : null;
 
         $volume = null;
         if ($parameters['volume']) {
@@ -71,7 +77,7 @@ abstract class Docker
             $volume = 'VOLUME [' . implode(',', $volume) . ']';
         }
 
-        $workdir = $parameters['workdir'] ? 'WORKDIR ' . $parameters['workdir'] : '';
+        $workdir = (array_key_exists('workdir', $parameters) && $parameters['workdir']) ? 'WORKDIR ' . $parameters['workdir'] : '';
 
         $resultString = array_filter([$from, $workdir, $run, $cmd, $expose, $env, $add, $copy, $volume], function ($item) {
             return $item !== null;

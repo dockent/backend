@@ -16,12 +16,23 @@
     "dockent/connector": "master"
   },
   "require-dev": {
-    "phalcon/ide-stubs": "v3.2.1"
+    "phalcon/ide-stubs": "v3.2.1",
+    "phpunit/phpunit": "^7.0@dev"
   },
   "repositories": [
     {
       "type": "vcs",
       "url": "https://Scary_Donetskiy@bitbucket.org/scary_develop/dockent-connector.git"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dockent\\": "src/app/",
+      "Dockent\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
+    "testsCoverage": "vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html tests/coverage/ --whitelist src/app/ tests/"
+  }
 }

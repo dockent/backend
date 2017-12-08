@@ -53,3 +53,4 @@ composer.phar
 ### Phalcon template
 /cache/
 /config/development/
+/tests/coverage/
