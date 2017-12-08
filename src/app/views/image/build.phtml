@@ -1,3 +1,13 @@
+<?php
+/**
+ * @var \Dockent\models\BuildImageByDockerfilePath $dockerfilePathModel
+ * @var \Dockent\models\BuildImageByDockerfileBody $dockerfileBodyModel
+ */
+
+use Dockent\components\RenderInputs;
+
+?>
+
 <div class="x_title">
     <h2>Build image</h2>
     <div class="clearfix"></div>
@@ -15,9 +25,13 @@
                         <form action="/builder/buildByDockerfilePath" method="post">
                             <p>Enter path to folder with your Dockerfile</p>
                             <div class="input-group">
-                                <input type="text" name="path_to_dockerfile"
-                                       placeholder="/tmp/my_docker_image" required
-                                       class="form-control"/>
+                                <?= RenderInputs::inputText($dockerfilePathModel->getDockerfilePath(),
+                                    $dockerfilePathModel->getError('dockerfilePath'),
+                                    [
+                                        'name' => 'dockerfilePath',
+                                        'placeholder' => '/tmp/dockerfile_directory',
+                                        'required' => true
+                                    ]); ?>
                                 <span class="input-group-btn">
                                                     <button type="submit" class="btn btn-success">Submit</button>
                                                 </span>
@@ -36,8 +50,14 @@
                               class="form-horizontal form-label-left">
                             <p>Type your Dockerfile body here</p>
                             <div class="form-group">
-                                                <textarea name="dockerfile_body" cols="30" rows="10" required
-                                                          class="form-control" placeholder="FROM busybox"></textarea>
+                                <?= RenderInputs::inputTextarea($dockerfileBodyModel->getDockerfileBody(),
+                                    $dockerfileBodyModel->getError('dockerfileBody'), [
+                                        'name' => 'dockerfileBody',
+                                        'cols' => 30,
+                                        'rows' => 10,
+                                        'required' => true,
+                                        'placeholder' => 'FROM busybox'
+                                    ]) ?>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success">Submit</button>

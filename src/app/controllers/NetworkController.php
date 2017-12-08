@@ -10,6 +10,7 @@ namespace Dockent\controllers;
 
 use Dockent\components\BulkAction;
 use Dockent\components\Controller;
+use Dockent\models\CreateNetwork;
 
 /**
  * Class NetworkController
@@ -52,9 +53,16 @@ class NetworkController extends Controller
 
     public function createAction()
     {
+        $model = new CreateNetwork();
         if ($this->request->isPost()) {
-            $this->docker->NetworkResource()->networkCreate($this->request->getPost());
-            $this->redirect('/network');
+            $model->assign($this->request->getPost());
+            if ($model->validate()) {
+                $this->docker->NetworkResource()->networkCreate($model->getAttributesAsArray());
+                $this->redirect('/network');
+            }
         }
+        $this->view->setVars([
+            'model' => $model
+        ]);
     }
 }

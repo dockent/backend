@@ -1,7 +1,10 @@
 <?php
 /**
- * @var \Dockent\components\config\Config $config
+ * @var \Dockent\models\Settings $config
  */
+
+use Dockent\components\RenderInputs;
+
 ?>
 
 <div class="x_title">
@@ -23,9 +26,10 @@
                         class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="queue-host-input" name="queue[host]" required="required"
-                       class="form-control col-md-7 col-xs-12"
-                       value="<?= $config->path('queue.host') ?>">
+                <?= RenderInputs::inputText($config->getBeanstalkHost(), $config->getError('beanstalkHost'), [
+                    'name' => 'beanstalkHost',
+                    'required' => true
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
@@ -34,9 +38,10 @@
                         class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="queue-port-input" name="queue[port]" required="required"
-                       class="form-control col-md-7 col-xs-12"
-                       value="<?= $config->path('queue.port') ?>">
+                <?= RenderInputs::inputText($config->getBeanstalkPort(), $config->getError('beanstalkPort'), [
+                    'name' => 'beanstalkPort',
+                    'required' => true
+                ]) ?>
             </div>
         </div>
 

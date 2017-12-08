@@ -9,10 +9,7 @@
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
-use Dockent\components\DI as DIFactory;
-use Dockent\components\config\QueueSettings;
-use Dockent\enums\DI;
-use Dockent\components\config\Config;
+use Dockent\models\Settings;
 
 /**
  * Class SettingsController
@@ -22,17 +19,16 @@ class SettingsController extends Controller
 {
     public function indexAction()
     {
-        /** @var Config $config */
-        $config = DIFactory::getDI()->get(DI::CONFIG);
+        $model = new Settings();
         if ($this->request->isPost()) {
-            $config->add(new QueueSettings($this->request->getPost('queue')));
-            $config->save();
-
-            $this->redirect('/');
+            $model->assign($this->request->getPost());
+            if ($model->save()) {
+                $this->redirect('/');
+            }
         }
 
         $this->view->setVars([
-            'config' => $config
+            'config' => $model
         ]);
     }
 }

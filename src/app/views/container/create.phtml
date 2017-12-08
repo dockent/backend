@@ -4,7 +4,12 @@
  * User: vpozdnyakov
  * Date: 26.09.17
  * Time: 10:59
+ *
+ * @var \Dockent\models\CreateContainer $model
  */
+
+use Dockent\components\RenderInputs;
+
 ?>
 
 
@@ -21,28 +26,38 @@
                         class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="image-input" name="image" required="required"
-                       class="form-control col-md-7 col-xs-12" placeholder="ubuntu:latest">
+                <?= RenderInputs::inputText($model->getImage(), $model->getError('Image'), [
+                    'name' => 'Image',
+                    'placeholder' => 'ubuntu:latest',
+                    'required' => true
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cmd-input">Cmd</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="cmd-input" name="cmd"
-                       class="form-control col-md-7 col-xs-12" placeholder="run.sh">
+                <?= RenderInputs::inputText($model->getCmd(), $model->getError('Cmd'), [
+                    'name' => 'Cmd',
+                    'placeholder' => 'run.sh'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label for="name-input" class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="name-input" class="form-control col-md-7 col-xs-12" type="text"
-                       name="name" placeholder="My New Container">
+                <?= RenderInputs::inputText($model->getName(), $model->getError('Name'), [
+                    'name' => 'Name',
+                    'placeholder' => 'New container'
+                ]) ?>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Options</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" id="start-checkbox" name="start" class="flat"/> Start after creating
+                <?= RenderInputs::inputCheckbox($model->isStart(), 'Start after creating',
+                    $model->getError('Start'), [
+                        'name' => 'Start'
+                    ]) ?>
             </div>
         </div>
 

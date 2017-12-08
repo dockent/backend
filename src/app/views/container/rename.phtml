@@ -1,7 +1,10 @@
 <?php
 /**
- * @var stdClass $model
+ * @var \Dockent\models\RenameContainer $model
  */
+
+use Dockent\components\RenderInputs;
+
 ?>
 
 
@@ -11,15 +14,17 @@
 </div>
 <div class="x_content">
     <br/>
-    <form method="post" action="/container/rename/<?= $model->Id ?>" class="form-horizontal form-label-left">
+    <form method="post" action="" class="form-horizontal form-label-left">
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name-input">Name <span
                         class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" id="name-input" name="name" required="required"
-                       class="form-control col-md-7 col-xs-12" value="<?= $model->Name ?>">
+                <?= RenderInputs::inputText($model->getName(), $model->getError('name'), [
+                    'name' => 'name',
+                    'required' => true
+                ]) ?>
             </div>
         </div>
 

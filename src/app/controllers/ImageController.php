@@ -10,6 +10,8 @@ namespace Dockent\controllers;
 
 use Dockent\components\BulkAction;
 use Dockent\components\Controller;
+use Dockent\models\BuildImageByDockerfileBody;
+use Dockent\models\BuildImageByDockerfilePath;
 
 /**
  * Class ImageController
@@ -52,6 +54,9 @@ class ImageController extends Controller
 
     public function buildAction()
     {
-        /** Render default view */
+        $this->view->setVars([
+            'dockerfilePathModel' => new BuildImageByDockerfilePath(),
+            'dockerfileBodyModel' => new BuildImageByDockerfileBody()
+        ]);
     }
 }

@@ -12,7 +12,6 @@ use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
 use Dockent\components\config\Config;
-use Phalcon\Debug;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
@@ -23,8 +22,6 @@ $loader->registerNamespaces([
     'Dockent' => './app/'
 ]);
 $loader->register();
-
-(new Debug())->listen();
 
 DIFactory::getDI()->set(DI::DISPATCHER, function () {
     $dispatcher = new Dispatcher();
