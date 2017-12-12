@@ -33,7 +33,7 @@ DIFactory::getDI()->set(DI::VIEW, function () {
     return $view;
 });
 DIFactory::getDI()->set(DI::CONFIG, function () {
-    return new Config(require './app/config.php');
+    return new Config('./app/config.php');
 });
 DIFactory::getDI()->set(DI::DOCKER, function () {
     return new Connector();

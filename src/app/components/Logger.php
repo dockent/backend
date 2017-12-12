@@ -143,9 +143,6 @@ class Logger implements AdapterInterface
                     return $this;
                 }
             }
-            if (!is_string($message)) {
-                $message = $this->getFormatter()->format($message, $type, time(), $context);
-            }
             $package = str_replace(PHP_EOL, '<br>', $message) . PHP_EOL;
             socket_send($this->socket, $package, strlen($package), 0);
         }
@@ -172,7 +169,7 @@ class Logger implements AdapterInterface
     {
         $this->transactionStatus = false;
         foreach ($this->transactionStack as $item) {
-            $this->log(...$item);
+            $this->log($item['type'], $item['message'], $item['context']);
         }
         $this->transactionStack = [];
         return $this;
@@ -198,7 +195,7 @@ class Logger implements AdapterInterface
     public function close(): bool
     {
         if ($this->socket !== null) {
-            socket_close($this->socket);
+            @socket_close($this->socket);
         }
         return true;
     }

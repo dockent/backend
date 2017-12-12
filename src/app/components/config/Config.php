@@ -22,6 +22,21 @@ class Config extends PhalconConfig
     private $storage = [];
 
     /**
+     * @var string
+     */
+    private $configPath;
+
+    /**
+     * Config constructor.
+     * @param string $path
+     */
+    public function __construct(string $path)
+    {
+        $this->configPath = $path;
+        parent::__construct(require $this->configPath);
+    }
+
+    /**
      * @param Configurable $data
      */
     public function add(Configurable $data)
@@ -39,12 +54,13 @@ class Config extends PhalconConfig
             $result = array_merge($result, $item->pasteToConfig());
         }
 
-        $save = (bool)file_put_contents('./app/config.php',
+        $save = (bool)file_put_contents($this->configPath,
             '<?php return ' . var_export($result, true) . ';');
         if ($save) {
             foreach ($this->storage as $item) {
                 $item->afterSave();
             }
+            $this->storage = [];
         }
 
         return $save;

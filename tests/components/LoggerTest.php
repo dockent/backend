@@ -7,7 +7,6 @@ use Phalcon\Logger as PhalconLogger;
 use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\FormatterInterface;
-use function PHPSTORM_META\map;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +22,7 @@ class LoggerTest extends TestCase
 
     public function setUp()
     {
-        $this->instance = new Logger('127.0.0.1', 8080);
+        $this->instance = new Logger('127.0.0.1', 80);
     }
 
     public function testConstructor()
@@ -74,6 +73,10 @@ class LoggerTest extends TestCase
             'message' => 'Message',
             'context' => ['Context' => 'Array']
         ], $transactionStack->getValue($this->instance)[0]);
+        /** Commit */
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->commit());
+        $this->assertFalse($transactionStatus->getValue($this->instance));
+        $this->assertEmpty($transactionStack->getValue($this->instance));
         /** Rollback */
         $this->assertInstanceOf(AdapterInterface::class, $this->instance->rollback());
         $this->assertInternalType('array', $transactionStack->getValue($this->instance));
@@ -81,8 +84,61 @@ class LoggerTest extends TestCase
         $this->assertFalse($transactionStatus->getValue($this->instance));
     }
 
+    public function testRollback()
+    {
+        $this->instance->begin();
+        $this->instance->log(PhalconLogger::CRITICAL, 'Message', ['Context' => 'Array']);
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->rollback());
+        $transactionStatus = new \ReflectionProperty($this->instance, 'transactionStatus');
+        $transactionStatus->setAccessible(true);
+        $this->assertFalse($transactionStatus->getValue($this->instance));
+        $transactionStack = new \ReflectionProperty($this->instance, 'transactionStack');
+        $transactionStack->setAccessible(true);
+        $this->assertEmpty($transactionStack->getValue($this->instance));
+    }
+
     public function testClose()
     {
+        $this->instance->log(PhalconLogger::CRITICAL);
         $this->assertTrue($this->instance->close());
+    }
+
+    public function testSocketInitialize()
+    {
+        $socketInitialize = new \ReflectionMethod($this->instance, 'socketInitialize');
+        $socketInitialize->setAccessible(true);
+        $this->assertTrue($socketInitialize->invoke($this->instance));
+        $host = new \ReflectionProperty($this->instance, 'host');
+        $host->setAccessible(true);
+        $host->setValue($this->instance, 'not.existing.host');
+        $this->assertFalse($socketInitialize->invoke($this->instance));
+    }
+
+    public function testLogWithIncorrectSocket()
+    {
+        $host = new \ReflectionProperty($this->instance, 'host');
+        $host->setAccessible(true);
+        $host->setValue($this->instance, 'not.existing.host');
+        $this->assertInstanceOf(AdapterInterface::class,
+            $this->instance->log(PhalconLogger::CRITICAL, 'Message', ['Context' => 'Array']));
+    }
+
+    public function testLogWithErrorLevel()
+    {
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->debug('Message'));
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->error('Message'));
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->info('Message'));
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->notice('Message'));
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->warning('Message'));
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->alert('Message'));
+        $this->assertInstanceOf(AdapterInterface::class, $this->instance->emergency('Message'));
+    }
+
+    public function testDestructor()
+    {
+        $socket = new \ReflectionProperty($this->instance, 'socket');
+        $socket->setAccessible(true);
+        $this->instance->__destruct();
+        $this->assertNull($socket->getValue($this->instance));
     }
 }

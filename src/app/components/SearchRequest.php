@@ -27,7 +27,8 @@ class SearchRequest
         /** @var RequestInterface $request */
         $request = DIFactory::getDI()->get(DI::REQUEST);
         $search = [];
-        $search['filters'] = json_encode($request->getPost('filters', null, []));
+        $postData = $request->getPost('filters');
+        $search['filters'] = $postData !== null ? $postData : [];
 
         return array_merge($search, $params);
     }
