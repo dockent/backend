@@ -18,7 +18,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 class RenameContainer extends FormModel
 {
     /**
-     * @var int
+     * @var string
      */
     protected $id;
 
@@ -49,17 +49,17 @@ class RenameContainer extends FormModel
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param string $id
      */
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }

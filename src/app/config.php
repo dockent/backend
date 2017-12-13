@@ -12,10 +12,10 @@ return [
     ],
     'queue' => [
         'host' => '127.0.0.1',
-        'port' => '11300'
+        'port' => 11300
     ],
     'logstash' => [
-        'host' => '94.130.179.122',
-        'port' => '5043'
+        'host' => 'logger.dockent.vados.pro',
+        'port' => 5043
     ]
 ];

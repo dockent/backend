@@ -54,4 +54,16 @@ class BulkActionTest extends TestCase
         $this->expectOutputString('');
         $this->instance->bulkAction('correct');
     }
+
+    /**
+     * @throws Exception
+     */
+    public function testBulkWithoutItems()
+    {
+        $_POST['id'] = [];
+        $this->expectException(Exception::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage('Items is not selected');
+        $this->instance->bulkAction('correct');
+    }
 }

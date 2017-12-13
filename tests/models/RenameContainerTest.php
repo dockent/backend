@@ -44,9 +44,9 @@ class RenameContainerTest extends TestCase
 
     public function testGetId()
     {
-        $this->instance->setId(0);
-        $this->assertInternalType('int', $this->instance->getId());
-        $this->assertEquals(0, $this->instance->getId());
+        $this->instance->setId('SomeIdValue');
+        $this->assertInternalType('string', $this->instance->getId());
+        $this->assertEquals('SomeIdValue', $this->instance->getId());
     }
 
     public function testRules()
@@ -59,9 +59,9 @@ class RenameContainerTest extends TestCase
 
     public function testMap()
     {
-        $data = ['Id' => 1, 'Name' => 'MyName'];
+        $data = ['Id' => 'SomeIdValue', 'Name' => 'MyName'];
         $this->instance->map(json_decode(json_encode($data)));
-        $this->assertEquals(1, $this->instance->getId());
+        $this->assertEquals('SomeIdValue', $this->instance->getId());
         $this->assertEquals('MyName', $this->instance->getName());
     }
 }

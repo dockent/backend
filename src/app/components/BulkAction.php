@@ -27,7 +27,7 @@ trait BulkAction
     {
         /** @var Controller $this */
         $id = $this->request->getPost('id');
-        if ($id !== null & !empty($id)) {
+        if ($id !== null && !empty($id)) {
             $actionName = $action . 'Action';
             if (method_exists($this, $actionName)) {
                 /** @var AdapterInterface $annotationsAdapter */
@@ -42,6 +42,8 @@ trait BulkAction
             } else {
                 throw new Exception('Action not found', 404);
             }
+        } else {
+            throw new Exception('Items is not selected', 400);
         }
     }
 }
