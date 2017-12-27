@@ -17,6 +17,8 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 use Phalcon\Queue\Beanstalk;
 
+require_once __DIR__ . '/app/components/functions.php';
+
 $loader = new Loader();
 $loader->register();
 

@@ -46,4 +46,31 @@ class QueueActionsTest extends TestCase
         $this->expectOutputString('');
         QueueActions::restartAction('some-container');
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBuildImageByDockerfilePath()
+    {
+        $this->expectOutputString('');
+        QueueActions::buildImageByDockerfilePath('/var/www');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBuildByDockerfileBodyAction()
+    {
+        $this->expectOutputString('');
+        QueueActions::buildByDockerfileBodyAction('');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBuildByContext()
+    {
+        $this->expectOutputString('');
+        QueueActions::buildByContext([]);
+    }
 }

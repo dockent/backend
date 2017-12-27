@@ -16,6 +16,11 @@ class Connector
             {
 
             }
+
+            public function build()
+            {
+
+            }
         };
     }
 

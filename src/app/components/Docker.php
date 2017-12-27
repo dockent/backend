@@ -69,7 +69,7 @@ abstract class Docker
             ? $processMultistringCommands('COPY', $parameters['copy']) : null;
 
         $volume = null;
-        if ($parameters['volume']) {
+        if (array_key_exists('volume', $parameters) && $parameters['volume']) {
             $volumeValues = explode(',', $parameters['volume']);
             $volume = array_map(function ($item) {
                 return "\"$item\"";

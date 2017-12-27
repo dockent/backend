@@ -65,18 +65,18 @@ final class QueueActions
 
     /**
      * @param string $path
+     * @throws \Exception
      */
     public static function buildImageByDockerfilePath(string $path)
     {
-        self::makeStreamByPath($path, function ($stream) {
-            /** @var Connector $docker */
-            $docker = DIFactory::getDI()->get(DI::DOCKER);
-            $docker->ImageResource()->imageBuild($stream);
-        });
+        /** @var Connector $docker */
+        $docker = DIFactory::getDI()->get(DI::DOCKER);
+        $docker->ImageResource()->build($path);
     }
 
     /**
      * @param string $body
+     * @throws \Exception
      */
     public static function buildByDockerfileBodyAction(string $body)
     {
@@ -85,30 +85,15 @@ final class QueueActions
         mkdir($directoryPath);
         file_put_contents($directoryPath . DIRECTORY_SEPARATOR . 'Dockerfile', $body);
         self::buildImageByDockerfilePath($directoryPath);
+        rmDirRecursive($directoryPath);
     }
 
     /**
      * @param array $data
+     * @throws \Exception
      */
     public static function buildByContext(array $data)
     {
         static::buildByDockerfileBodyAction(DockerComponent::generateBody($data));
-    }
-
-    /**
-     * @param string $path
-     * @param \Closure $worker
-     */
-    private static function makeStreamByPath(string $path, \Closure $worker)
-    {
-        $process = proc_open('/usr/bin/env tar c .', [
-            ['pipe', 'r'],
-            ['pipe', 'w'],
-            ['pipe', 'w']
-        ], $pipes, $path);
-        $stream = $pipes[1];
-        $worker($stream);
-        proc_close($process);
-        fclose($stream);
     }
 }
