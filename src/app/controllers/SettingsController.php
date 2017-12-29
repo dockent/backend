@@ -17,6 +17,14 @@ use Dockent\models\Settings;
  */
 class SettingsController extends Controller
 {
+    public function beforeExecuteRoute()
+    {
+        parent::beforeExecuteRoute();
+        if (!static::$DEBUG_MODE) {
+            $this->redirect('/');
+        }
+    }
+
     public function indexAction()
     {
         $model = new Settings();
