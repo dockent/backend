@@ -1,3 +1,9 @@
+<?php
+
+use Dockent\components\Controller;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +71,9 @@
                                     <li><a href="/network/create">Create</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/settings"><i class="fa fa-cogs"></i> Settings</a></li>
+                            <?php if (Controller::$DEBUG_MODE) : ?>
+                                <li><a href="/settings"><i class="fa fa-cogs"></i> Settings</a></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>

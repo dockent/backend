@@ -24,9 +24,15 @@ class Controller extends PhalconController
      */
     protected $docker;
 
+    /**
+     * @var bool
+     */
+    static $DEBUG_MODE = false;
+
     public function beforeExecuteRoute()
     {
         $this->docker = DIFactory::getDI()->get(DI::DOCKER);
+        static::$DEBUG_MODE = (bool)getenv('DOCKENT_DEBUG');
     }
 
     /**
