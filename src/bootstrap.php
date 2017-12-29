@@ -30,12 +30,12 @@ DIFactory::getDI()->set(DI::DISPATCHER, function () {
 });
 DIFactory::getDI()->set(DI::VIEW, function () {
     $view = new View();
-    $view->setViewsDir('./app/views');
+    $view->setViewsDir(__DIR__ . '/app/views');
 
     return $view;
 });
 DIFactory::getDI()->set(DI::CONFIG, function () {
-    return new Config('./app/config.php');
+    return new Config(__DIR__ . '/app/config.php');
 });
 DIFactory::getDI()->set(DI::DOCKER, function () {
     return new Connector();
