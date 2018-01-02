@@ -12,6 +12,7 @@ use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\models\BuildImageByDockerfileBody;
 use Dockent\models\BuildImageByDockerfilePath;
+use Phalcon\Http\ResponseInterface;
 
 /**
  * Class ImageController
@@ -21,42 +22,43 @@ class ImageController extends Controller
 {
     use BulkAction;
 
-    public function indexAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function indexAction(): ResponseInterface
     {
         $images = $this->docker->ImageResource()->imageList();
-        $this->view->setVars([
-            'images' => json_decode($images)
-        ]);
+        $this->response->setContent($images);
+
+        return $this->response;
     }
 
     /**
-     * @param string $id
      * @Bulk
+     * @param string $id
+     * @return ResponseInterface
      */
-    public function removeAction(string $id)
+    public function removeAction(string $id): ResponseInterface
     {
         try {
             $this->docker->ImageResource()->imageDelete($id);
         } catch (\Exception $e) {
         }
-        $this->redirect('/image');
+        $this->response->setJsonContent(['status' => 'success']);
+
+        return $this->response;
     }
 
     /**
-     * @param string $id
      * @Bulk
+     * @param string $id
+     * @return ResponseInterface
      */
-    public function forceRemoveAction(string $id)
+    public function forceRemoveAction(string $id): ResponseInterface
     {
         $this->docker->ImageResource()->imageDelete($id, ['force' => true]);
-        $this->redirect('/image');
-    }
+        $this->response->setJsonContent(['status' => 'success']);
 
-    public function buildAction()
-    {
-        $this->view->setVars([
-            'dockerfilePathModel' => new BuildImageByDockerfilePath(),
-            'dockerfileBodyModel' => new BuildImageByDockerfileBody()
-        ]);
+        return $this->response;
     }
 }

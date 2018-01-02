@@ -7,6 +7,7 @@
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
+use Phalcon\Http\ResponseInterface;
 
 /**
  * Class IndexController
@@ -14,10 +15,13 @@ use Dockent\components\Controller;
  */
 class IndexController extends Controller
 {
-    public function indexAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function indexAction(): ResponseInterface
     {
-        $this->view->setVars([
-            'information' => json_decode($this->docker->SystemResource()->systemInfo())
-        ]);
+        $this->response->setContent($this->docker->SystemResource()->systemInfo());
+
+        return $this->response;
     }
 }
