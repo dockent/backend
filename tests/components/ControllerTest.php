@@ -22,11 +22,19 @@ class ControllerTest extends TestCase
         $this->instance = new Controller();
     }
 
-    public function testBeforeExecuteRoute()
+    public function testDockerInstanceCreate()
     {
         $this->instance->beforeExecuteRoute();
         $docker = new \ReflectionProperty($this->instance, 'docker');
         $docker->setAccessible(true);
         $this->assertInstanceOf(Connector::class, $docker->getValue($this->instance));
+    }
+
+    public function testDebugModeEnabled()
+    {
+        $this->assertFalse(Controller::$DEBUG_MODE);
+        putenv('DOCKENT_DEBUG=true');
+        $this->instance->beforeExecuteRoute();
+        $this->assertTrue(Controller::$DEBUG_MODE);
     }
 }
