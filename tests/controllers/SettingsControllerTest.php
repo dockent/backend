@@ -62,11 +62,29 @@ class SettingsControllerTest extends ControllerTestCase
         $this->assertArrayHasKey('config', $encodedResult);
     }
 
-    public function testIndexActionPostWithErrors()
+    public function testIndexActionPostWithoutErrors()
     {
         /** @var Requests $request */
         $request = DIFactory::getDI()->get(DI::REQUEST);
         $request->setPost();
+        $this->instance->request = $request;
+        $result = $this->instance->indexAction();
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertThat($result->getContent(), $this->isJson());
+        $encodedResult = json_decode($result->getContent(), true);
+        $this->assertArrayHasKey('status', $encodedResult);
+        $this->assertEquals('success', $encodedResult['status']);
+    }
+
+    public function testIndexActionPostWithErrors()
+    {
+        $_POST = [
+            'beanstalkHost' => ''
+        ];
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setPost();
+        $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());

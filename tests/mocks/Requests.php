@@ -11,14 +11,14 @@ class Requests
     /**
      * @var string
      */
-    static $currentMethod = 'GET';
+    private $currentMethod = 'GET';
 
     /**
      * @return bool
      */
     public function isGet(): bool
     {
-        return static::$currentMethod === 'GET';
+        return $this->currentMethod === 'GET';
     }
 
     /**
@@ -26,7 +26,7 @@ class Requests
      */
     public function isPost(): bool
     {
-        return static::$currentMethod === 'POST';
+        return $this->currentMethod === 'POST';
     }
 
     /**
@@ -34,7 +34,7 @@ class Requests
      */
     public function isPut(): bool
     {
-        return static::$currentMethod === 'PUT';
+        return $this->currentMethod === 'PUT';
     }
 
     /**
@@ -42,27 +42,27 @@ class Requests
      */
     public function isDelete(): bool
     {
-        return static::$currentMethod === 'DELETE';
+        return $this->currentMethod === 'DELETE';
     }
 
     public function setGet()
     {
-        static::$currentMethod = 'GET';
+        $this->currentMethod = 'GET';
     }
 
     public function setPost()
     {
-        static::$currentMethod = 'POST';
+        $this->currentMethod = 'POST';
     }
 
     public function setPut()
     {
-        static::$currentMethod = 'PUT';
+        $this->currentMethod = 'PUT';
     }
 
     public function setDelete()
     {
-        static::$currentMethod = 'DELETE';
+        $this->currentMethod = 'DELETE';
     }
 
     /**
