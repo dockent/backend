@@ -1,13 +1,8 @@
 <?php
-/**
- * @author: Vladyslav Pozdnyakov <scary_donetskiy@live.com>
- * @copyright Dockent 2017
- */
 
 namespace Dockent\controllers;
 
-use Dockent\components\Controller;
-use Phalcon\Http\ResponseInterface;
+use Phalcon\Mvc\Controller;
 
 /**
  * Class IndexController
@@ -15,13 +10,8 @@ use Phalcon\Http\ResponseInterface;
  */
 class IndexController extends Controller
 {
-    /**
-     * @return ResponseInterface
-     */
-    public function indexAction(): ResponseInterface
+    public function indexAction()
     {
-        $this->response->setContent($this->docker->SystemResource()->systemInfo());
-
-        return $this->response;
+        /** Just render default view */
     }
 }
