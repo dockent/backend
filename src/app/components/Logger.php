@@ -143,7 +143,8 @@ class Logger implements AdapterInterface
                     return $this;
                 }
             }
-            $package = str_replace(PHP_EOL, '<br>', $message) . PHP_EOL;
+            $package = $this->getFormatter()->format($message, $type, time(), $context);
+            $package = str_replace(PHP_EOL, '<=>', $package) . PHP_EOL;
             socket_send($this->socket, $package, strlen($package), 0);
         }
         return $this;
