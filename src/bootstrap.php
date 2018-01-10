@@ -7,7 +7,6 @@
  */
 
 use Dockent\components\DI as DIFactory;
-use Dockent\components\plugins\HTTPMethodsPlugin;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\enums\Events;
@@ -19,6 +18,7 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 use Phalcon\Queue\Beanstalk;
+use Vados\PhalconPlugins\HTTPMethodsPlugin;
 use Vados\TCPLogger\Adapter;
 
 require_once __DIR__ . '/app/components/functions.php';
