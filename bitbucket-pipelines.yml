@@ -11,6 +11,5 @@ pipelines:
             - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             - docker-php-ext-install intl
             - docker-php-ext-install zip
-            - cd /usr/src/php/ext && wget https://pecl.php.net/get/yaml-2.0.2.tgz && tar -xvf yaml-2.0.2.tgz && rm yaml-2.0.2.tgz && mv yaml-2.0.2 yaml && docker-php-ext-install yaml
-            - composer install
+            - composer install --ignore-platform-reqs
             - composer test
