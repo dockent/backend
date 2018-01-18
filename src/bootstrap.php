@@ -7,24 +7,40 @@
  */
 
 use Dockent\components\DI as DIFactory;
-use Dockent\components\Logger;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
+use Dockent\enums\Events;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
 use Dockent\components\config\Config;
+use Phalcon\Events\Manager;
+use Phalcon\Http\Request;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 use Phalcon\Queue\Beanstalk;
+use Vados\PhalconPlugins\HTTPMethodsPlugin;
+use Vados\TCPLogger\Adapter;
 
 require_once __DIR__ . '/app/components/functions.php';
 
 $loader = new Loader();
 $loader->register();
 
+DIFactory::getDI()->set(DI::REQUEST, function () {
+    return new Request();
+});
+DIFactory::getDI()->set(DI::EVENTS_MANAGER, function () {
+    return new Manager();
+});
 DIFactory::getDI()->set(DI::DISPATCHER, function () {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('Dockent\controllers');
+
+    /** @var Manager $eventsManager */
+    $eventsManager = DIFactory::getDI()->get(DI::EVENTS_MANAGER);
+    $eventsManager->attach(Events::DISPATCH_BEFORE_EXECUTE_ROUTE, new HTTPMethodsPlugin());
+
+    $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;
 });
@@ -54,5 +70,5 @@ DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
 DIFactory::getDI()->set(DI::LOGGER, function () {
     /** @var Config $config */
     $config = DIFactory::getDI()->get(DI::CONFIG);
-    return new Logger($config->path('logstash.host'), $config->path('logstash.port'));
+    return new Adapter($config->path('logstash.host'), $config->path('logstash.port'));
 });

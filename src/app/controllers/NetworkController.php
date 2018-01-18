@@ -11,6 +11,7 @@ namespace Dockent\controllers;
 use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\models\CreateNetwork;
+use Phalcon\Http\ResponseInterface;
 
 /**
  * Class NetworkController
@@ -20,49 +21,64 @@ class NetworkController extends Controller
 {
     use BulkAction;
 
-    public function indexAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function indexAction(): ResponseInterface
     {
         $networks = $this->docker->NetworkResource()->networkList();
-        $this->view->setVars([
-            'networks' => json_decode($networks)
-        ]);
+        $this->response->setContent($networks);
+
+        return $this->response;
     }
 
     /**
      * @Bulk
      * @param string $id
+     * @return ResponseInterface
      */
-    public function removeAction(string $id)
+    public function removeAction(string $id): ResponseInterface
     {
         try {
             $this->docker->NetworkResource()->networkDelete($id);
         } catch (\Exception $e) {
         }
-        $this->redirect('/network');
+        $this->response->setJsonContent(['status' => 'success']);
+
+        return $this->response;
     }
 
     /**
      * @param string $id
+     * @return ResponseInterface
      */
-    public function viewAction(string $id)
+    public function viewAction(string $id): ResponseInterface
     {
-        $this->view->setVars([
-            'model' => json_decode($this->docker->NetworkResource()->networkInspect($id))
-        ]);
+        $this->response->setContent($this->docker->NetworkResource()->networkInspect($id));
+
+        return $this->response;
     }
 
-    public function createAction()
+    /**
+     * @Method(POST)
+     * @return ResponseInterface
+     */
+    public function createAction(): ResponseInterface
     {
         $model = new CreateNetwork();
-        if ($this->request->isPost()) {
-            $model->assign($this->request->getPost());
-            if ($model->validate()) {
-                $this->docker->NetworkResource()->networkCreate($model->getAttributesAsArray());
-                $this->redirect('/network');
-            }
+        $model->assign($this->request->getPost());
+        if ($model->validate()) {
+            $this->docker->NetworkResource()->networkCreate($model->getAttributesAsArray());
+            $this->response->setJsonContent([
+                'status' => 'success'
+            ]);
+        } else {
+            $this->response->setJsonContent([
+                'status' => 'error',
+                'errors' => $model->getErrors()
+            ]);
         }
-        $this->view->setVars([
-            'model' => $model
-        ]);
+
+        return $this->response;
     }
 }
