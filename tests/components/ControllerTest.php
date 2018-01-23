@@ -22,6 +22,10 @@ class ControllerTest extends TestCase
         $this->instance = new Controller();
     }
 
+    /**
+     * @throws \Exception
+     * @throws \ReflectionException
+     */
     public function testDockerInstanceCreate()
     {
         $this->instance->beforeExecuteRoute();
@@ -30,11 +34,23 @@ class ControllerTest extends TestCase
         $this->assertInstanceOf(Connector::class, $docker->getValue($this->instance));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDebugModeEnabled()
     {
         $this->assertFalse(Controller::$DEBUG_MODE);
         putenv('DOCKENT_DEBUG=true');
         $this->instance->beforeExecuteRoute();
         $this->assertTrue(Controller::$DEBUG_MODE);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testCorsHeaders()
+    {
+        $this->instance->beforeExecuteRoute();
+        $this->assertEquals('*', $this->instance->response->getHeaders()->get('Access-Control-Allow-Origin'));
     }
 }
