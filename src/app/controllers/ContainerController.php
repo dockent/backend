@@ -8,7 +8,6 @@
 
 namespace Dockent\controllers;
 
-use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
@@ -24,8 +23,6 @@ use Phalcon\Queue\Beanstalk;
  */
 class ContainerController extends Controller
 {
-    use BulkAction;
-
     /**
      * @return ResponseInterface
      */
@@ -67,13 +64,14 @@ class ContainerController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function startAction(string $id): ResponseInterface
+    public function startAction(): ResponseInterface
     {
-        $this->docker->ContainerResource()->containerStart($id);
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            $this->docker->ContainerResource()->containerStart($id);
+        }
         $this->response->setJsonContent([
             'status' => 'success'
         ]);
@@ -82,18 +80,19 @@ class ContainerController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function stopAction(string $id): ResponseInterface
+    public function stopAction(): ResponseInterface
     {
-        /** @var Beanstalk $queue */
-        $queue = DIFactory::getDI()->get(DI::QUEUE);
-        $queue->put([
-            'action' => 'stopContainer',
-            'data' => $id
-        ]);
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            /** @var Beanstalk $queue */
+            $queue = DIFactory::getDI()->get(DI::QUEUE);
+            $queue->put([
+                'action' => 'stopContainer',
+                'data' => $id
+            ]);
+        }
         $this->response->setJsonContent([
             'status' => 'success',
             'message' => 'Action sent to queue'
@@ -103,18 +102,19 @@ class ContainerController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function restartAction(string $id): ResponseInterface
+    public function restartAction(): ResponseInterface
     {
-        /** @var Beanstalk $queue */
-        $queue = DIFactory::getDI()->get(DI::QUEUE);
-        $queue->put([
-            'action' => 'restartAction',
-            'data' => $id
-        ]);
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            /** @var Beanstalk $queue */
+            $queue = DIFactory::getDI()->get(DI::QUEUE);
+            $queue->put([
+                'action' => 'restartAction',
+                'data' => $id
+            ]);
+        }
         $this->response->setJsonContent([
             'status' => 'success',
             'message' => 'Action sent to queue'
@@ -124,13 +124,14 @@ class ContainerController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function removeAction(string $id): ResponseInterface
+    public function removeAction(): ResponseInterface
     {
-        $this->docker->ContainerResource()->containerDelete($id);
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            $this->docker->ContainerResource()->containerDelete($id);
+        }
         $this->response->setJsonContent([
             'status' => 'success'
         ]);

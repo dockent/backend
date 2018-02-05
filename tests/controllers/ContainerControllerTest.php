@@ -5,6 +5,7 @@ namespace Dockent\Tests\controllers;
 use Dockent\components\DI as DIFactory;
 use Dockent\controllers\ContainerController;
 use Dockent\enums\DI;
+use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Http\ResponseInterface;
 
@@ -26,6 +27,9 @@ class ContainerControllerTest extends ControllerTestCase
         $this->instance->beforeExecuteRoute();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexAction()
     {
         $result = $this->instance->indexAction();
@@ -33,6 +37,9 @@ class ContainerControllerTest extends ControllerTestCase
         $this->assertThat($result->getContent(), $this->isJson());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateActionWithErrors()
     {
         $result = $this->instance->createAction();
@@ -46,6 +53,9 @@ class ContainerControllerTest extends ControllerTestCase
         $this->assertNotEmpty($encodedResult['errors']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateActionWithoutErrors()
     {
         $_POST = [
@@ -61,9 +71,16 @@ class ContainerControllerTest extends ControllerTestCase
         $this->assertEquals('Action sent to queue', $encodedResult['message']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testStartAction()
     {
-        $result = $this->instance->startAction('start_action');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->startAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -72,20 +89,15 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Phalcon\Http\Request\Exception
+     * @throws \Exception
      */
-    public function testStartActionBulk()
-    {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('start');
-    }
-
     public function testStopAction()
     {
-        $result = $this->instance->stopAction('stop_action');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->stopAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -96,20 +108,15 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Phalcon\Http\Request\Exception
+     * @throws \Exception
      */
-    public function testStopActionBulk()
-    {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('stop');
-    }
-
     public function testRestartAction()
     {
-        $result = $this->instance->restartAction('restart_action');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->restartAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -120,20 +127,15 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Phalcon\Http\Request\Exception
+     * @throws \Exception
      */
-    public function testRestartActionBulk()
-    {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('restart');
-    }
-
     public function testRemoveAction()
     {
-        $result = $this->instance->removeAction('remove_action');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->removeAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -142,17 +144,8 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Phalcon\Http\Request\Exception
+     * @throws \Exception
      */
-    public function testRemoveActionBulk()
-    {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('remove');
-    }
-
     public function testViewAction()
     {
         $result = $this->instance->viewAction('view_action');
@@ -163,6 +156,9 @@ class ContainerControllerTest extends ControllerTestCase
         $this->assertArrayHasKey('model', $encodedResult);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testRenameActionWithErrors()
     {
         $result = $this->instance->renameAction('rename_action');
@@ -176,6 +172,9 @@ class ContainerControllerTest extends ControllerTestCase
         $this->assertNotEmpty($encodedResult['errors']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testRenameActionWithoutErrors()
     {
         $_POST = [
@@ -189,6 +188,9 @@ class ContainerControllerTest extends ControllerTestCase
         $this->assertEquals('success', $encodedResult['status']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
@@ -198,17 +200,6 @@ class ContainerControllerTest extends ControllerTestCase
             $method = $annotationsAdapter->getMethod(ContainerController::class, $methodName);
             $this->assertTrue($method->has('Method'));
             $this->assertEquals(['POST'], $method->get('Method')->getArguments());
-        }
-    }
-
-    public function testBulkAnnotations()
-    {
-        /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
-        $methods = ['startAction', 'stopAction', 'restartAction', 'removeAction'];
-        foreach ($methods as $methodName) {
-            $method = $annotationsAdapter->getMethod(ContainerController::class, $methodName);
-            $this->assertTrue($method->has('Bulk'));
         }
     }
 

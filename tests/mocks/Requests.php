@@ -14,6 +14,11 @@ class Requests
     private $currentMethod = 'GET';
 
     /**
+     * @var null|string
+     */
+    private $rawBody = null;
+
+    /**
      * @return bool
      */
     public function isGet(): bool
@@ -75,5 +80,30 @@ class Requests
             return $_POST;
         }
         return $_POST[$var];
+    }
+
+    /**
+     * @param string $body
+     */
+    public function setRawBody(string $body)
+    {
+        $this->rawBody = $body;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRawBody()
+    {
+        return $this->rawBody;
+    }
+
+    /**
+     * @param bool $associative
+     * @return array|\stdClass
+     */
+    public function getJsonRawBody(bool $associative = false)
+    {
+        return json_decode($this->rawBody, $associative);
     }
 }
