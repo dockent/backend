@@ -41,7 +41,7 @@ class ContainerController extends Controller
     public function createAction(): ResponseInterface
     {
         $model = new CreateContainer();
-        $model->assign($this->request->getPost());
+        $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
