@@ -34,15 +34,16 @@ class ImageController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function removeAction(string $id): ResponseInterface
+    public function removeAction(): ResponseInterface
     {
-        try {
-            $this->docker->ImageResource()->imageDelete($id);
-        } catch (\Exception $e) {
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            try {
+                $this->docker->ImageResource()->imageDelete($id);
+            } catch (\Exception $e) {
+            }
         }
         $this->response->setJsonContent(['status' => 'success']);
 
@@ -50,13 +51,14 @@ class ImageController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function forceRemoveAction(string $id): ResponseInterface
+    public function forceRemoveAction(): ResponseInterface
     {
-        $this->docker->ImageResource()->imageDelete($id, ['force' => true]);
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            $this->docker->ImageResource()->imageDelete($id, ['force' => true]);
+        }
         $this->response->setJsonContent(['status' => 'success']);
 
         return $this->response;

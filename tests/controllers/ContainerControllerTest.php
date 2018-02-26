@@ -207,9 +207,4 @@ class ContainerControllerTest extends ControllerTestCase
             $this->assertEquals(['POST'], $method->get('Method')->getArguments());
         }
     }
-
-    public function tearDown()
-    {
-        $_POST = [];
-    }
 }

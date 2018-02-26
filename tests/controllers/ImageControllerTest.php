@@ -5,6 +5,7 @@ namespace Dockent\Tests\controllers;
 use Dockent\components\DI as DIFactory;
 use Dockent\controllers\ImageController;
 use Dockent\enums\DI;
+use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Http\ResponseInterface;
 
@@ -26,6 +27,9 @@ class ImageControllerTest extends ControllerTestCase
         $this->instance->beforeExecuteRoute();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexAction()
     {
         $result = $this->instance->indexAction();
@@ -33,9 +37,16 @@ class ImageControllerTest extends ControllerTestCase
         $this->assertThat($result->getContent(), $this->isJson());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testRemoveAction()
     {
-        $result = $this->instance->removeAction('remove_action');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["remove_action"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->removeAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -43,9 +54,16 @@ class ImageControllerTest extends ControllerTestCase
         $this->assertEquals('success', $encodedResult['status']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testRemoveActionWithException()
     {
-        $result = $this->instance->removeAction('exception');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["exception"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->removeAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -54,52 +72,19 @@ class ImageControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Phalcon\Http\Request\Exception
+     * @throws \Exception
      */
-    public function testRemoveActionBulk()
-    {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('remove');
-    }
-
     public function testForceRemoveAction()
     {
-        $result = $this->instance->forceRemoveAction('force_remove_action');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["remove_action"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->forceRemoveAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
         $this->assertArrayHasKey('status', $encodedResult);
         $this->assertEquals('success', $encodedResult['status']);
-    }
-
-    /**
-     * @throws \Phalcon\Http\Request\Exception
-     */
-    public function testForceRemoveActionBulk()
-    {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('forceRemove');
-    }
-
-    public function testBulkAnnotations()
-    {
-        /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
-        $methods = ['removeAction', 'forceRemoveAction'];
-        foreach ($methods as $methodName) {
-            $method = $annotationsAdapter->getMethod(ImageController::class, $methodName);
-            $this->assertTrue($method->has('Bulk'));
-        }
-    }
-
-    public function tearDown()
-    {
-        $_POST = [];
     }
 }
