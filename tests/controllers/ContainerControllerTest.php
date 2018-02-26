@@ -42,6 +42,10 @@ class ContainerControllerTest extends ControllerTestCase
      */
     public function testCreateActionWithErrors()
     {
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{}');
+        $this->instance->request = $request;
         $result = $this->instance->createAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -58,9 +62,10 @@ class ContainerControllerTest extends ControllerTestCase
      */
     public function testCreateActionWithoutErrors()
     {
-        $_POST = [
-            'Image' => 'busybox'
-        ];
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"Image":"busybox"}');
+        $this->instance->request = $request;
         $result = $this->instance->createAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
