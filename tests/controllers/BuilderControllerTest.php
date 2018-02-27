@@ -5,6 +5,7 @@ namespace Dockent\Tests\controllers;
 use Dockent\components\DI as DIFactory;
 use Dockent\controllers\BuilderController;
 use Dockent\enums\DI;
+use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Http\ResponseInterface;
 
@@ -26,8 +27,15 @@ class BuilderControllerTest extends ControllerTestCase
         $this->instance->beforeExecuteRoute();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testBuildByDockerfilePathActionWithErrors()
     {
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{}');
+        $this->instance->request = $request;
         $result = $this->instance->buildByDockerfilePathAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -39,11 +47,18 @@ class BuilderControllerTest extends ControllerTestCase
         $this->assertNotEmpty($encodedResult['errors']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testBuildByDockerfilePathActionWithoutErrors()
     {
-        $_POST = [
+        $data = [
             'dockerfilePath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dummy'
         ];
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody(json_encode($data));
+        $this->instance->request = $request;
         $result = $this->instance->buildByDockerfilePathAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -54,8 +69,15 @@ class BuilderControllerTest extends ControllerTestCase
         $this->assertEquals('Action sent to queue', $encodedResult['message']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testBuildByDockerfileBodyActionWithErrors()
     {
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{}');
+        $this->instance->request = $request;
         $result = $this->instance->buildByDockerfileBodyAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -67,11 +89,18 @@ class BuilderControllerTest extends ControllerTestCase
         $this->assertNotEmpty($encodedResult['errors']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testBuildByDockerfileBodyActionWithoutErrors()
     {
-        $_POST = [
+        $data = [
             'dockerfileBody' => 'FROM busybox'
         ];
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody(json_encode($data));
+        $this->instance->request = $request;
         $result = $this->instance->buildByDockerfileBodyAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -82,6 +111,9 @@ class BuilderControllerTest extends ControllerTestCase
         $this->assertEquals('Action sent to queue', $encodedResult['message']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexActionWithErrors()
     {
         $result = $this->instance->indexAction();
@@ -95,6 +127,9 @@ class BuilderControllerTest extends ControllerTestCase
         $this->assertNotEmpty($encodedResult['errors']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexActionWithoutErrors()
     {
         $_POST = [
@@ -110,6 +145,9 @@ class BuilderControllerTest extends ControllerTestCase
         $this->assertEquals('Action sent to queue', $encodedResult['message']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */

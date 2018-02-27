@@ -31,7 +31,7 @@ class BuilderController extends Controller
     public function buildByDockerfilePathAction(): ResponseInterface
     {
         $model = new BuildImageByDockerfilePath();
-        $model->assign($this->request->getPost());
+        $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
@@ -60,7 +60,7 @@ class BuilderController extends Controller
     public function buildByDockerfileBodyAction(): ResponseInterface
     {
         $model = new BuildImageByDockerfileBody();
-        $model->assign($this->request->getPost());
+        $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
