@@ -33,15 +33,16 @@ class NetworkController extends Controller
     }
 
     /**
-     * @Bulk
-     * @param string $id
      * @return ResponseInterface
      */
-    public function removeAction(string $id): ResponseInterface
+    public function removeAction(): ResponseInterface
     {
-        try {
-            $this->docker->NetworkResource()->networkDelete($id);
-        } catch (\Exception $e) {
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            try {
+                $this->docker->NetworkResource()->networkDelete($id);
+            } catch (\Exception $e) {
+            }
         }
         $this->response->setJsonContent(['status' => 'success']);
 

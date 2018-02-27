@@ -157,28 +157,4 @@ class ContainerController extends Controller
 
         return $this->response;
     }
-
-    /**
-     * @Method(POST)
-     * @param string $id
-     * @return ResponseInterface
-     */
-    public function renameAction(string $id): ResponseInterface
-    {
-        $model = new RenameContainer();
-        $model->assign($this->request->getPost());
-        if ($model->validate()) {
-            $this->docker->ContainerResource()->containerRename($id, ['name' => $model->getName()]);
-            $this->response->setJsonContent([
-                'status' => 'success'
-            ]);
-        } else {
-            $this->response->setJsonContent([
-                'status' => 'error',
-                'errors' => $model->getErrors()
-            ]);
-        }
-
-        return $this->response;
-    }
 }

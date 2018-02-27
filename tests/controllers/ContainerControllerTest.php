@@ -164,43 +164,11 @@ class ContainerControllerTest extends ControllerTestCase
     /**
      * @throws \Exception
      */
-    public function testRenameActionWithErrors()
-    {
-        $result = $this->instance->renameAction('rename_action');
-        $this->assertInstanceOf(ResponseInterface::class, $result);
-        $this->assertThat($result->getContent(), $this->isJson());
-        $encodedResult = json_decode($result->getContent(), true);
-        $this->assertArrayHasKey('status', $encodedResult);
-        $this->assertEquals('error', $encodedResult['status']);
-        $this->assertArrayHasKey('errors', $encodedResult);
-        $this->assertInternalType('array', $encodedResult['errors']);
-        $this->assertNotEmpty($encodedResult['errors']);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function testRenameActionWithoutErrors()
-    {
-        $_POST = [
-            'name' => 'test'
-        ];
-        $result = $this->instance->renameAction('rename_action');
-        $this->assertInstanceOf(ResponseInterface::class, $result);
-        $this->assertThat($result->getContent(), $this->isJson());
-        $encodedResult = json_decode($result->getContent(), true);
-        $this->assertArrayHasKey('status', $encodedResult);
-        $this->assertEquals('success', $encodedResult['status']);
-    }
-
-    /**
-     * @throws \Exception
-     */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
         $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
-        $methods = ['createAction', 'renameAction'];
+        $methods = ['createAction'];
         foreach ($methods as $methodName) {
             $method = $annotationsAdapter->getMethod(ContainerController::class, $methodName);
             $this->assertTrue($method->has('Method'));

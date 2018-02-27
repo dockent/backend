@@ -89,13 +89,13 @@ class BuilderController extends Controller
     public function indexAction(): ResponseInterface
     {
         $model = new DockerfileBuilder();
-        $model->assign($this->request->getPost());
+        $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
             /** @var Beanstalk $queue */
             $queue = DIFactory::getDI()->get(DI::QUEUE);
             $queue->put([
                 'action' => 'buildByContext',
-                'data' => $this->request->getPost()
+                'data' => $this->request->getJsonRawBody(true)
             ]);
             $this->response->setJsonContent([
                 'status' => 'success',

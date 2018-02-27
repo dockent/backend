@@ -5,6 +5,7 @@ namespace Dockent\Tests\controllers;
 use Dockent\components\DI as DIFactory;
 use Dockent\controllers\NetworkController;
 use Dockent\enums\DI;
+use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Http\ResponseInterface;
 
@@ -26,6 +27,9 @@ class NetworkControllerTest extends ControllerTestCase
         $this->instance->beforeExecuteRoute();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexAction()
     {
         $result = $this->instance->indexAction();
@@ -33,19 +37,16 @@ class NetworkControllerTest extends ControllerTestCase
         $this->assertThat($result->getContent(), $this->isJson());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testRemoveAction()
     {
-        $result = $this->instance->removeAction('remove_action');
-        $this->assertInstanceOf(ResponseInterface::class, $result);
-        $this->assertThat($result->getContent(), $this->isJson());
-        $encodedResult = json_decode($result->getContent(), true);
-        $this->assertArrayHasKey('status', $encodedResult);
-        $this->assertEquals('success', $encodedResult['status']);
-    }
-
-    public function testRemoveActionWithException()
-    {
-        $result = $this->instance->removeAction('exception');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["remove_action"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->removeAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
@@ -54,17 +55,25 @@ class NetworkControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Phalcon\Http\Request\Exception
+     * @throws \Exception
      */
-    public function testRemoveActionBulk()
+    public function testRemoveActionWithException()
     {
-        $_POST = [
-            'id' => [1]
-        ];
-        $this->expectOutputString('');
-        $this->instance->bulkAction('remove');
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":["exception"]}');
+        $this->instance->request = $request;
+        $result = $this->instance->removeAction();
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertThat($result->getContent(), $this->isJson());
+        $encodedResult = json_decode($result->getContent(), true);
+        $this->assertArrayHasKey('status', $encodedResult);
+        $this->assertEquals('success', $encodedResult['status']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testViewAction()
     {
         $result = $this->instance->viewAction('view_action');
@@ -72,6 +81,9 @@ class NetworkControllerTest extends ControllerTestCase
         $this->assertThat($result->getContent(), $this->isJson());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateActionWithErrors()
     {
         $result = $this->instance->createAction();
@@ -85,6 +97,9 @@ class NetworkControllerTest extends ControllerTestCase
         $this->assertNotEmpty($encodedResult['errors']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateActionWithoutErrors()
     {
         $_POST = [
@@ -98,6 +113,9 @@ class NetworkControllerTest extends ControllerTestCase
         $this->assertEquals('success', $encodedResult['status']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
@@ -108,21 +126,5 @@ class NetworkControllerTest extends ControllerTestCase
             $this->assertTrue($method->has('Method'));
             $this->assertEquals(['POST'], $method->get('Method')->getArguments());
         }
-    }
-
-    public function testBulkAnnotations()
-    {
-        /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
-        $methods = ['removeAction'];
-        foreach ($methods as $methodName) {
-            $method = $annotationsAdapter->getMethod(NetworkController::class, $methodName);
-            $this->assertTrue($method->has('Bulk'));
-        }
-    }
-
-    public function tearDown()
-    {
-        $_POST = [];
     }
 }

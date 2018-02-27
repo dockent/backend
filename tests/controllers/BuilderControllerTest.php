@@ -116,6 +116,10 @@ class BuilderControllerTest extends ControllerTestCase
      */
     public function testIndexActionWithErrors()
     {
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{}');
+        $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -132,9 +136,13 @@ class BuilderControllerTest extends ControllerTestCase
      */
     public function testIndexActionWithoutErrors()
     {
-        $_POST = [
+        $data = [
             'from' => 'busybox'
         ];
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody(json_encode($data));
+        $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
