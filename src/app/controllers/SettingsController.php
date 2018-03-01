@@ -37,7 +37,7 @@ class SettingsController extends Controller
     {
         $model = new Settings();
         if ($this->request->isPost()) {
-            $model->assign($this->request->getPost());
+            $model->assign($this->request->getJsonRawBody(true));
             if ($model->save()) {
                 $this->response->setJsonContent(['status' => 'success']);
             } else {
@@ -51,7 +51,7 @@ class SettingsController extends Controller
         }
 
         $this->response->setJsonContent([
-            'config' => $model
+            'model' => $model
         ]);
 
         return $this->response;

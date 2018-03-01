@@ -53,20 +53,27 @@ class SettingsControllerTest extends ControllerTestCase
         $this->instance->beforeExecuteRoute();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexAction()
     {
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);
-        $this->assertArrayHasKey('config', $encodedResult);
+        $this->assertArrayHasKey('model', $encodedResult);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexActionPostWithoutErrors()
     {
         /** @var Requests $request */
         $request = DIFactory::getDI()->get(DI::REQUEST);
         $request->setPost();
+        $request->setRawBody('{}');
         $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
@@ -76,14 +83,15 @@ class SettingsControllerTest extends ControllerTestCase
         $this->assertEquals('success', $encodedResult['status']);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIndexActionPostWithErrors()
     {
-        $_POST = [
-            'beanstalkHost' => ''
-        ];
         /** @var Requests $request */
         $request = DIFactory::getDI()->get(DI::REQUEST);
         $request->setPost();
+        $request->setRawBody('{"beanstalkHost":""}');
         $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
