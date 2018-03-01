@@ -67,7 +67,7 @@ class NetworkController extends Controller
     public function createAction(): ResponseInterface
     {
         $model = new CreateNetwork();
-        $model->assign($this->request->getPost());
+        $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
             $this->docker->NetworkResource()->networkCreate($model->getAttributesAsArray());
             $this->response->setJsonContent([

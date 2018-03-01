@@ -86,6 +86,10 @@ class NetworkControllerTest extends ControllerTestCase
      */
     public function testCreateActionWithErrors()
     {
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{}');
+        $this->instance->request = $request;
         $result = $this->instance->createAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
@@ -102,9 +106,10 @@ class NetworkControllerTest extends ControllerTestCase
      */
     public function testCreateActionWithoutErrors()
     {
-        $_POST = [
-            'Name' => 'test'
-        ];
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"Name": "test"}');
+        $this->instance->request = $request;
         $result = $this->instance->createAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
