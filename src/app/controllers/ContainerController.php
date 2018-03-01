@@ -8,13 +8,13 @@
 
 namespace Dockent\controllers;
 
-use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
 use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
 use Dockent\models\RenameContainer;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Queue\Beanstalk;
 
 /**
@@ -23,118 +23,138 @@ use Phalcon\Queue\Beanstalk;
  */
 class ContainerController extends Controller
 {
-    use BulkAction;
-
-    public function indexAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function indexAction(): ResponseInterface
     {
         $containers = $this->docker->ContainerResource()->containerList(['all' => true]);
-        $this->view->setVars([
-            'containers' => json_decode($containers)
-        ]);
+        $this->response->setContent($containers);
+
+        return $this->response;
     }
 
-    public function createAction()
+    /**
+     * @Method(POST)
+     * @return ResponseInterface
+     */
+    public function createAction(): ResponseInterface
     {
         $model = new CreateContainer();
-        if ($this->request->isPost()) {
-            $model->assign($this->request->getPost());
-            if ($model->validate()) {
-                /** @var Beanstalk $queue */
-                $queue = DIFactory::getDI()->get(DI::QUEUE);
-                $queue->put([
-                    'action' => 'createContainer',
-                    'data' => $model
-                ]);
-                $this->response->redirect('index');
-            }
+        $model->assign($this->request->getJsonRawBody(true));
+        if ($model->validate()) {
+            /** @var Beanstalk $queue */
+            $queue = DIFactory::getDI()->get(DI::QUEUE);
+            $queue->put([
+                'action' => 'createContainer',
+                'data' => $model
+            ]);
+            $this->response->setJsonContent([
+                'status' => 'success',
+                'message' => 'Action sent to queue'
+            ]);
+        } else {
+            $this->response->setJsonContent([
+                'status' => 'error',
+                'errors' => $model->getErrors()
+            ]);
         }
-        $this->view->setVars([
-            'model' => $model
+
+        return $this->response;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function startAction(): ResponseInterface
+    {
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            $this->docker->ContainerResource()->containerStart($id);
+        }
+        $this->response->setJsonContent([
+            'status' => 'success'
         ]);
+
+        return $this->response;
     }
 
     /**
-     * @param string $id
-     * @Bulk
+     * @return ResponseInterface
      */
-    public function startAction(string $id)
+    public function stopAction(): ResponseInterface
     {
-        $this->docker->ContainerResource()->containerStart($id);
-        $this->redirect('/container');
-    }
-
-    /**
-     * @param string $id
-     * @Bulk
-     */
-    public function stopAction(string $id)
-    {
-        /** @var Beanstalk $queue */
-        $queue = DIFactory::getDI()->get(DI::QUEUE);
-        $queue->put([
-            'action' => 'stopContainer',
-            'data' => $id
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            /** @var Beanstalk $queue */
+            $queue = DIFactory::getDI()->get(DI::QUEUE);
+            $queue->put([
+                'action' => 'stopContainer',
+                'data' => $id
+            ]);
+        }
+        $this->response->setJsonContent([
+            'status' => 'success',
+            'message' => 'Action sent to queue'
         ]);
-        $this->redirect('/container');
+
+        return $this->response;
     }
 
     /**
-     * @param string $id
-     * @Bulk
+     * @return ResponseInterface
      */
-    public function restartAction(string $id)
+    public function restartAction(): ResponseInterface
     {
-        /** @var Beanstalk $queue */
-        $queue = DIFactory::getDI()->get(DI::QUEUE);
-        $queue->put([
-            'action' => 'restartAction',
-            'data' => $id
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            /** @var Beanstalk $queue */
+            $queue = DIFactory::getDI()->get(DI::QUEUE);
+            $queue->put([
+                'action' => 'restartAction',
+                'data' => $id
+            ]);
+        }
+        $this->response->setJsonContent([
+            'status' => 'success',
+            'message' => 'Action sent to queue'
         ]);
-        $this->redirect('/container');
+
+        return $this->response;
     }
 
     /**
-     * @param string $id
-     * @Bulk
+     * @return ResponseInterface
      */
-    public function removeAction(string $id)
+    public function removeAction(): ResponseInterface
     {
-        $this->docker->ContainerResource()->containerDelete($id);
-        $this->redirect('/container');
+        $data = $this->request->getJsonRawBody(true);
+        foreach ($data['id'] as $id) {
+            $this->docker->ContainerResource()->containerDelete($id);
+        }
+        $this->response->setJsonContent([
+            'status' => 'success'
+        ]);
+
+        return $this->response;
     }
 
     /**
      * @param string $id
+     * @return ResponseInterface
      */
-    public function viewAction(string $id)
+    public function viewAction(string $id): ResponseInterface
     {
         $top = null;
         $model = json_decode($this->docker->ContainerResource()->containerInspect($id));
         if ($model->State->Status === ContainerState::RUNNING) {
             $top = json_decode($this->docker->ContainerResource()->containerTop($id));
         }
-        $this->view->setVars([
+        $this->response->setJsonContent([
             'top' => $top,
             'model' => $model
         ]);
-    }
 
-    /**
-     * @param string $id
-     */
-    public function renameAction(string $id)
-    {
-        $model = new RenameContainer();
-        if ($this->request->isPost()) {
-            $model->assign($this->request->getPost());
-            if ($model->validate()) {
-                $this->docker->ContainerResource()->containerRename($id, ['name' => $model->getName()]);
-                $this->redirect('/container');
-            }
-        }
-        $model->map(json_decode($this->docker->ContainerResource()->containerInspect($id)));
-        $this->view->setVars([
-            'model' => $model
-        ]);
+        return $this->response;
     }
 }

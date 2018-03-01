@@ -14,7 +14,8 @@
     "ext-phalcon": ">=3.2",
     "ext-yaml": "*",
     "dockent/connector": "master",
-    "vados/phalcon-tcplogger": "dev-master"
+    "vados/phalcon-tcplogger": "dev-master",
+    "vados/phalcon-http-methods-plugin": "dev-master"
   },
   "require-dev": {
     "phalcon/ide-stubs": "v3.2.1",

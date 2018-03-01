@@ -10,6 +10,8 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\models\Settings;
+use Phalcon\Http\Request\Exception;
+use Phalcon\Http\ResponseInterface;
 
 /**
  * Class SettingsController
@@ -17,26 +19,41 @@ use Dockent\models\Settings;
  */
 class SettingsController extends Controller
 {
+    /**
+     * @throws Exception
+     */
     public function beforeExecuteRoute()
     {
         parent::beforeExecuteRoute();
         if (!static::$DEBUG_MODE) {
-            $this->redirect('/');
+            throw new Exception('Page not found', 404);
         }
     }
 
-    public function indexAction()
+    /**
+     * @return ResponseInterface
+     */
+    public function indexAction(): ResponseInterface
     {
         $model = new Settings();
         if ($this->request->isPost()) {
-            $model->assign($this->request->getPost());
+            $model->assign($this->request->getJsonRawBody(true));
             if ($model->save()) {
-                $this->redirect('/');
+                $this->response->setJsonContent(['status' => 'success']);
+            } else {
+                $this->response->setJsonContent([
+                    'status' => 'error',
+                    'errors' => $model->getErrors()
+                ]);
             }
+
+            return $this->response;
         }
 
-        $this->view->setVars([
-            'config' => $model
+        $this->response->setJsonContent([
+            'model' => $model
         ]);
+
+        return $this->response;
     }
 }

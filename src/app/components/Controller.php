@@ -11,6 +11,7 @@ namespace Dockent\components;
 use Dockent\components\DI as DIFactory;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
+use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Mvc\Controller as PhalconController;
 
 /**
@@ -33,14 +34,6 @@ class Controller extends PhalconController
     {
         $this->docker = DIFactory::getDI()->get(DI::DOCKER);
         static::$DEBUG_MODE = (bool)getenv('DOCKENT_DEBUG');
-    }
-
-    /**
-     * @param string $url
-     */
-    public function redirect(string $url)
-    {
-        http_response_code(302);
-        header("Location: $url");
+        $this->response->setHeader('Access-Control-Allow-Origin', '*');
     }
 }

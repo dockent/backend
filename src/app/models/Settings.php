@@ -20,7 +20,7 @@ use Dockent\components\DI as DIFactory;
  * Class Settings
  * @package Dockent\models
  */
-class Settings extends FormModel
+class Settings extends FormModel implements \JsonSerializable
 {
     /**
      * @var string
@@ -102,5 +102,16 @@ class Settings extends FormModel
     public function setBeanstalkPort(int $beanstalkPort): void
     {
         $this->beanstalkPort = $beanstalkPort;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'beanstalkHost' => $this->getBeanstalkHost(),
+            'beanstalkPort' => $this->getBeanstalkPort()
+        ];
     }
 }

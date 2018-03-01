@@ -20,4 +20,5 @@ final class DI
     const ANNOTATIONS = 'annotations';
     const LOGGER = 'logger';
     const REQUEST = 'request';
+    const EVENTS_MANAGER = 'eventsManager';
 }
