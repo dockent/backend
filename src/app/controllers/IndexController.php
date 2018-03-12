@@ -13,7 +13,10 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        /** Just render default view */
+        $assetManifest = json_decode(file_get_contents(__DIR__ . '/../../asset-manifest.json'));
+        $this->view->setVars([
+            'assetManifest' => $assetManifest
+        ]);
     }
 
     /**

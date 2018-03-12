@@ -13,6 +13,7 @@
     "php": ">=7.1.0",
     "ext-phalcon": ">=3.2",
     "ext-yaml": "*",
+    "ext-zip": "*",
     "dockent/connector": "master",
     "vados/phalcon-tcplogger": "dev-master",
     "vados/phalcon-http-methods-plugin": "dev-master"
@@ -30,11 +31,13 @@
   "autoload": {
     "psr-4": {
       "Dockent\\": "src/app/",
-      "Dockent\\Tests\\": "tests/"
+      "Dockent\\Tests\\": "tests/",
+      "Dockent\\ci\\": "ci/"
     }
   },
   "scripts": {
     "test": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
-    "testsCoverage": "vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html tests/coverage/ --whitelist src/app/ tests/"
+    "testsCoverage": "vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html tests/coverage/ --whitelist src/app/ tests/",
+    "post-update-cmd": ["Dockent\\ci\\Frontend::download"]
   }
 }
