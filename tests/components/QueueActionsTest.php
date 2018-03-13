@@ -6,6 +6,7 @@ use Dockent\components\DI as DIFactory;
 use Dockent\components\QueueActions;
 use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
+use Dockent\models\DockerfileBuilder;
 use Dockent\Tests\mocks\Connector;
 use PHPUnit\Framework\TestCase;
 
@@ -71,6 +72,6 @@ class QueueActionsTest extends TestCase
     public function testBuildByContext()
     {
         $this->expectOutputString('');
-        QueueActions::buildByContext([]);
+        QueueActions::buildByContext(new DockerfileBuilder());
     }
 }

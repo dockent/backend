@@ -5,6 +5,7 @@ namespace Dockent\Tests\components;
 use Dockent\components\DI as DIFactory;
 use Dockent\components\Docker;
 use Dockent\enums\DI;
+use Dockent\models\DockerfileBuilder;
 use Dockent\Tests\dataProviders\DockerfileBody;
 use Dockent\Tests\mocks\Connector;
 use PHPUnit\Framework\TestCase;
@@ -25,10 +26,10 @@ class DockerTest extends TestCase
 
     /**
      * @dataProvider dataProviderGenerateBody
-     * @param array $parameters
+     * @param DockerfileBuilder $parameters
      * @param string $body
      */
-    public function testGenerateBody(array $parameters, string $body)
+    public function testGenerateBody(DockerfileBuilder $parameters, string $body)
     {
         $this->assertEquals($body, Docker::generateBody($parameters));
     }

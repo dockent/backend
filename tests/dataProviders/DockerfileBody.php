@@ -1,6 +1,7 @@
 <?php
 
 namespace Dockent\Tests\dataProviders;
+use Dockent\models\DockerfileBuilder;
 
 /**
  * Trait DockerfileBody
@@ -39,7 +40,6 @@ DOCKER;
 
         $thirdBody = <<<DOCKER
 FROM busybox
-
 RUN apt-get update
 RUN apt-get install nginx
 CMD /bin/sh
@@ -50,7 +50,7 @@ DOCKER;
 
         return [
             [
-                [
+                (new DockerfileBuilder())->assign([
                     'from' => 'busybox',
                     'run' => 'apt-get update',
                     'cmd' => '/bin/sh',
@@ -60,9 +60,9 @@ DOCKER;
                     'copy' => 'run.sh /',
                     'volume' => '/var/www',
                     'workdir' => '/var/www'
-                ], $firstBody
+                ]), $firstBody
             ], [
-                [
+                (new DockerfileBuilder())->assign([
                     'from' => 'busybox',
                     'run' => "apt-get update\napt-get install nginx",
                     'cmd' => '/bin/sh',
@@ -72,16 +72,27 @@ DOCKER;
                     'copy' => "run.sh /\nsetup.sh /",
                     'volume' => '/var/www,/var/settings',
                     'workdir' => '/var/www'
-                ], $secondBody
+                ]), $secondBody
             ], [
-                [
+                (new DockerfileBuilder())->assign([
                     'from' => 'busybox',
                     'run' => "apt-get update\napt-get install nginx",
                     'cmd' => '/bin/sh',
                     'expose' => '80',
                     'env' => "ENVIRONMENT stage",
                     'volume' => '/var/www'
-                ], $thirdBody
+                ]), $thirdBody
+            ],
+            [
+                (new DockerfileBuilder())->assign([
+                    'from' => 'busybox',
+                    'run' => "apt-get update\napt-get install nginx",
+                    'cmd' => '/bin/sh',
+                    'expose' => '80',
+                    'env' => "ENVIRONMENT stage",
+                    'add' => '',
+                    'volume' => '/var/www'
+                ]), $thirdBody
             ]
         ];
     }

@@ -95,7 +95,7 @@ class BuilderController extends Controller
             $queue = DIFactory::getDI()->get(DI::QUEUE);
             $queue->put([
                 'action' => 'buildByContext',
-                'data' => $this->request->getJsonRawBody(true)
+                'data' => $model
             ]);
             $this->response->setJsonContent([
                 'status' => 'success',

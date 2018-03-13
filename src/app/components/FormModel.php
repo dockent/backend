@@ -38,8 +38,9 @@ abstract class FormModel
 
     /**
      * @param array $inputs
+     * @return FormModel
      */
-    public function assign(array $inputs)
+    public function assign(array $inputs): FormModel
     {
         foreach ($inputs as $input => $value) {
             if (property_exists($this, $input)) {
@@ -51,6 +52,7 @@ abstract class FormModel
                 }
             }
         }
+        return $this;
     }
 
     /**
