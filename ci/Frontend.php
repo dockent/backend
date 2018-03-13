@@ -12,11 +12,13 @@ class Frontend
     const RUNTIME_DIR = __DIR__ . '/../runtime';
     const DESTINATION_DIR = __DIR__ . '/../src';
 
+    /**
+     * Download latest master build and put it to working directory
+     */
     public static function download()
     {
         require_once __DIR__ . '/../src/app/components/functions.php';
 
-        echo self::FE_BUILD_URL . PHP_EOL;
         if (!is_dir(self::RUNTIME_DIR)) {
             mkdir(self::RUNTIME_DIR);
         }

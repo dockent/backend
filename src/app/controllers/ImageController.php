@@ -8,7 +8,6 @@
 
 namespace Dockent\controllers;
 
-use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\models\BuildImageByDockerfileBody;
 use Dockent\models\BuildImageByDockerfilePath;
@@ -20,8 +19,6 @@ use Phalcon\Http\ResponseInterface;
  */
 class ImageController extends Controller
 {
-    use BulkAction;
-
     /**
      * @return ResponseInterface
      */

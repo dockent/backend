@@ -19,7 +19,6 @@ require __DIR__ . '/bootstrap.php';
 $queue = DIFactory::getDI()->get(DI::QUEUE);
 while (($job = $queue->reserve()) !== false) {
     $message = $job->getBody();
-    print_r($message['action'] . PHP_EOL);
     try {
         $action = $message['action'];
         QueueActions::$action($message['data']);
@@ -28,6 +27,7 @@ while (($job = $queue->reserve()) !== false) {
         /** @var LoggerInterface $logger */
         $logger = DIFactory::getDI()->get(DI::LOGGER);
         $logger->error($e->getMessage(), $e->getTrace());
+        echo $message['action'] . PHP_EOL;
         echo $e->getMessage() . PHP_EOL;
         $job->delete();
     }
