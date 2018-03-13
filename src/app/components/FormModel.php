@@ -43,7 +43,7 @@ abstract class FormModel
     public function assign(array $inputs): FormModel
     {
         foreach ($inputs as $input => $value) {
-            if (property_exists($this, $input)) {
+            if (property_exists($this, $input) && (is_bool($value) || $value)) {
                 $methodName = 'set' . ucfirst($input);
                 if (method_exists($this, $methodName)) {
                     $this->$methodName($value);
