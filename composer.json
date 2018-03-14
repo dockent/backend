@@ -36,8 +36,8 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
-    "testsCoverage": "vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html tests/coverage/ --whitelist src/app/ tests/",
+    "test": "vendor/bin/phpunit --bootstrap src/bootstrap.php tests/",
+    "testsCoverage": "vendor/bin/phpunit --bootstrap src/bootstrap.php --coverage-html tests/coverage/ --whitelist src/app/ tests/",
     "post-update-cmd": ["Dockent\\ci\\Frontend::download"]
   }
 }

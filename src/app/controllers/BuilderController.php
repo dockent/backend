@@ -10,7 +10,6 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
-use Dockent\components\HTTPMethods;
 use Dockent\enums\DI;
 use Dockent\models\BuildImageByDockerfileBody;
 use Dockent\models\BuildImageByDockerfilePath;
@@ -95,7 +94,7 @@ class BuilderController extends Controller
             $queue = DIFactory::getDI()->get(DI::QUEUE);
             $queue->put([
                 'action' => 'buildByContext',
-                'data' => $this->request->getJsonRawBody(true)
+                'data' => $model
             ]);
             $this->response->setJsonContent([
                 'status' => 'success',

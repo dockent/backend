@@ -84,7 +84,7 @@ class CreateNetwork extends FormModel
     /**
      * @param string $Name
      */
-    public function setName(string $Name): void
+    public function setName(string $Name)
     {
         $this->Name = $Name;
     }
@@ -100,7 +100,7 @@ class CreateNetwork extends FormModel
     /**
      * @param string $Driver
      */
-    public function setDriver(string $Driver): void
+    public function setDriver(string $Driver)
     {
         $this->Driver = $Driver;
     }
@@ -116,7 +116,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $CheckDuplicate
      */
-    public function setCheckDuplicate(bool $CheckDuplicate): void
+    public function setCheckDuplicate(bool $CheckDuplicate)
     {
         $this->CheckDuplicate = $CheckDuplicate;
     }
@@ -132,7 +132,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $Internal
      */
-    public function setInternal(bool $Internal): void
+    public function setInternal(bool $Internal)
     {
         $this->Internal = $Internal;
     }
@@ -148,7 +148,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $Attachable
      */
-    public function setAttachable(bool $Attachable): void
+    public function setAttachable(bool $Attachable)
     {
         $this->Attachable = $Attachable;
     }
@@ -164,7 +164,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $Ingress
      */
-    public function setIngress(bool $Ingress): void
+    public function setIngress(bool $Ingress)
     {
         $this->Ingress = $Ingress;
     }
@@ -181,7 +181,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $EnableIPv6
      */
-    public function setEnableIPv6(bool $EnableIPv6): void
+    public function setEnableIPv6(bool $EnableIPv6)
     {
         $this->EnableIPv6 = $EnableIPv6;
     }

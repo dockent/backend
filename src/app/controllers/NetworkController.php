@@ -8,7 +8,6 @@
 
 namespace Dockent\controllers;
 
-use Dockent\components\BulkAction;
 use Dockent\components\Controller;
 use Dockent\models\CreateNetwork;
 use Phalcon\Http\ResponseInterface;
@@ -19,8 +18,6 @@ use Phalcon\Http\ResponseInterface;
  */
 class NetworkController extends Controller
 {
-    use BulkAction;
-
     /**
      * @return ResponseInterface
      */
@@ -33,6 +30,7 @@ class NetworkController extends Controller
     }
 
     /**
+     * @Method(DELETE)
      * @return ResponseInterface
      */
     public function removeAction(): ResponseInterface

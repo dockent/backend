@@ -14,6 +14,7 @@ use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\components\Docker as DockerHelper;
 use Dockent\models\CreateContainer;
+use Dockent\models\DockerfileBuilder;
 
 /**
  * Class QueueActions
@@ -89,10 +90,10 @@ final class QueueActions
     }
 
     /**
-     * @param array $data
+     * @param DockerfileBuilder $data
      * @throws \Exception
      */
-    public static function buildByContext(array $data)
+    public static function buildByContext(DockerfileBuilder $data)
     {
         static::buildByDockerfileBodyAction(DockerComponent::generateBody($data));
     }

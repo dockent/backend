@@ -13,7 +13,6 @@ use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
 use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
-use Dockent\models\RenameContainer;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Queue\Beanstalk;
 
@@ -64,6 +63,7 @@ class ContainerController extends Controller
     }
 
     /**
+     * @Method(POST)
      * @return ResponseInterface
      */
     public function startAction(): ResponseInterface
@@ -80,6 +80,7 @@ class ContainerController extends Controller
     }
 
     /**
+     * @Method(POST)
      * @return ResponseInterface
      */
     public function stopAction(): ResponseInterface
@@ -102,6 +103,7 @@ class ContainerController extends Controller
     }
 
     /**
+     * @Method(POST)
      * @return ResponseInterface
      */
     public function restartAction(): ResponseInterface
@@ -124,6 +126,7 @@ class ContainerController extends Controller
     }
 
     /**
+     * @Method(DELETE)
      * @return ResponseInterface
      */
     public function removeAction(): ResponseInterface

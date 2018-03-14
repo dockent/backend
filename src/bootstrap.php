@@ -21,6 +21,7 @@ use Phalcon\Queue\Beanstalk;
 use Vados\PhalconPlugins\HTTPMethodsPlugin;
 use Vados\TCPLogger\Adapter;
 
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/app/components/functions.php';
 
 $loader = new Loader();

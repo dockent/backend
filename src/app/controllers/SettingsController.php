@@ -31,6 +31,7 @@ class SettingsController extends Controller
     }
 
     /**
+     * @Method(GET, POST)
      * @return ResponseInterface
      */
     public function indexAction(): ResponseInterface

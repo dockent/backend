@@ -11,7 +11,6 @@ namespace Dockent\components;
 use Dockent\components\DI as DIFactory;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
-use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Mvc\Controller as PhalconController;
 
 /**

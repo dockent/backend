@@ -53,7 +53,7 @@ class CreateContainer extends FormModel
     /**
      * @param string $Image
      */
-    public function setImage(string $Image): void
+    public function setImage(string $Image)
     {
         $this->Image = $Image;
     }
@@ -69,7 +69,7 @@ class CreateContainer extends FormModel
     /**
      * @param string $Cmd
      */
-    public function setCmd(string $Cmd): void
+    public function setCmd(string $Cmd)
     {
         $this->Cmd = $Cmd;
     }
@@ -85,7 +85,7 @@ class CreateContainer extends FormModel
     /**
      * @param string $Name
      */
-    public function setName(string $Name): void
+    public function setName(string $Name)
     {
         $this->Name = $Name;
     }
@@ -101,7 +101,7 @@ class CreateContainer extends FormModel
     /**
      * @param bool $Start
      */
-    public function setStart(bool $Start): void
+    public function setStart(bool $Start)
     {
         $this->Start = $Start;
     }

@@ -38,7 +38,7 @@ class BuildImageByDockerfileBody extends FormModel
     /**
      * @param string $dockerfileBody
      */
-    public function setDockerfileBody(string $dockerfileBody): void
+    public function setDockerfileBody(string $dockerfileBody)
     {
         $this->dockerfileBody = $dockerfileBody;
     }
