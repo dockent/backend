@@ -45,7 +45,7 @@ class BuildImageByDockerfilePath extends FormModel
     /**
      * @param string $dockerfilePath
      */
-    public function setDockerfilePath(string $dockerfilePath): void
+    public function setDockerfilePath(string $dockerfilePath)
     {
         $this->dockerfilePath = $dockerfilePath;
     }

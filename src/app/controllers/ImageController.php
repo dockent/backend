@@ -9,8 +9,6 @@
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
-use Dockent\models\BuildImageByDockerfileBody;
-use Dockent\models\BuildImageByDockerfilePath;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -31,6 +29,7 @@ class ImageController extends Controller
     }
 
     /**
+     * @Method(DELETE)
      * @return ResponseInterface
      */
     public function removeAction(): ResponseInterface
@@ -48,6 +47,7 @@ class ImageController extends Controller
     }
 
     /**
+     * @Method(DELETE)
      * @return ResponseInterface
      */
     public function forceRemoveAction(): ResponseInterface

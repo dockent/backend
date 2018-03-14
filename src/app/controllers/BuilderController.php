@@ -10,7 +10,6 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\components\DI as DIFactory;
-use Dockent\components\HTTPMethods;
 use Dockent\enums\DI;
 use Dockent\models\BuildImageByDockerfileBody;
 use Dockent\models\BuildImageByDockerfilePath;

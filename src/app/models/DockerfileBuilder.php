@@ -78,7 +78,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $from
      */
-    public function setFrom(string $from): void
+    public function setFrom(string $from)
     {
         $this->from = $from;
     }
@@ -94,7 +94,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $run
      */
-    public function setRun(string $run): void
+    public function setRun(string $run)
     {
         $this->run = $run;
     }
@@ -110,7 +110,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $cmd
      */
-    public function setCmd(string $cmd): void
+    public function setCmd(string $cmd)
     {
         $this->cmd = $cmd;
     }
@@ -126,7 +126,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $expose
      */
-    public function setExpose(string $expose): void
+    public function setExpose(string $expose)
     {
         $this->expose = $expose;
     }
@@ -142,7 +142,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $env
      */
-    public function setEnv(string $env): void
+    public function setEnv(string $env)
     {
         $this->env = $env;
     }
@@ -158,7 +158,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $add
      */
-    public function setAdd(string $add): void
+    public function setAdd(string $add)
     {
         $this->add = $add;
     }
@@ -174,7 +174,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $copy
      */
-    public function setCopy(string $copy): void
+    public function setCopy(string $copy)
     {
         $this->copy = $copy;
     }
@@ -190,7 +190,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $volume
      */
-    public function setVolume(string $volume): void
+    public function setVolume(string $volume)
     {
         $this->volume = $volume;
     }
@@ -206,7 +206,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $workdir
      */
-    public function setWorkdir(string $workdir): void
+    public function setWorkdir(string $workdir)
     {
         $this->workdir = $workdir;
     }

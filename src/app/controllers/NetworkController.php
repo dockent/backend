@@ -30,6 +30,7 @@ class NetworkController extends Controller
     }
 
     /**
+     * @Method(DELETE)
      * @return ResponseInterface
      */
     public function removeAction(): ResponseInterface

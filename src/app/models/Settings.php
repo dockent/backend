@@ -83,7 +83,7 @@ class Settings extends FormModel implements \JsonSerializable
     /**
      * @param string $beanstalkHost
      */
-    public function setBeanstalkHost(string $beanstalkHost): void
+    public function setBeanstalkHost(string $beanstalkHost)
     {
         $this->beanstalkHost = $beanstalkHost;
     }
@@ -99,7 +99,7 @@ class Settings extends FormModel implements \JsonSerializable
     /**
      * @param int $beanstalkPort
      */
-    public function setBeanstalkPort(int $beanstalkPort): void
+    public function setBeanstalkPort(int $beanstalkPort)
     {
         $this->beanstalkPort = $beanstalkPort;
     }
