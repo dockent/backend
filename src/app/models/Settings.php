@@ -91,7 +91,7 @@ class Settings extends FormModel implements \JsonSerializable
     /**
      * @return int
      */
-    public function getBeanstalkPort(): int
+    public function getBeanstalkPort()
     {
         return $this->beanstalkPort;
     }
@@ -99,7 +99,7 @@ class Settings extends FormModel implements \JsonSerializable
     /**
      * @param int $beanstalkPort
      */
-    public function setBeanstalkPort(int $beanstalkPort)
+    public function setBeanstalkPort($beanstalkPort)
     {
         $this->beanstalkPort = $beanstalkPort;
     }

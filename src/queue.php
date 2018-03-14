@@ -12,7 +12,6 @@ use Dockent\enums\DI;
 use Phalcon\Queue\Beanstalk;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
 
-require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/bootstrap.php';
 
 /** @var Beanstalk $queue */

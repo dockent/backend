@@ -91,7 +91,7 @@ class SettingsControllerTest extends ControllerTestCase
         /** @var Requests $request */
         $request = DIFactory::getDI()->get(DI::REQUEST);
         $request->setPost();
-        $request->setRawBody('{"beanstalkHost":""}');
+        $request->setRawBody('{"beanstalkPort":"abc"}');
         $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
