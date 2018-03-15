@@ -13,6 +13,7 @@ use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
 use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
+use Http\Client\Exception\HttpException;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Queue\Beanstalk;
 
@@ -149,14 +150,18 @@ class ContainerController extends Controller
     public function viewAction(string $id): ResponseInterface
     {
         $top = null;
-        $model = json_decode($this->docker->ContainerResource()->containerInspect($id));
-        if ($model->State->Status === ContainerState::RUNNING) {
-            $top = json_decode($this->docker->ContainerResource()->containerTop($id));
+        try {
+            $model = json_decode($this->docker->ContainerResource()->containerInspect($id));
+            if ($model->State->Status === ContainerState::RUNNING) {
+                $top = json_decode($this->docker->ContainerResource()->containerTop($id));
+            }
+            $this->response->setJsonContent([
+                'top' => $top,
+                'model' => $model
+            ]);
+        } catch (HttpException $httpException) {
+            $this->response->setStatusCode(404);
         }
-        $this->response->setJsonContent([
-            'top' => $top,
-            'model' => $model
-        ]);
 
         return $this->response;
     }
