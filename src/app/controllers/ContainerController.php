@@ -160,7 +160,7 @@ class ContainerController extends Controller
                 'model' => $model
             ]);
         } catch (HttpException $httpException) {
-            $this->response->setStatusCode(404);
+            $this->response->setStatusCode($httpException->getCode());
         }
 
         return $this->response;
