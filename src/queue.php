@@ -9,6 +9,8 @@
 use Dockent\components\DI as DIFactory;
 use Dockent\components\QueueActions;
 use Dockent\enums\DI;
+use Dockent\models\db\Notifications;
+use Http\Client\Exception\HttpException;
 use Phalcon\Queue\Beanstalk;
 use Phalcon\Logger\AdapterInterface as LoggerInterface;
 
@@ -28,6 +30,9 @@ while (($job = $queue->reserve()) !== false) {
         $logger->error($e->getMessage(), $e->getTrace());
         echo $message['action'] . PHP_EOL;
         echo $e->getMessage() . PHP_EOL;
+        if ($e instanceof HttpException) {
+            Notifications::createNotify($e->getMessage());
+        }
         $job->delete();
     }
 }

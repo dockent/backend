@@ -10,7 +10,7 @@ namespace Dockent\enums;
  * Class DI
  * @package Dockent\enums
  */
-final class DI
+abstract class DI
 {
     const DISPATCHER = 'dispatcher';
     const VIEW = 'view';
@@ -21,4 +21,5 @@ final class DI
     const LOGGER = 'logger';
     const REQUEST = 'request';
     const EVENTS_MANAGER = 'eventsManager';
+    const DB = 'db';
 }

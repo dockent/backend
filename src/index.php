@@ -5,6 +5,8 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Dockent\models\db\Notifications;
+use Http\Client\Exception\HttpException;
 use Phalcon\Debug;
 use Phalcon\Mvc\Application;
 
@@ -13,5 +15,9 @@ require __DIR__ . '/bootstrap.php';
 (new Debug())->listen();
 $application = new Application(DIFactory::getDI());
 
-$response = $application->handle();
-$response->send();
+try {
+    $response = $application->handle();
+    $response->send();
+} catch (HttpException $httpException) {
+    Notifications::createNotify($httpException->getMessage());
+}

@@ -12,7 +12,7 @@ namespace Dockent\enums;
  * Class ContainerState
  * @package Dockent\enums
  */
-final class ContainerState
+abstract class ContainerState
 {
     const RUNNING = 'running';
     const CREATED = 'created';

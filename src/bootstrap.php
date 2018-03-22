@@ -12,6 +12,7 @@ use Dockent\enums\DI;
 use Dockent\enums\Events;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
 use Dockent\components\config\Config;
+use Phalcon\Db\Adapter\Pdo\Factory as PdoFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Http\Request;
 use Phalcon\Loader;
@@ -72,4 +73,9 @@ DIFactory::getDI()->set(DI::LOGGER, function () {
     /** @var Config $config */
     $config = DIFactory::getDI()->get(DI::CONFIG);
     return new Adapter($config->path('logstash.host'), $config->path('logstash.port'));
+});
+DIFactory::getDI()->set(DI::DB, function () {
+    /** @var Config $config */
+    $config = DIFactory::getDI()->get(DI::CONFIG);
+    return PdoFactory::load($config->get('database'));
 });
