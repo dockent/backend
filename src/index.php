@@ -5,7 +5,8 @@
  */
 
 use Dockent\components\DI as DIFactory;
-use Dockent\models\db\Notifications;
+use Dockent\enums\DI;
+use Dockent\models\db\interfaces\INotifications;
 use Http\Client\Exception\HttpException;
 use Phalcon\Debug;
 use Phalcon\Mvc\Application;
@@ -19,5 +20,7 @@ try {
     $response = $application->handle();
     $response->send();
 } catch (HttpException $httpException) {
-    Notifications::createNotify($httpException->getMessage());
+    /** @var INotifications $notifications */
+    $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
+    $notifications->createNotify($httpException->getMessage());
 }

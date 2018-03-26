@@ -22,4 +22,5 @@ abstract class DI
     const REQUEST = 'request';
     const EVENTS_MANAGER = 'eventsManager';
     const DB = 'db';
+    const NOTIFICATIONS = 'notifications';
 }

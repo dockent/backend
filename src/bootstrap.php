@@ -10,6 +10,7 @@ use Dockent\components\DI as DIFactory;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\enums\Events;
+use Dockent\models\db\Notifications;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
 use Dockent\components\config\Config;
 use Phalcon\Db\Adapter\Pdo\Factory as PdoFactory;
@@ -78,4 +79,7 @@ DIFactory::getDI()->set(DI::DB, function () {
     /** @var Config $config */
     $config = DIFactory::getDI()->get(DI::CONFIG);
     return PdoFactory::load($config->get('database'));
+});
+DIFactory::getDI()->set(DI::NOTIFICATIONS, function () {
+    return new Notifications();
 });

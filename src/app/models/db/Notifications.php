@@ -5,6 +5,7 @@ namespace Dockent\models\db;
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
 use Dockent\enums\TableName;
+use Dockent\models\db\interfaces\INotifications;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\Model;
 
@@ -12,7 +13,7 @@ use Phalcon\Mvc\Model;
  * Class Notifications
  * @package Dockent\models\db
  */
-class Notifications extends Model
+class Notifications extends Model implements INotifications
 {
     /**
      * @var int
@@ -60,7 +61,7 @@ class Notifications extends Model
      * @param array $id
      * @return bool
      */
-    public static function deleteByIds(array $id): bool
+    public function deleteByIds(array $id): bool
     {
         /** @var AdapterInterface $dbConnection */
         $dbConnection = DIFactory::getDI()->get(DI::DB);
@@ -71,7 +72,7 @@ class Notifications extends Model
      * @param string $text
      * @return bool
      */
-    public static function createNotify(string $text): bool
+    public function createNotify(string $text): bool
     {
         $notify = new self();
         $notify->setText($text);

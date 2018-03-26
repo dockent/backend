@@ -44,6 +44,6 @@ class NotificationsTest extends ModelTestCase
 
     public function testCreateNotify()
     {
-        $this->assertInternalType('bool', Notifications::createNotify('some notify'));
+        $this->assertInternalType('bool', $this->instance->createNotify('some notify'));
     }
 }

@@ -3,8 +3,11 @@
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
+use Dockent\enums\DI;
+use Dockent\models\db\interfaces\INotifications;
 use Dockent\models\db\Notifications;
 use Phalcon\Http\ResponseInterface;
+use Dockent\components\DI as DIFactory;
 
 /**
  * Class NotificationsController
@@ -24,7 +27,9 @@ class NotificationsController extends Controller
         }
         if ($this->request->isDelete()) {
             $items = $this->request->getJsonRawBody(true);
-            $this->response->setJsonContent(['status' => Notifications::deleteByIds($items['id'])]);
+            /** @var INotifications $notifications */
+            $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
+            $this->response->setJsonContent(['status' => $notifications->deleteByIds($items['id'])]);
         }
 
         return $this->response;
