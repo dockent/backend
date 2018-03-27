@@ -6,6 +6,7 @@
 
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
+use Dockent\enums\NotificationStatus;
 use Dockent\models\db\interfaces\INotifications;
 use Http\Client\Exception\HttpException;
 use Phalcon\Debug;
@@ -22,5 +23,5 @@ try {
 } catch (HttpException $httpException) {
     /** @var INotifications $notifications */
     $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
-    $notifications->createNotify($httpException->getMessage());
+    $notifications->createNotify($httpException->getMessage(), NotificationStatus::ERROR);
 }

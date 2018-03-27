@@ -3,6 +3,7 @@
 namespace Dockent\Tests\components;
 
 use Dockent\components\DI as DIFactory;
+use Dockent\components\queue\IQueueActions;
 use Dockent\components\QueueActions;
 use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
@@ -16,11 +17,17 @@ use PHPUnit\Framework\TestCase;
  */
 class QueueActionsTest extends TestCase
 {
+    /**
+     * @var IQueueActions
+     */
+    private $instance;
+
     public function setUp()
     {
         DIFactory::getDI()->set(DI::DOCKER, function () {
             return new Connector();
         });
+        $this->instance = new QueueActions();
     }
 
     public function testCreateContainer()
@@ -33,19 +40,19 @@ class QueueActionsTest extends TestCase
             'Name' => 'MyContainer',
             'Start' => true
         ]);
-        QueueActions::createContainer($model);
+        $this->instance->createContainer($model);
     }
 
     public function testStopContainer()
     {
         $this->expectOutputString('');
-        QueueActions::stopContainer('some-container');
+        $this->instance->stopContainer('some-container');
     }
 
     public function testRestartAction()
     {
         $this->expectOutputString('');
-        QueueActions::restartAction('some-container');
+        $this->instance->restartAction('some-container');
     }
 
     /**
@@ -54,7 +61,7 @@ class QueueActionsTest extends TestCase
     public function testBuildImageByDockerfilePath()
     {
         $this->expectOutputString('');
-        QueueActions::buildImageByDockerfilePath('/var/www');
+        $this->instance->buildImageByDockerfilePath('/var/www');
     }
 
     /**
@@ -63,7 +70,7 @@ class QueueActionsTest extends TestCase
     public function testBuildByDockerfileBodyAction()
     {
         $this->expectOutputString('');
-        QueueActions::buildByDockerfileBodyAction('');
+        $this->instance->buildByDockerfileBodyAction('');
     }
 
     /**
@@ -72,6 +79,6 @@ class QueueActionsTest extends TestCase
     public function testBuildByContext()
     {
         $this->expectOutputString('');
-        QueueActions::buildByContext(new DockerfileBuilder());
+        $this->instance->buildByContext(new DockerfileBuilder());
     }
 }

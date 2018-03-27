@@ -7,6 +7,7 @@
  */
 
 use Dockent\components\DI as DIFactory;
+use Dockent\components\QueueActions;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\enums\Events;
@@ -66,6 +67,9 @@ DIFactory::getDI()->set(DI::QUEUE, function () {
         'host' => $config->path('queue.host'),
         'port' => $config->path('queue.port')
     ]);
+});
+DIFactory::getDI()->set(DI::QUEUE, function () {
+    return new QueueActions();
 });
 DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
     return new Annotations();

@@ -4,10 +4,12 @@ namespace Dockent\models\db;
 
 use Dockent\components\DI as DIFactory;
 use Dockent\enums\DI;
+use Dockent\enums\NotificationStatus;
 use Dockent\enums\TableName;
 use Dockent\models\db\interfaces\INotifications;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Class Notifications
@@ -24,6 +26,27 @@ class Notifications extends Model implements INotifications
      * @var string
      */
     protected $text;
+
+    /**
+     * @var bool
+     */
+    protected $viewed;
+
+    /**
+     * @var int
+     * @see NotificationStatus
+     */
+    protected $status;
+
+    /**
+     * @var int
+     */
+    protected $time;
+
+    public function initialize()
+    {
+        $this->setSource(TableName::NOTIFICATIONS);
+    }
 
     /**
      * @return int
@@ -58,6 +81,54 @@ class Notifications extends Model implements INotifications
     }
 
     /**
+     * @return bool
+     */
+    public function isViewed(): bool
+    {
+        return $this->viewed;
+    }
+
+    /**
+     * @param bool $viewed
+     */
+    public function setViewed(bool $viewed)
+    {
+        $this->viewed = $viewed;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTime(): int
+    {
+        return $this->time;
+    }
+
+    /**
+     * @param int $time
+     */
+    public function setTime(int $time)
+    {
+        $this->time = $time;
+    }
+
+    /**
      * @param array $id
      * @return bool
      */
@@ -70,12 +141,25 @@ class Notifications extends Model implements INotifications
 
     /**
      * @param string $text
+     * @param int $status
      * @return bool
      */
-    public function createNotify(string $text): bool
+    public function createNotify(string $text, int $status = NotificationStatus::INFO): bool
     {
         $notify = new self();
         $notify->setText($text);
+        $notify->setStatus($status);
+        $notify->setTime(time());
         return $notify->save();
+    }
+
+    /**
+     * @return ResultsetInterface
+     */
+    public function getNotifications(): ResultsetInterface
+    {
+        $notifications = static::find();
+        $this->getWriteConnection()->update($this->getSource(), ['viewed'], [true]);
+        return $notifications;
     }
 }

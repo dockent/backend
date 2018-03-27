@@ -17,6 +17,7 @@ abstract class DI
     const CONFIG = 'config';
     const DOCKER = 'docker';
     const QUEUE = 'queue';
+    const QUEUE_ACTIONS = 'queue_action';
     const ANNOTATIONS = 'annotations';
     const LOGGER = 'logger';
     const REQUEST = 'request';

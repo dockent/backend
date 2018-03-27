@@ -10,22 +10,25 @@ namespace Dockent\components;
 
 use Dockent\components\DI as DIFactory;
 use Dockent\components\Docker as DockerComponent;
+use Dockent\components\queue\IQueueActions;
 use Dockent\Connector\Connector;
 use Dockent\enums\DI;
 use Dockent\components\Docker as DockerHelper;
+use Dockent\enums\NotificationStatus;
 use Dockent\models\CreateContainer;
+use Dockent\models\db\interfaces\INotifications;
 use Dockent\models\DockerfileBuilder;
 
 /**
  * Class QueueActions
  * @package Dockent\components
  */
-final class QueueActions
+final class QueueActions implements IQueueActions
 {
     /**
      * @param CreateContainer $data
      */
-    public static function createContainer(CreateContainer $data)
+    public function createContainer(CreateContainer $data)
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
@@ -39,6 +42,9 @@ final class QueueActions
             'Image' => $data->getImage(),
             'Cmd' => $data->getCmd()
         ], $parameters));
+        /** @var INotifications $notifications */
+        $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
+        $notifications->createNotify("Container {$data->getName()} created", NotificationStatus::SUCCESS);
         if ($data->isStart()) {
             $docker->ContainerResource()->containerStart($containerCreateResult->Id);
         }
@@ -47,7 +53,7 @@ final class QueueActions
     /**
      * @param string $id
      */
-    public static function stopContainer(string $id)
+    public function stopContainer(string $id)
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
@@ -57,7 +63,7 @@ final class QueueActions
     /**
      * @param string $id
      */
-    public static function restartAction(string $id)
+    public function restartAction(string $id)
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
@@ -68,24 +74,27 @@ final class QueueActions
      * @param string $path
      * @throws \Exception
      */
-    public static function buildImageByDockerfilePath(string $path)
+    public function buildImageByDockerfilePath(string $path)
     {
         /** @var Connector $docker */
         $docker = DIFactory::getDI()->get(DI::DOCKER);
         $docker->ImageResource()->build($path);
+        /** @var INotifications $notifications */
+        $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
+        $notifications->createNotify("Image from {$path} built", NotificationStatus::SUCCESS);
     }
 
     /**
      * @param string $body
      * @throws \Exception
      */
-    public static function buildByDockerfileBodyAction(string $body)
+    public function buildByDockerfileBodyAction(string $body)
     {
         $uniquePrefix = uniqid('docker_');
         $directoryPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $uniquePrefix;
         mkdir($directoryPath);
         file_put_contents($directoryPath . DIRECTORY_SEPARATOR . 'Dockerfile', $body);
-        self::buildImageByDockerfilePath($directoryPath);
+        $this->buildImageByDockerfilePath($directoryPath);
         rmDirRecursive($directoryPath);
     }
 
@@ -93,8 +102,8 @@ final class QueueActions
      * @param DockerfileBuilder $data
      * @throws \Exception
      */
-    public static function buildByContext(DockerfileBuilder $data)
+    public function buildByContext(DockerfileBuilder $data)
     {
-        static::buildByDockerfileBodyAction(DockerComponent::generateBody($data));
+        $this->buildByDockerfileBodyAction(DockerComponent::generateBody($data));
     }
 }
