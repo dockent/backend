@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d6c73a60331431df5839ce144da4fc1",
+    "content-hash": "a157f8455140663f74c2e9fae65aea59",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -109,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ba1bce30baab94dddde21c4ae93872b1762d39fa"
+                "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ba1bce30baab94dddde21c4ae93872b1762d39fa",
-                "reference": "ba1bce30baab94dddde21c4ae93872b1762d39fa",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/68d0ea14d5a3f42a20e87632a5f84931e2709c90",
+                "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90",
                 "shasum": ""
             },
             "require": {
@@ -166,7 +166,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-03-11T15:03:34+00:00"
+            "time": "2018-03-26T16:33:04+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1193,6 +1193,52 @@
             "time": "2018-03-01T14:25:34+00:00"
         },
         {
+            "name": "vados/phalcon-migration-runner",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/Scary_Donetskiy/phalcon-migration-runner.git",
+                "reference": "e5ef3f9a7422114c96a628fa7fad497f6fc80683"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/Scary_Donetskiy/phalcon-migration-runner/get/e5ef3f9a7422114c96a628fa7fad497f6fc80683.zip",
+                "reference": "e5ef3f9a7422114c96a628fa7fad497f6fc80683",
+                "shasum": ""
+            },
+            "require": {
+                "ext-phalcon": ">=3.2",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phalcon/ide-stubs": "v3.2.1",
+                "phpunit/phpunit": "^7.0"
+            },
+            "bin": [
+                "migration_runner"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vados\\MigrationRunner\\": "src/",
+                    "Vados\\MigrationRunner\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Vladyslav Pozdnyakov",
+                    "email": "scary_donetskiy@live.com"
+                }
+            ],
+            "description": "Easy migration runner for Phalcon framework",
+            "homepage": "https://bitbucket.org/Scary_Donetskiy/phalcon-migration-runner",
+            "time": "2018-03-28T18:23:48+00:00"
+        },
+        {
             "name": "vados/phalcon-tcplogger",
             "version": "dev-master",
             "source": {
@@ -1957,12 +2003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "7bca1e7d27f79483b073d87d8ec4ee08f5adb68c"
+                "reference": "bc830c339e0dce36aa24d7350b715c25002254c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7bca1e7d27f79483b073d87d8ec4ee08f5adb68c",
-                "reference": "7bca1e7d27f79483b073d87d8ec4ee08f5adb68c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bc830c339e0dce36aa24d7350b715c25002254c7",
+                "reference": "bc830c339e0dce36aa24d7350b715c25002254c7",
                 "shasum": ""
             },
             "require": {
@@ -1976,7 +2022,7 @@
                 "phar-io/version": "^1.0",
                 "php": "^7.1",
                 "phpspec/prophecy": "^1.7",
-                "phpunit/php-code-coverage": "^6.0",
+                "phpunit/php-code-coverage": "^6.0.1",
                 "phpunit/php-file-iterator": "^1.4.3",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
@@ -2029,7 +2075,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-03-08T18:18:05+00:00"
+            "time": "2018-03-26T07:37:34+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2747,6 +2793,7 @@
     "stability-flags": {
         "vados/phalcon-tcplogger": 20,
         "vados/phalcon-http-methods-plugin": 20,
+        "vados/phalcon-migration-runner": 20,
         "phpunit/phpunit": 20
     },
     "prefer-stable": false,
