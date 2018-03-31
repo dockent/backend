@@ -79,7 +79,7 @@ DIFactory::getDI()->set(DI::LOGGER, function () {
     $config = DIFactory::getDI()->get(DI::CONFIG);
     return new Adapter($config->path('logstash.host'), $config->path('logstash.port'));
 });
-DIFactory::getDI()->set(DI::DB, function () {
+DIFactory::getDI()->setShared(DI::DB, function () {
     /** @var Config $config */
     $config = DIFactory::getDI()->get(DI::CONFIG);
     return PdoFactory::load($config->get('database'));

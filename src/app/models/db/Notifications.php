@@ -135,7 +135,7 @@ class Notifications extends Model implements INotifications
     public function deleteByIds(array $id): bool
     {
         /** @var AdapterInterface $dbConnection */
-        $dbConnection = DIFactory::getDI()->get(DI::DB);
+        $dbConnection = DIFactory::getDI()->getShared(DI::DB);
         return $dbConnection->delete(TableName::NOTIFICATIONS, 'id = ?', $id);
     }
 

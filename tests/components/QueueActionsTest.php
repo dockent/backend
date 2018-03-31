@@ -9,6 +9,10 @@ use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
 use Dockent\models\DockerfileBuilder;
 use Dockent\Tests\mocks\Connector;
+use Phalcon\Db\Adapter\Pdo\Sqlite;
+use Phalcon\Db\Result\Pdo;
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\MetaData\Files;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -5,12 +5,13 @@ namespace Dockent\Tests\models\db;
 use Dockent\enums\NotificationStatus;
 use Dockent\models\db\Notifications;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class NotificationsTest
  * @package Dockent\Tests\models\db
  */
-class NotificationsTest extends ModelTestCase
+class NotificationsTest extends TestCase
 {
     /**
      * @var Notifications
@@ -19,7 +20,6 @@ class NotificationsTest extends ModelTestCase
 
     public function setUp()
     {
-        parent::setUp();
         $this->instance = new Notifications();
     }
 
