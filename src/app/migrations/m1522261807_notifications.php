@@ -25,6 +25,10 @@ class m1522261807_notifications extends Migration
                 new Column('status', [
                     'type' => Column::TYPE_INTEGER,
                     'notNull' => true
+                ]),
+                new Column('time', [
+                    'type' => Column::TYPE_INTEGER,
+                    'notNull' => true
                 ])
             ]
         ]);
