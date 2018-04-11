@@ -34,5 +34,6 @@ class Controller extends PhalconController
         $this->docker = DIFactory::getDI()->get(DI::DOCKER);
         static::$DEBUG_MODE = (bool)getenv('DOCKENT_DEBUG');
         $this->response->setHeader('Access-Control-Allow-Origin', '*');
+        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     }
 }
