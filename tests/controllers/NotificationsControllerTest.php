@@ -27,19 +27,33 @@ class NotificationsControllerTest extends ControllerTestCase
 
     public function testIndexAction()
     {
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $this->instance->request = $request;
         $result = $this->instance->indexAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
     }
 
-    public function testIndexActionDeleteMethod()
+    public function testDeleteAction()
     {
         /** @var Requests $request */
         $request = DIFactory::getDI()->get(DI::REQUEST);
         $request->setRawBody('{"id":[]}');
         $this->instance->request = $request;
-        $request->setDelete();
-        $result = $this->instance->indexAction();
+        $result = $this->instance->deleteAction();
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertThat($result->getContent(), $this->isJson());
+        $decodedResult = json_decode($result->getContent(), true);
+        $this->assertArrayHasKey('status', $decodedResult);
+    }
+
+    public function testMarkAsUnreadAction()
+    {
+        /** @var Requests $request */
+        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request->setRawBody('{"id":1}');
+        $this->instance->request = $request;
+        $result = $this->instance->markAsUnreadAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $decodedResult = json_decode($result->getContent(), true);

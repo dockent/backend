@@ -24,7 +24,13 @@ interface INotifications
     public function createNotify(string $text, int $status = NotificationStatus::INFO): bool;
 
     /**
+     * @param bool $changeStatus
      * @return ResultsetInterface
      */
-    public function getNotifications(): ResultsetInterface;
+    public function getNotifications(bool $changeStatus = true): ResultsetInterface;
+
+    /**
+     * @param int $id
+     */
+    public function markAsUnread(int $id);
 }

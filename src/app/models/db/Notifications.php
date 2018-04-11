@@ -154,12 +154,23 @@ class Notifications extends Model implements INotifications
     }
 
     /**
+     * @param bool $changeStatus
      * @return ResultsetInterface
      */
-    public function getNotifications(): ResultsetInterface
+    public function getNotifications(bool $changeStatus = true): ResultsetInterface
     {
         $notifications = static::find();
-        $this->getWriteConnection()->update($this->getSource(), ['viewed'], [true]);
+        if ($changeStatus) {
+            $this->getWriteConnection()->update($this->getSource(), ['viewed'], [true]);
+        }
         return $notifications;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function markAsUnread(int $id)
+    {
+        $this->getWriteConnection()->update($this->getSource(), ['viewed'], [false], 'id = ' . (int)$id);
     }
 }

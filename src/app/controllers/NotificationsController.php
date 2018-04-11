@@ -15,21 +15,46 @@ use Dockent\components\DI as DIFactory;
 class NotificationsController extends Controller
 {
     /**
-     * @Method(GET, DELETE)
      * @return ResponseInterface
      */
     public function indexAction(): ResponseInterface
     {
         /** @var INotifications $notifications */
         $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
-        if ($this->request->isGet()) {
-            $this->response->setJsonContent($notifications->getNotifications());
+        $requestData = $this->request->getJsonRawBody(true);
+        if (!is_array($requestData)) {
+            $requestData = [];
         }
-        if ($this->request->isDelete()) {
-            $items = $this->request->getJsonRawBody(true);
-            $this->response->setJsonContent(['status' => $notifications->deleteByIds($items['id'])]);
+        if (!array_key_exists('changeStatus', $requestData)) {
+            $requestData['changeStatus'] = true;
         }
+        $this->response->setJsonContent($notifications->getNotifications($requestData['changeStatus']));
 
+        return $this->response;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function deleteAction(): ResponseInterface
+    {
+        /** @var INotifications $notifications */
+        $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
+        $requestData = $this->request->getJsonRawBody(true);
+        $this->response->setJsonContent(['status' => $notifications->deleteByIds([$requestData['id']])]);
+        return $this->response;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function markAsUnreadAction(): ResponseInterface
+    {
+        $requestData = $this->request->getJsonRawBody(true);
+        /** @var INotifications $notifications */
+        $notifications = DIFactory::getDI()->get(DI::NOTIFICATIONS);
+        $notifications->markAsUnread($requestData['id']);
+        $this->response->setJsonContent(['status' => 'success']);
         return $this->response;
     }
 }
