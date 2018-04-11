@@ -17,5 +17,9 @@ return [
     'logstash' => [
         'host' => 'logger.dockent.vados.pro',
         'port' => 5043
+    ],
+    'database' => [
+        'adapter' => 'sqlite',
+        'dbname' => __DIR__ . '/dockent.db'
     ]
 ];

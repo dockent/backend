@@ -54,3 +54,5 @@ composer.phar
 /cache/
 /config/development/
 /tests/coverage/
+/src/app/dockent.db
+/src/service-worker.js
