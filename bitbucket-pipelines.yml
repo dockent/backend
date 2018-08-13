@@ -11,4 +11,4 @@ pipelines:
             - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             - composer install --ignore-platform-reqs
             - cd src/app && yes | ../../vendor/bin/migration_runner up
-            - pwd && composer test
+            - cd ../../ && composer test
