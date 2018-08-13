@@ -19,5 +19,6 @@ WORKDIR /
 RUN git clone https://Scary_Donetskiy@bitbucket.org/scary_develop/dockent.git /var/app
 WORKDIR /var/app
 RUN composer install --no-dev
+RUN composer update
 CMD ["sh", "start.sh"]
 EXPOSE 80
