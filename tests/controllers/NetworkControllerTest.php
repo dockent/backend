@@ -7,6 +7,7 @@ use Dockent\controllers\NetworkController;
 use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -81,6 +82,14 @@ class NetworkControllerTest extends ControllerTestCase
         $this->assertThat($result->getContent(), $this->isJson());
     }
 
+    public function testViewAction404()
+    {
+        /** @var ResponseInterface|Response $result */
+        $result = $this->instance->viewAction('view404');
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertEquals(404, $result->getStatusCode());
+    }
+
     /**
      * @throws \Exception
      */
@@ -125,11 +134,23 @@ class NetworkControllerTest extends ControllerTestCase
     {
         /** @var AdapterInterface $annotationsAdapter */
         $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        /**
+         * POST methods
+         */
         $methods = ['createAction'];
         foreach ($methods as $methodName) {
             $method = $annotationsAdapter->getMethod(NetworkController::class, $methodName);
             $this->assertTrue($method->has('Method'));
             $this->assertEquals(['POST'], $method->get('Method')->getArguments());
+        }
+        /**
+         * DELETE methods
+         */
+        $methods = ['removeAction'];
+        foreach ($methods as $methodName) {
+            $method = $annotationsAdapter->getMethod(NetworkController::class, $methodName);
+            $this->assertTrue($method->has('Method'));
+            $this->assertEquals(['DELETE'], $method->get('Method')->getArguments());
         }
     }
 }

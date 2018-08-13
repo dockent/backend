@@ -7,6 +7,7 @@ use Dockent\components\config\Config;
 use Dockent\controllers\SettingsController;
 use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
+use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Http\ResponseInterface;
 
@@ -101,5 +102,23 @@ class SettingsControllerTest extends ControllerTestCase
         $this->assertEquals('error', $encodedResult['status']);
         $this->assertArrayHasKey('errors', $encodedResult);
         $this->assertNotEmpty($encodedResult['errors']);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testMethodAnnotations()
+    {
+        /** @var AdapterInterface $annotationsAdapter */
+        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        /**
+         * POST methods
+         */
+        $methods = ['indexAction'];
+        foreach ($methods as $methodName) {
+            $method = $annotationsAdapter->getMethod(SettingsController::class, $methodName);
+            $this->assertTrue($method->has('Method'));
+            $this->assertEquals(['GET', 'POST'], $method->get('Method')->getArguments());
+        }
     }
 }

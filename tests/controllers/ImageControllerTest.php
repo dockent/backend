@@ -87,4 +87,19 @@ class ImageControllerTest extends ControllerTestCase
         $this->assertArrayHasKey('status', $encodedResult);
         $this->assertEquals('success', $encodedResult['status']);
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function testMethodAnnotations()
+    {
+        /** @var AdapterInterface $annotationsAdapter */
+        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        $methods = ['removeAction', 'forceRemoveAction'];
+        foreach ($methods as $methodName) {
+            $method = $annotationsAdapter->getMethod(ImageController::class, $methodName);
+            $this->assertTrue($method->has('Method'));
+            $this->assertEquals(['DELETE'], $method->get('Method')->getArguments());
+        }
+    }
 }

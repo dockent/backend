@@ -2,6 +2,8 @@
 
 namespace Dockent\Tests\mocks;
 
+use Http\Client\Exception\HttpException;
+
 /**
  * Class Connector
  * @package Dockent\Tests\mocks
@@ -74,8 +76,11 @@ class Connector
 
             }
 
-            public function containerInspect()
+            public function containerInspect($id = null)
             {
+                if ($id === 'view404') {
+                    throw new HttpException('Not Found', new Requests(), new Response());
+                }
                 return json_encode(['State' => ['Status' => 'running']]);
             }
 
@@ -122,8 +127,11 @@ class Connector
                 }
             }
 
-            public function networkInspect()
+            public function networkInspect($id = null)
             {
+                if ($id === 'view404') {
+                    throw new HttpException('Not Found', new Requests(), new Response());
+                }
                 return json_encode(['status' => 'success']);
             }
 

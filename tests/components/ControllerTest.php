@@ -52,5 +52,7 @@ class ControllerTest extends TestCase
     {
         $this->instance->beforeExecuteRoute();
         $this->assertEquals('*', $this->instance->response->getHeaders()->get('Access-Control-Allow-Origin'));
+        $this->assertEquals('GET, POST, OPTIONS, PUT, DELETE',
+            $this->instance->response->getHeaders()->get('Access-Control-Allow-Methods'));
     }
 }

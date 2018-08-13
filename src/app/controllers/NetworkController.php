@@ -10,6 +10,7 @@ namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\models\CreateNetwork;
+use Http\Client\Exception\HttpException;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -53,7 +54,11 @@ class NetworkController extends Controller
      */
     public function viewAction(string $id): ResponseInterface
     {
-        $this->response->setContent($this->docker->NetworkResource()->networkInspect($id));
+        try {
+            $this->response->setContent($this->docker->NetworkResource()->networkInspect($id));
+        } catch (HttpException $httpException) {
+            $this->response->setStatusCode($httpException->getCode());
+        }
 
         return $this->response;
     }
