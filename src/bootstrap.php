@@ -68,7 +68,7 @@ DIFactory::getDI()->set(DI::QUEUE, function () {
         'port' => $config->path('queue.port')
     ]);
 });
-DIFactory::getDI()->set(DI::QUEUE, function () {
+DIFactory::getDI()->set(DI::QUEUE_ACTIONS, function () {
     return new QueueActions();
 });
 DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
