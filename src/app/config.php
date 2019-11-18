@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 25.09.17
- * Time: 16:12
- */
 
 return [
     'currentConnection' => [
@@ -21,5 +15,5 @@ return [
     'database' => [
         'adapter' => 'sqlite',
         'dbname' => __DIR__ . '/dockent.db'
-    ]
+    ],
 ];

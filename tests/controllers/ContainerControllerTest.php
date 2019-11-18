@@ -2,16 +2,17 @@
 
 namespace Dockent\Tests\controllers;
 
-use Dockent\components\DI as DIFactory;
 use Dockent\controllers\ContainerController;
-use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
+use Exception;
 use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Di;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
 /**
  * Class ContainerControllerTest
+ *
  * @package Dockent\Tests\controllers
  */
 class ContainerControllerTest extends ControllerTestCase
@@ -29,7 +30,7 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testIndexAction()
     {
@@ -39,12 +40,11 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCreateActionWithErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{}');
         $this->instance->request = $request;
         $result = $this->instance->createAction();
@@ -59,12 +59,11 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCreateActionWithoutErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"Image":"busybox"}');
         $this->instance->request = $request;
         $result = $this->instance->createAction();
@@ -78,12 +77,11 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testStartAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
         $this->instance->request = $request;
         $result = $this->instance->startAction();
@@ -95,12 +93,11 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testStopAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
         $this->instance->request = $request;
         $result = $this->instance->stopAction();
@@ -114,12 +111,11 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRestartAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
         $this->instance->request = $request;
         $result = $this->instance->restartAction();
@@ -133,12 +129,11 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRemoveAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["d7e6b38e07ca2a64e0ac7a9ebf3c0abfe4af27fc6646e9d20b1d33d5835fe0c1"]}');
         $this->instance->request = $request;
         $result = $this->instance->removeAction();
@@ -150,7 +145,7 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testViewAction()
     {
@@ -171,12 +166,12 @@ class ContainerControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        $annotationsAdapter = Di::getDefault()->get(AdapterInterface::class);
         /**
          * POST methods
          */

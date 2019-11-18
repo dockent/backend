@@ -2,23 +2,31 @@
 
 namespace Dockent\Tests\controllers;
 
-use Dockent\enums\DI;
-use Dockent\Tests\mocks\Connector;
-use Dockent\Tests\mocks\Queue;
-use Dockent\Tests\mocks\Requests;
+use Dockent\Connector\Connector;
+use Dockent\Tests\mocks\Connector as ConnectorMock;
+use Phalcon\Di;
+use Phalcon\Queue\Beanstalk;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Dockent\components\DI as DIFactory;
 
 /**
  * Class ControllerTestCase
+ *
  * @package Dockent\Tests\controllers
  */
 class ControllerTestCase extends TestCase
 {
+    /**
+     * @var MockObject|Beanstalk
+     */
+    protected $queueMock;
+
     public function setUp()
     {
-        DIFactory::getDI()->set(DI::DOCKER, new Connector());
-        DIFactory::getDI()->set(DI::QUEUE, new Queue());
-        DIFactory::getDI()->set(DI::REQUEST, new Requests());
+        Di::getDefault()->remove(Connector::class);
+        Di::getDefault()->setShared(Connector::class, ConnectorMock::class);
+
+        $this->queueMock = $this->getMockBuilder(Beanstalk::class)->disableOriginalConstructor()->getMock();
+        Di::getDefault()->setShared(Beanstalk::class, $this->queueMock);
     }
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 24.10.17
- * Time: 14:49
- */
 
 namespace Dockent\components\config;
 
@@ -39,7 +33,7 @@ class Config extends PhalconConfig
     /**
      * @param Configurable $data
      */
-    public function add(Configurable $data)
+    public function add(Configurable $data): void
     {
         $this->storage[] = $data;
     }

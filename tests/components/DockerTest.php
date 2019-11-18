@@ -2,9 +2,8 @@
 
 namespace Dockent\Tests\components;
 
-use Dockent\components\DI as DIFactory;
-use Dockent\components\Docker;
-use Dockent\enums\DI;
+use Dockent\components\docker\BodyGenerator;
+use Dockent\components\docker\Docker;
 use Dockent\models\DockerfileBuilder;
 use Dockent\Tests\dataProviders\DockerfileBody;
 use Dockent\Tests\mocks\Connector;
@@ -17,32 +16,38 @@ class DockerTest extends TestCase
 {
     use DockerfileBody;
 
+    /**
+     * @var Docker
+     */
+    private $instance;
+
     public function setUp()
     {
-        DIFactory::getDI()->set(DI::DOCKER, function () {
-            return new Connector();
-        });
+        $this->instance = new Docker(new Connector());
     }
 
     /**
      * @dataProvider dataProviderGenerateBody
+     *
      * @param DockerfileBuilder $parameters
-     * @param string $body
+     * @param string            $body
      */
     public function testGenerateBody(DockerfileBuilder $parameters, string $body)
     {
-        $this->assertEquals($body, Docker::generateBody($parameters));
+        $instance = new BodyGenerator();
+        $this->assertEquals($body, $instance->generateBody($parameters));
     }
 
     public function testPullWithTag()
     {
         $this->expectOutputString('');
-        Docker::pull('ubuntu:latest');
+
+        $this->instance->pull('ubuntu:latest');
     }
 
     public function testPullWithoutTag()
     {
         $this->expectOutputString('');
-        Docker::pull('ubuntu');
+        $this->instance->pull('ubuntu');
     }
 }

@@ -3,13 +3,14 @@
 namespace Dockent\Tests\models;
 
 use Dockent\components\config\Config;
-use Dockent\components\DI as DIFactory;
 use Dockent\components\FormModel;
-use Dockent\enums\DI;
 use Dockent\models\Settings;
+use Phalcon\Di;
 use Phalcon\Validation\Validator\Numericality;
 use Phalcon\Validation\Validator\PresenceOf;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use ReflectionProperty;
 
 /**
  * Class SettingsTest
@@ -25,16 +26,19 @@ class SettingsTest extends TestCase
 
     public function setUp()
     {
-        DIFactory::getDI()->set(DI::CONFIG, function () {
+        Di::getDefault()->set(Config::class, function () {
             return new Config('./tests/dummy/config.php');
         });
-        $this->instance = new Settings();
+        $this->instance = new Settings(Di::getDefault()->get(Config::class));
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testConstructor()
     {
         $this->assertInstanceOf(FormModel::class, $this->instance);
-        $config = new \ReflectionProperty($this->instance, 'config');
+        $config = new ReflectionProperty($this->instance, 'config');
         $config->setAccessible(true);
         $this->assertInstanceOf(Config::class, $config->getValue($this->instance));
         $this->assertEquals('127.0.0.1', $this->instance->getBeanstalkHost());

@@ -8,7 +8,7 @@ use Http\Client\Exception\HttpException;
  * Class Connector
  * @package Dockent\Tests\mocks
  */
-class Connector
+class Connector extends \Dockent\Connector\Connector
 {
     public function ImageResource()
     {

@@ -3,6 +3,7 @@
 namespace Dockent\Tests\controllers;
 
 use Dockent\controllers\IndexController;
+use Exception;
 use Phalcon\Http\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -15,15 +16,19 @@ class IndexControllerTest extends TestCase
     public function testIndexAction()
     {
         $this->expectOutputString('');
-        (new IndexController())->indexAction();
+        $controller = new IndexController();
+        $controller->beforeExecuteRoute();
+        $controller->indexAction();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testApplicationConfigAction()
     {
-        $result = (new IndexController())->applicationConfigAction();
+        $controller = new IndexController();
+        $controller->beforeExecuteRoute();
+        $result = $controller->applicationConfigAction();
         $this->assertInstanceOf(ResponseInterface::class, $result);
         $this->assertThat($result->getContent(), $this->isJson());
         $encodedResult = json_decode($result->getContent(), true);

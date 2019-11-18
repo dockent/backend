@@ -1,18 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 25.09.17
- * Time: 16:26
- */
 
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
-use Dockent\components\DI as DIFactory;
 use Dockent\enums\ContainerState;
-use Dockent\enums\DI;
 use Dockent\models\CreateContainer;
+use Dockent\queue\CreateContainer as CreateContainerQueue;
+use Dockent\queue\RestartContainer;
+use Dockent\queue\StopContainer;
 use Http\Client\Exception\HttpException;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Queue\Beanstalk;
@@ -23,6 +18,18 @@ use Phalcon\Queue\Beanstalk;
  */
 class ContainerController extends Controller
 {
+    /**
+     * @var Beanstalk
+     */
+    private $beanstalk;
+
+    public function beforeExecuteRoute()
+    {
+        parent::beforeExecuteRoute();
+
+        $this->beanstalk = $this->getDI()->getShared(Beanstalk::class);
+    }
+
     /**
      * @return ResponseInterface
      */
@@ -43,10 +50,8 @@ class ContainerController extends Controller
         $model = new CreateContainer();
         $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'createContainer',
+            $this->beanstalk->put([
+                'action' => CreateContainerQueue::class,
                 'data' => $model
             ]);
             $this->response->setJsonContent([
@@ -88,10 +93,8 @@ class ContainerController extends Controller
     {
         $data = $this->request->getJsonRawBody(true);
         foreach ($data['id'] as $id) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'stopContainer',
+            $this->beanstalk->put([
+                'action' => StopContainer::class,
                 'data' => $id
             ]);
         }
@@ -111,10 +114,8 @@ class ContainerController extends Controller
     {
         $data = $this->request->getJsonRawBody(true);
         foreach ($data['id'] as $id) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'restartAction',
+            $this->beanstalk->put([
+                'action' => RestartContainer::class,
                 'data' => $id
             ]);
         }

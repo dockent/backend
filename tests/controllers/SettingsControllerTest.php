@@ -2,12 +2,11 @@
 
 namespace Dockent\Tests\controllers;
 
-use Dockent\components\DI as DIFactory;
 use Dockent\components\config\Config;
 use Dockent\controllers\SettingsController;
-use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Di;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Http\ResponseInterface;
 
@@ -22,14 +21,18 @@ class SettingsControllerTest extends ControllerTestCase
      */
     private $instance;
 
+    /**
+     * @throws Exception
+     */
     public function setUp()
     {
+        putenv('DOCKENT_DEBUG=true');
         parent::setUp();
         $this->instance = new SettingsController();
-        DIFactory::getDI()->set(DI::CONFIG, function () {
+        Di::getDefault()->set(Config::class, function () {
             return new Config('./tests/dummy/config.php');
         });
-        DIFactory::getDI()->set(DI::REQUEST, new Requests());
+        $this->instance->beforeExecuteRoute();
     }
 
     /**
@@ -71,8 +74,7 @@ class SettingsControllerTest extends ControllerTestCase
      */
     public function testIndexActionPostWithoutErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setPost();
         $request->setRawBody('{}');
         $this->instance->request = $request;
@@ -89,8 +91,7 @@ class SettingsControllerTest extends ControllerTestCase
      */
     public function testIndexActionPostWithErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setPost();
         $request->setRawBody('{"beanstalkPort":"abc"}');
         $this->instance->request = $request;
@@ -110,7 +111,7 @@ class SettingsControllerTest extends ControllerTestCase
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        $annotationsAdapter = Di::getDefault()->get(AdapterInterface::class);
         /**
          * POST methods
          */
@@ -120,5 +121,10 @@ class SettingsControllerTest extends ControllerTestCase
             $this->assertTrue($method->has('Method'));
             $this->assertEquals(['GET', 'POST'], $method->get('Method')->getArguments());
         }
+    }
+
+    public function tearDown()
+    {
+        putenv('DOCKENT_DEBUG');
     }
 }

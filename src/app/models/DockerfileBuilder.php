@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 07.12.17
- * Time: 15:28
- */
 
 namespace Dockent\models;
 
@@ -78,7 +72,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $from
      */
-    public function setFrom(string $from)
+    public function setFrom(string $from): void
     {
         $this->from = $from;
     }
@@ -94,7 +88,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $run
      */
-    public function setRun(string $run)
+    public function setRun(string $run): void
     {
         $this->run = $run;
     }
@@ -110,7 +104,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $cmd
      */
-    public function setCmd(string $cmd)
+    public function setCmd(string $cmd): void
     {
         $this->cmd = $cmd;
     }
@@ -126,7 +120,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $expose
      */
-    public function setExpose(string $expose)
+    public function setExpose(string $expose): void
     {
         $this->expose = $expose;
     }
@@ -142,7 +136,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $env
      */
-    public function setEnv(string $env)
+    public function setEnv(string $env): void
     {
         $this->env = $env;
     }
@@ -158,7 +152,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $add
      */
-    public function setAdd(string $add)
+    public function setAdd(string $add): void
     {
         $this->add = $add;
     }
@@ -174,7 +168,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $copy
      */
-    public function setCopy(string $copy)
+    public function setCopy(string $copy): void
     {
         $this->copy = $copy;
     }
@@ -190,7 +184,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $volume
      */
-    public function setVolume(string $volume)
+    public function setVolume(string $volume): void
     {
         $this->volume = $volume;
     }
@@ -206,7 +200,7 @@ class DockerfileBuilder extends FormModel
     /**
      * @param string $workdir
      */
-    public function setWorkdir(string $workdir)
+    public function setWorkdir(string $workdir): void
     {
         $this->workdir = $workdir;
     }

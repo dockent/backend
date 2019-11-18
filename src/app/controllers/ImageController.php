@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 26.09.17
- * Time: 10:42
- */
 
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
+use Exception;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -38,7 +33,7 @@ class ImageController extends Controller
         foreach ($data['id'] as $id) {
             try {
                 $this->docker->ImageResource()->imageDelete($id);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
         }
         $this->response->setJsonContent(['status' => 'success']);

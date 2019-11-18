@@ -2,11 +2,10 @@
 
 namespace Dockent\Tests\controllers;
 
-use Dockent\components\DI as DIFactory;
 use Dockent\controllers\NetworkController;
-use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
 use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Di;
 use Phalcon\Http\Response;
 use Phalcon\Http\ResponseInterface;
 
@@ -43,8 +42,7 @@ class NetworkControllerTest extends ControllerTestCase
      */
     public function testRemoveAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["remove_action"]}');
         $this->instance->request = $request;
         $result = $this->instance->removeAction();
@@ -60,8 +58,7 @@ class NetworkControllerTest extends ControllerTestCase
      */
     public function testRemoveActionWithException()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["exception"]}');
         $this->instance->request = $request;
         $result = $this->instance->removeAction();
@@ -95,8 +92,7 @@ class NetworkControllerTest extends ControllerTestCase
      */
     public function testCreateActionWithErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{}');
         $this->instance->request = $request;
         $result = $this->instance->createAction();
@@ -115,8 +111,7 @@ class NetworkControllerTest extends ControllerTestCase
      */
     public function testCreateActionWithoutErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"Name": "test"}');
         $this->instance->request = $request;
         $result = $this->instance->createAction();
@@ -133,7 +128,7 @@ class NetworkControllerTest extends ControllerTestCase
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        $annotationsAdapter = Di::getDefault()->get(AdapterInterface::class);
         /**
          * POST methods
          */

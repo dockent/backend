@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 24.10.17
- * Time: 14:46
- */
 
 namespace Dockent\controllers;
 
+use Dockent\components\config\Config;
 use Dockent\components\Controller;
 use Dockent\models\Settings;
 use Phalcon\Http\Request\Exception;
@@ -20,6 +15,12 @@ use Phalcon\Http\ResponseInterface;
 class SettingsController extends Controller
 {
     /**
+     * @var Config
+     */
+    private $config;
+
+
+    /**
      * @throws Exception
      */
     public function beforeExecuteRoute()
@@ -28,6 +29,8 @@ class SettingsController extends Controller
         if (!static::$DEBUG_MODE) {
             throw new Exception('Page not found', 404);
         }
+
+        $this->config = $this->getDI()->get(Config::class);
     }
 
     /**
@@ -36,7 +39,7 @@ class SettingsController extends Controller
      */
     public function indexAction(): ResponseInterface
     {
-        $model = new Settings();
+        $model = new Settings($this->config);
         if ($this->request->isPost()) {
             $model->assign($this->request->getJsonRawBody(true));
             if ($model->save()) {

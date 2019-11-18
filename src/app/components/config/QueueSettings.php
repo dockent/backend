@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 24.10.17
- * Time: 15:51
- */
 
 namespace Dockent\components\config;
 
@@ -30,10 +24,10 @@ class QueueSettings implements Configurable
      */
     public function __construct(array $data)
     {
-        if (array_key_exists('host', $data)) {
+        if (isset($data['host'])) {
             $this->setHost($data['host']);
         }
-        if (array_key_exists('port', $data)) {
+        if (isset($data['port'])) {
             $this->setPort($data['port']);
         }
     }
@@ -49,7 +43,7 @@ class QueueSettings implements Configurable
     /**
      * @param string $host
      */
-    public function setHost(string $host)
+    public function setHost(string $host): void
     {
         $this->host = strip_tags($host);
     }
@@ -65,7 +59,7 @@ class QueueSettings implements Configurable
     /**
      * @param int $port
      */
-    public function setPort(int $port)
+    public function setPort(int $port): void
     {
         $this->port = $port;
     }

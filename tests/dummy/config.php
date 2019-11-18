@@ -13,6 +13,16 @@
     'host' => '94.130.179.122',
     'port' => '5043',
   ),
+  'database' => 
+  array (
+    'adapter' => 'sqlite',
+    'dbname' => './dockent-test.db',
+  ),
+  'eventSocket' => 
+  array (
+    'host' => 'portquiz.net',
+    'port' => 80,
+  ),
   'block1' => 
   array (
     'key1' => 'value1',

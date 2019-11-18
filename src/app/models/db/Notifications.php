@@ -2,12 +2,7 @@
 
 namespace Dockent\models\db;
 
-use Dockent\components\DI as DIFactory;
-use Dockent\enums\DI;
 use Dockent\enums\NotificationStatus;
-use Dockent\enums\TableName;
-use Dockent\models\db\interfaces\INotifications;
-use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
@@ -15,7 +10,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * Class Notifications
  * @package Dockent\models\db
  */
-class Notifications extends Model implements INotifications
+class Notifications extends Model implements NotificationsInterface
 {
     /**
      * @var int
@@ -30,7 +25,7 @@ class Notifications extends Model implements INotifications
     /**
      * @var bool
      */
-    protected $viewed;
+    protected $viewed = false;
 
     /**
      * @var int
@@ -43,9 +38,9 @@ class Notifications extends Model implements INotifications
      */
     protected $time;
 
-    public function initialize()
+    public function initialize(): void
     {
-        $this->setSource(TableName::NOTIFICATIONS);
+        $this->setSource($this->getTableName());
     }
 
     /**
@@ -59,7 +54,7 @@ class Notifications extends Model implements INotifications
     /**
      * @param int $id
      */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -75,7 +70,7 @@ class Notifications extends Model implements INotifications
     /**
      * @param string $text
      */
-    public function setText(string $text)
+    public function setText(string $text): void
     {
         $this->text = $text;
     }
@@ -91,13 +86,14 @@ class Notifications extends Model implements INotifications
     /**
      * @param bool $viewed
      */
-    public function setViewed(bool $viewed)
+    public function setViewed(bool $viewed): void
     {
         $this->viewed = $viewed;
     }
 
     /**
      * @return int
+     * @see NotificationStatus
      */
     public function getStatus(): int
     {
@@ -106,8 +102,9 @@ class Notifications extends Model implements INotifications
 
     /**
      * @param int $status
+     * @see NotificationStatus
      */
-    public function setStatus(int $status)
+    public function setStatus(int $status): void
     {
         $this->status = $status;
     }
@@ -123,7 +120,7 @@ class Notifications extends Model implements INotifications
     /**
      * @param int $time
      */
-    public function setTime(int $time)
+    public function setTime(int $time): void
     {
         $this->time = $time;
     }
@@ -134,9 +131,7 @@ class Notifications extends Model implements INotifications
      */
     public function deleteByIds(array $id): bool
     {
-        /** @var AdapterInterface $dbConnection */
-        $dbConnection = DIFactory::getDI()->getShared(DI::DB);
-        return $dbConnection->delete(TableName::NOTIFICATIONS, 'id = ?', $id);
+        return $this->getWriteConnection()->delete($this->getTableName(), 'id = ?', $id);
     }
 
     /**
@@ -169,8 +164,24 @@ class Notifications extends Model implements INotifications
     /**
      * @param int $id
      */
-    public function markAsUnread(int $id)
+    public function markAsUnread(int $id): void
     {
         $this->getWriteConnection()->update($this->getSource(), ['viewed'], [false], 'id = ' . (int)$id);
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnreadCount(): int
+    {
+        return static::count('viewed = 0');
+    }
+
+    /**
+     * @return string
+     */
+    public function getTableName(): string
+    {
+        return 'notifications';
     }
 }

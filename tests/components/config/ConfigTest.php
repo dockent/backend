@@ -6,6 +6,7 @@ use Dockent\components\config\Config;
 use Dockent\components\config\Configurable;
 use Phalcon\Config as PhalconConfig;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 /**
  * Class ConfigTest
@@ -24,19 +25,25 @@ class ConfigTest extends TestCase
         $this->instance = new Config(self::PATH);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testConstructor()
     {
         $this->assertInstanceOf(PhalconConfig::class, $this->instance);
-        $configPath = new \ReflectionProperty($this->instance, 'configPath');
+        $configPath = new ReflectionProperty($this->instance, 'configPath');
         $configPath->setAccessible(true);
         $this->assertInternalType('string', $configPath->getValue($this->instance));
         $this->assertEquals(self::PATH, $configPath->getValue($this->instance));
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testAdd()
     {
         $this->addValuesToConfig();
-        $storage = new \ReflectionProperty($this->instance, 'storage');
+        $storage = new ReflectionProperty($this->instance, 'storage');
         $storage->setAccessible(true);
         $this->assertInternalType('array', $storage->getValue($this->instance));
         $this->assertCount(1, $storage->getValue($this->instance));
@@ -70,11 +77,14 @@ class ConfigTest extends TestCase
         });
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testSave()
     {
         $this->addValuesToConfig();
         $this->assertInternalType('bool', $this->instance->save());
-        $storage = new \ReflectionProperty($this->instance, 'storage');
+        $storage = new ReflectionProperty($this->instance, 'storage');
         $storage->setAccessible(true);
         $this->assertInternalType('array', $storage->getValue($this->instance));
         $this->assertEmpty($storage->getValue($this->instance));

@@ -1,7 +1,7 @@
 {
   "name": "scary_donetskiy/dockent",
   "description": "Docker management tool",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "BSD 2-Clause",
   "authors": [
     {
@@ -14,11 +14,12 @@
     "ext-phalcon": ">=3.2",
     "ext-yaml": "*",
     "ext-zip": "*",
+    "ext-sockets": "*",
     "ext-json": "*",
-    "dockent/connector": "master",
-    "vados/phalcon-tcplogger": "dev-master",
-    "vados/phalcon-http-methods-plugin": "dev-master",
-    "vados/phalcon-migration-runner": "dev-master"
+    "vados/phalcon-tcplogger": "^0.1.0",
+    "vados/phalcon-migration-runner": "^0.1.0",
+    "vados/phalcon-http-methods-plugin": "^0.1.0",
+    "dockent/connector": "^0.1.0"
   },
   "require-dev": {
     "phalcon/ide-stubs": "v3.2.1",
@@ -27,7 +28,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://Scary_Donetskiy@bitbucket.org/scary_develop/dockent-connector.git"
+      "url": "https://github.com/dockent/connector.git"
     }
   ],
   "autoload": {
@@ -39,7 +40,7 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit --bootstrap src/bootstrap.php tests/",
-    "testsCoverage": "vendor/bin/phpunit --bootstrap src/bootstrap.php --coverage-html tests/coverage/ --whitelist src/app/ tests/",
-    "post-update-cmd": ["Dockent\\ci\\Frontend::download"]
+    "testsCoverage": "vendor/bin/phpunit",
+    "frontend": ["Dockent\\ci\\Frontend::download"]
   }
 }

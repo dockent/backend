@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 29.11.17
- * Time: 18:44
- */
 
 namespace Dockent\models;
 
@@ -53,7 +47,7 @@ class CreateContainer extends FormModel
     /**
      * @param string $Image
      */
-    public function setImage(string $Image)
+    public function setImage(string $Image): void
     {
         $this->Image = $Image;
     }
@@ -69,7 +63,7 @@ class CreateContainer extends FormModel
     /**
      * @param string $Cmd
      */
-    public function setCmd(string $Cmd)
+    public function setCmd(string $Cmd): void
     {
         $this->Cmd = $Cmd;
     }
@@ -85,7 +79,7 @@ class CreateContainer extends FormModel
     /**
      * @param string $Name
      */
-    public function setName(string $Name)
+    public function setName(string $Name): void
     {
         $this->Name = $Name;
     }
@@ -101,7 +95,7 @@ class CreateContainer extends FormModel
     /**
      * @param bool $Start
      */
-    public function setStart(bool $Start)
+    public function setStart(bool $Start): void
     {
         $this->Start = $Start;
     }

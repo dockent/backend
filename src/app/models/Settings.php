@@ -1,26 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 07.12.17
- * Time: 15:55
- */
 
 namespace Dockent\models;
 
 use Dockent\components\config\Config;
 use Dockent\components\config\QueueSettings;
 use Dockent\components\FormModel;
-use Dockent\enums\DI;
+use JsonSerializable;
 use Phalcon\Validation\Validator\Numericality;
 use Phalcon\Validation\Validator\PresenceOf;
-use Dockent\components\DI as DIFactory;
 
 /**
  * Class Settings
  * @package Dockent\models
  */
-class Settings extends FormModel implements \JsonSerializable
+class Settings extends FormModel implements JsonSerializable
 {
     /**
      * @var string
@@ -39,11 +32,12 @@ class Settings extends FormModel implements \JsonSerializable
 
     /**
      * Settings constructor.
+     * @param Config $config
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
         parent::__construct();
-        $this->config = DIFactory::getDI()->get(DI::CONFIG);
+        $this->config = $config;
         $this->setBeanstalkHost($this->config->path('queue.host'));
         $this->setBeanstalkPort($this->config->path('queue.port'));
     }

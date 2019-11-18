@@ -1,8 +1,4 @@
 <?php
-/**
- * @author: Vladyslav Pozdnyakov <scary_donetskiy@live.com>
- * @copyright Dockent 2017
- */
 
 namespace Dockent\controllers;
 

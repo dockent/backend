@@ -1,19 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vladyslavpozdnyakov
- * Date: 28.09.2017
- * Time: 19:09
- */
 
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
-use Dockent\components\DI as DIFactory;
-use Dockent\enums\DI;
 use Dockent\models\BuildImageByDockerfileBody;
 use Dockent\models\BuildImageByDockerfilePath;
 use Dockent\models\DockerfileBuilder;
+use Dockent\queue\BuildByContext;
+use Dockent\queue\BuildByDockerfileBody;
+use Dockent\queue\BuildImageByDockerfilePath as BuildImageByDockerfilePathQueue;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Queue\Beanstalk;
 
@@ -24,6 +19,18 @@ use Phalcon\Queue\Beanstalk;
 class BuilderController extends Controller
 {
     /**
+     * @var Beanstalk
+     */
+    private $beanstalk;
+
+    public function beforeExecuteRoute()
+    {
+        parent::beforeExecuteRoute();
+
+        $this->beanstalk = $this->getDI()->getShared(Beanstalk::class);
+    }
+
+    /**
      * @Method(POST)
      * @return ResponseInterface
      */
@@ -32,10 +39,8 @@ class BuilderController extends Controller
         $model = new BuildImageByDockerfilePath();
         $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'buildImageByDockerfilePath',
+            $this->beanstalk->put([
+                'action' => BuildImageByDockerfilePathQueue::class,
                 'data' => $model->getDockerfilePath()
             ]);
             $this->response->setJsonContent([
@@ -61,10 +66,8 @@ class BuilderController extends Controller
         $model = new BuildImageByDockerfileBody();
         $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'buildByDockerfileBodyAction',
+            $this->beanstalk->put([
+                'action' => BuildByDockerfileBody::class,
                 'data' => $model->getDockerfileBody()
             ]);
             $this->response->setJsonContent([
@@ -90,10 +93,8 @@ class BuilderController extends Controller
         $model = new DockerfileBuilder();
         $model->assign($this->request->getJsonRawBody(true));
         if ($model->validate()) {
-            /** @var Beanstalk $queue */
-            $queue = DIFactory::getDI()->get(DI::QUEUE);
-            $queue->put([
-                'action' => 'buildByContext',
+            $this->beanstalk->put([
+                'action' => BuildByContext::class,
                 'data' => $model
             ]);
             $this->response->setJsonContent([

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 05.12.17
- * Time: 16:52
- */
 
 namespace Dockent\models;
 
@@ -45,7 +39,7 @@ class BuildImageByDockerfilePath extends FormModel
     /**
      * @param string $dockerfilePath
      */
-    public function setDockerfilePath(string $dockerfilePath)
+    public function setDockerfilePath(string $dockerfilePath): void
     {
         $this->dockerfilePath = $dockerfilePath;
     }

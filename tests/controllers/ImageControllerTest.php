@@ -2,11 +2,11 @@
 
 namespace Dockent\Tests\controllers;
 
-use Dockent\components\DI as DIFactory;
 use Dockent\controllers\ImageController;
-use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
+use Exception;
 use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Di;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -28,7 +28,7 @@ class ImageControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testIndexAction()
     {
@@ -38,12 +38,11 @@ class ImageControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRemoveAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["remove_action"]}');
         $this->instance->request = $request;
         $result = $this->instance->removeAction();
@@ -55,12 +54,11 @@ class ImageControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRemoveActionWithException()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["exception"]}');
         $this->instance->request = $request;
         $result = $this->instance->removeAction();
@@ -72,12 +70,11 @@ class ImageControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testForceRemoveAction()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{"id":["remove_action"]}');
         $this->instance->request = $request;
         $result = $this->instance->forceRemoveAction();
@@ -89,12 +86,12 @@ class ImageControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        $annotationsAdapter = Di::getDefault()->get(AdapterInterface::class);
         $methods = ['removeAction', 'forceRemoveAction'];
         foreach ($methods as $methodName) {
             $method = $annotationsAdapter->getMethod(ImageController::class, $methodName);

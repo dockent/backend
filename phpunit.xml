@@ -1,0 +1,25 @@
+<phpunit
+        bootstrap="src/bootstrap.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnFailure="false"
+        verbose="false">
+    <testsuites>
+        <testsuite name="Dockent Application">
+            <directory>tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory>src/app/</directory>
+            <exclude>
+                <directory>src/app/migrations/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="tests/coverage" />
+    </logging>
+</phpunit>

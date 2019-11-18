@@ -1,6 +1,5 @@
 <?php
 
-use Dockent\enums\TableName;
 use Phalcon\Db\Column;
 use Vados\MigrationRunner\migration\Migration;
 
@@ -8,7 +7,7 @@ class m1522261807_notifications extends Migration
 {
     public function up(): bool
     {
-        return $this->getDbConnection()->createTable(TableName::NOTIFICATIONS, null, [
+        return $this->getDbConnection()->createTable('notifications', null, [
             'columns' => [
                 new Column('id', [
                     'type' => Column::TYPE_INTEGER,
@@ -36,6 +35,6 @@ class m1522261807_notifications extends Migration
 
     public function down(): bool
     {
-        return $this->getDbConnection()->dropTable(TableName::NOTIFICATIONS);
+        return $this->getDbConnection()->dropTable('notifications');
     }
 }

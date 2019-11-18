@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 07.12.17
- * Time: 15:41
- */
 
 namespace Dockent\models;
 
@@ -84,7 +78,7 @@ class CreateNetwork extends FormModel
     /**
      * @param string $Name
      */
-    public function setName(string $Name)
+    public function setName(string $Name): void
     {
         $this->Name = $Name;
     }
@@ -100,7 +94,7 @@ class CreateNetwork extends FormModel
     /**
      * @param string $Driver
      */
-    public function setDriver(string $Driver)
+    public function setDriver(string $Driver): void
     {
         $this->Driver = $Driver;
     }
@@ -116,7 +110,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $CheckDuplicate
      */
-    public function setCheckDuplicate(bool $CheckDuplicate)
+    public function setCheckDuplicate(bool $CheckDuplicate): void
     {
         $this->CheckDuplicate = $CheckDuplicate;
     }
@@ -132,7 +126,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $Internal
      */
-    public function setInternal(bool $Internal)
+    public function setInternal(bool $Internal): void
     {
         $this->Internal = $Internal;
     }
@@ -148,7 +142,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $Attachable
      */
-    public function setAttachable(bool $Attachable)
+    public function setAttachable(bool $Attachable): void
     {
         $this->Attachable = $Attachable;
     }
@@ -164,7 +158,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $Ingress
      */
-    public function setIngress(bool $Ingress)
+    public function setIngress(bool $Ingress): void
     {
         $this->Ingress = $Ingress;
     }
@@ -181,7 +175,7 @@ class CreateNetwork extends FormModel
     /**
      * @param bool $EnableIPv6
      */
-    public function setEnableIPv6(bool $EnableIPv6)
+    public function setEnableIPv6(bool $EnableIPv6): void
     {
         $this->EnableIPv6 = $EnableIPv6;
     }

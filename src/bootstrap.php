@@ -1,28 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 26.09.17
- * Time: 15:41
- */
 
-use Dockent\components\DI as DIFactory;
-use Dockent\components\QueueActions;
+use Dockent\components\docker\Docker;
 use Dockent\Connector\Connector;
-use Dockent\enums\DI;
+use Dockent\console\Queue;
 use Dockent\enums\Events;
 use Dockent\models\db\Notifications;
+use Dockent\models\db\NotificationsInterface;
 use Phalcon\Annotations\Adapter\Memory as Annotations;
 use Dockent\components\config\Config;
+use Phalcon\Annotations\AdapterInterface as AnnotationsAdapterInterface;
 use Phalcon\Db\Adapter\Pdo\Factory as PdoFactory;
-use Phalcon\Events\Manager;
-use Phalcon\Http\Request;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Loader;
+use Phalcon\Logger\AdapterInterface as LoggerAdapterInterface;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Queue\Beanstalk;
 use Vados\PhalconPlugins\HTTPMethodsPlugin;
-use Vados\TCPLogger\Adapter;
+use Vados\TCPLogger\Adapter as LoggerAdapter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/app/components/functions.php';
@@ -30,60 +27,53 @@ require_once __DIR__ . '/app/components/functions.php';
 $loader = new Loader();
 $loader->register();
 
-DIFactory::getDI()->set(DI::REQUEST, function () {
-    return new Request();
-});
-DIFactory::getDI()->set(DI::EVENTS_MANAGER, function () {
-    return new Manager();
-});
-DIFactory::getDI()->set(DI::DISPATCHER, function () {
+$di = new FactoryDefault();
+
+$di->set(DispatcherInterface::class, function () use ($di) {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('Dockent\controllers');
 
-    /** @var Manager $eventsManager */
-    $eventsManager = DIFactory::getDI()->get(DI::EVENTS_MANAGER);
+    /** @var EventsManagerInterface $eventsManager */
+    $eventsManager = $di->get(EventsManagerInterface::class);
     $eventsManager->attach(Events::DISPATCH_BEFORE_EXECUTE_ROUTE, new HTTPMethodsPlugin());
 
     $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;
 });
-DIFactory::getDI()->set(DI::VIEW, function () {
+$di->set('view', function () {
     $view = new View();
     $view->setViewsDir(__DIR__ . '/app/views');
 
     return $view;
 });
-DIFactory::getDI()->set(DI::CONFIG, function () {
+$di->set(Config::class, function () {
     return new Config(__DIR__ . '/app/config.php');
 });
-DIFactory::getDI()->set(DI::DOCKER, function () {
-    return new Connector();
-});
-DIFactory::getDI()->set(DI::QUEUE, function () {
+$di->setShared(Beanstalk::class, function () use ($di) {
     /** @var Config $config */
-    $config = DIFactory::getDI()->get(DI::CONFIG);
+    $config = $di->get(Config::class);
     return new Beanstalk([
         'host' => $config->path('queue.host'),
-        'port' => $config->path('queue.port')
+        'port' => $config->path('queue.port'),
     ]);
 });
-DIFactory::getDI()->set(DI::QUEUE_ACTIONS, function () {
-    return new QueueActions();
-});
-DIFactory::getDI()->set(DI::ANNOTATIONS, function () {
-    return new Annotations();
-});
-DIFactory::getDI()->set(DI::LOGGER, function () {
+$di->set(AnnotationsAdapterInterface::class, Annotations::class);
+$di->setShared(LoggerAdapterInterface::class, function () use ($di) {
     /** @var Config $config */
-    $config = DIFactory::getDI()->get(DI::CONFIG);
-    return new Adapter($config->path('logstash.host'), $config->path('logstash.port'));
+    $config = $di->get(Config::class);
+    return new LoggerAdapter($config->path('logstash.host'), $config->path('logstash.port'));
 });
-DIFactory::getDI()->setShared(DI::DB, function () {
+$di->setShared('db', function () use ($di) {
     /** @var Config $config */
-    $config = DIFactory::getDI()->get(DI::CONFIG);
+    $config = $di->get(Config::class);
     return PdoFactory::load($config->get('database'));
 });
-DIFactory::getDI()->set(DI::NOTIFICATIONS, function () {
-    return new Notifications();
+$di->set(Docker::class, function () use ($di) {
+    $connector = $di->get(Connector::class);
+    return new Docker($connector);
 });
+$di->set(Queue::class, function () use ($di) {
+    return new Queue($di, $di->get(Beanstalk::class), $di->get(LoggerAdapterInterface::class), $di->get(NotificationsInterface::class));
+});
+$di->set(NotificationsInterface::class, Notifications::class);

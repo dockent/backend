@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 01.12.17
- * Time: 12:39
- */
 
 namespace Dockent\components;
 
 use Phalcon\Validation;
 use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\MessageInterface;
+use Phalcon\ValidationInterface;
 
 /**
  * Class FormModel
@@ -19,7 +14,7 @@ use Phalcon\Validation\MessageInterface;
 abstract class FormModel
 {
     /**
-     * @var Validation
+     * @var ValidationInterface
      */
     protected $validator;
 
@@ -79,7 +74,7 @@ abstract class FormModel
     {
         $messages = [];
         foreach ($this->messages as $message) {
-            if (!array_key_exists($message->getField(), $messages)) {
+            if (!isset($messages[$message->getField()])) {
                 $messages[$message->getField()] = [];
             }
             $messages[$message->getField()][] = $message->getMessage();

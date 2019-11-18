@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 05.12.17
- * Time: 17:02
- */
 
 namespace Dockent\models;
 
@@ -38,7 +32,7 @@ class BuildImageByDockerfileBody extends FormModel
     /**
      * @param string $dockerfileBody
      */
-    public function setDockerfileBody(string $dockerfileBody)
+    public function setDockerfileBody(string $dockerfileBody): void
     {
         $this->dockerfileBody = $dockerfileBody;
     }

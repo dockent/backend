@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpozdnyakov
- * Date: 28.11.17
- * Time: 13:42
- */
 
 namespace Dockent\controllers;
 
 use Dockent\components\Controller;
 use Dockent\models\CreateNetwork;
+use Exception;
 use Http\Client\Exception\HttpException;
 use Phalcon\Http\ResponseInterface;
 
@@ -40,7 +35,7 @@ class NetworkController extends Controller
         foreach ($data['id'] as $id) {
             try {
                 $this->docker->NetworkResource()->networkDelete($id);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
         }
         $this->response->setJsonContent(['status' => 'success']);
