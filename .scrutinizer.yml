@@ -3,7 +3,7 @@ build:
     analysis:
       dependencies:
         before:
-          - sudo apt-get update && apt-get install libyaml-dev
+          - sudo apt-get install libyaml-dev
       project_setup:
         override:
           - 'true'
