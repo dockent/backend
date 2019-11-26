@@ -2,11 +2,11 @@
 
 namespace Dockent\Tests\controllers;
 
-use Dockent\components\DI as DIFactory;
 use Dockent\controllers\BuilderController;
-use Dockent\enums\DI;
 use Dockent\Tests\mocks\Requests;
+use Exception;
 use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Di;
 use Phalcon\Http\ResponseInterface;
 
 /**
@@ -28,12 +28,11 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testBuildByDockerfilePathActionWithErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{}');
         $this->instance->request = $request;
         $result = $this->instance->buildByDockerfilePathAction();
@@ -48,15 +47,14 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testBuildByDockerfilePathActionWithoutErrors()
     {
         $data = [
             'dockerfilePath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dummy'
         ];
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody(json_encode($data));
         $this->instance->request = $request;
         $result = $this->instance->buildByDockerfilePathAction();
@@ -70,12 +68,11 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testBuildByDockerfileBodyActionWithErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{}');
         $this->instance->request = $request;
         $result = $this->instance->buildByDockerfileBodyAction();
@@ -90,15 +87,14 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testBuildByDockerfileBodyActionWithoutErrors()
     {
         $data = [
             'dockerfileBody' => 'FROM busybox'
         ];
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody(json_encode($data));
         $this->instance->request = $request;
         $result = $this->instance->buildByDockerfileBodyAction();
@@ -112,12 +108,11 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testIndexActionWithErrors()
     {
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody('{}');
         $this->instance->request = $request;
         $result = $this->instance->indexAction();
@@ -132,15 +127,14 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testIndexActionWithoutErrors()
     {
         $data = [
             'from' => 'busybox'
         ];
-        /** @var Requests $request */
-        $request = DIFactory::getDI()->get(DI::REQUEST);
+        $request = new Requests();
         $request->setRawBody(json_encode($data));
         $this->instance->request = $request;
         $result = $this->instance->indexAction();
@@ -154,12 +148,12 @@ class BuilderControllerTest extends ControllerTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMethodAnnotations()
     {
         /** @var AdapterInterface $annotationsAdapter */
-        $annotationsAdapter = DIFactory::getDI()->get(DI::ANNOTATIONS);
+        $annotationsAdapter = Di::getDefault()->get(AdapterInterface::class);
         $methods = ['buildByDockerfilePathAction', 'buildByDockerfileBodyAction', 'indexAction'];
         foreach ($methods as $methodName) {
             $method = $annotationsAdapter->getMethod(BuilderController::class, $methodName);
