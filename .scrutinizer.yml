@@ -19,6 +19,9 @@ build:
         before:
           - sudo apt-get -y install libyaml-dev
           - yes | pecl install psr
+      tests:
+        override:
+          - php -r "echo Phalcon\Version::get();"
 filter:
   excluded_paths:
     - 'tests/*'
