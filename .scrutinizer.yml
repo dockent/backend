@@ -5,6 +5,11 @@ build:
         before:
           - sudo apt-get -y install libyaml-dev
           - yes | pecl install psr
+        override:
+          - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
+          - yes | pecl install phar
+          - yes | pecl install yaml
+          - composer install --no-interaction
       project_setup:
         override:
           - 'true'
@@ -19,9 +24,11 @@ build:
         before:
           - sudo apt-get -y install libyaml-dev
           - yes | pecl install psr
-      tests:
         override:
-          - php -r "echo Phalcon\Version::get();"
+          - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
+          - yes | pecl install phar
+          - yes | pecl install yaml
+          - composer install --no-interaction
 filter:
   excluded_paths:
     - 'tests/*'
