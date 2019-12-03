@@ -5,11 +5,6 @@ build:
         before:
           - sudo apt-get -y install libyaml-dev
           - yes | pecl install psr
-        override:
-          - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
-          - sudo apt-get install php7.2-phalcon
-          - yes | pecl install yaml
-          - composer install --no-interaction
       project_setup:
         override:
           - 'true'
@@ -26,7 +21,7 @@ build:
           - yes | pecl install psr
         override:
           - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
-          - sudo apt-get install php7.2-phalcon
+          - apt-cache search phalcon
           - yes | pecl install yaml
           - composer install --no-interaction
 filter:
