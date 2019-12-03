@@ -22,7 +22,7 @@ build:
         override:
           - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
           - apt-cache search phalcon
-          - apt-get install -y php7.2-phalcon
+          - sudo apt-get install -y php7.2-phalcon
           - yes | pecl install yaml
           - composer install --no-interaction
 filter:
