@@ -20,6 +20,9 @@ build:
           - sudo apt-get -y install libyaml-dev
           - yes | pecl install psr
         override:
+          - sudo apt-get install -y software-properties-common
+          - sudo add-apt-repository ppa:ondrej/php
+          - sudo apt-get update
           - sudo apt-get install -y php7.2-common
           - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
           - apt-cache search phalcon
