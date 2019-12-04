@@ -20,13 +20,7 @@ build:
           - sudo apt-get -y install libyaml-dev
           - yes | pecl install psr
         override:
-          - sudo apt-get install -y software-properties-common
-          - sudo add-apt-repository ppa:ondrej/php
-          - sudo apt-get update
-          - sudo apt-get install -y php7.2-common
-          - curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash
-          - apt-cache search phalcon
-          - sudo apt-get install -y php7.2-phalcon
+          - ( git clone --depth=1 "git://github.com/phalcon/cphalcon.git" -b v3.4.5 ~/cphalcon && cd ~/cphalcon/build && ./install && echo "extension=phalcon.so" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/phalcon.ini )
           - yes | pecl install yaml
           - composer install --no-interaction
 filter:
