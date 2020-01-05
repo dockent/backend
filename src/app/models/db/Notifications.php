@@ -174,7 +174,7 @@ class Notifications extends Model implements NotificationsInterface
      */
     public function getUnreadCount(): int
     {
-        return static::count('viewed = 0');
+        return static::count(['viewed' =>  0]);
     }
 
     /**

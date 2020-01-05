@@ -48,7 +48,7 @@ class CreateNetwork extends FormModel
 
     public function rules()
     {
-        $this->validator->add(['Name'], new PresenceOf());
+        $this->validator->add('Name', new PresenceOf());
     }
 
     /**

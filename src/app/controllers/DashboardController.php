@@ -16,7 +16,7 @@ class DashboardController extends Controller
      */
     public function indexAction(): ResponseInterface
     {
-        $this->response->setContent($this->docker->SystemResource()->systemInfo());
+        $this->response->setContent((string) $this->docker->SystemResource()->systemInfo());
 
         return $this->response;
     }

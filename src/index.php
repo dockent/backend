@@ -2,7 +2,7 @@
 
 use Dockent\enums\NotificationStatus;
 use Dockent\models\db\NotificationsInterface;
-use Http\Client\Exception\HttpException;
+use Http\Client\Exception\HttpException as HttpClientException;
 use Phalcon\Debug;
 use Phalcon\Mvc\Application;
 
@@ -14,7 +14,7 @@ $application = new Application($di);
 try {
     $response = $application->handle();
     $response->send();
-} catch (HttpException $httpException) {
+} catch (HttpClientException $httpException) {
     /** @var NotificationsInterface $notifications */
     $notifications = $di->get(NotificationsInterface::class);
     $notifications->createNotify($httpException->getMessage(), NotificationStatus::ERROR);

@@ -18,7 +18,7 @@ class ImageController extends Controller
     public function indexAction(): ResponseInterface
     {
         $images = $this->docker->ImageResource()->imageList();
-        $this->response->setContent($images);
+        $this->response->setContent((string) $images);
 
         return $this->response;
     }
@@ -34,6 +34,7 @@ class ImageController extends Controller
             try {
                 $this->docker->ImageResource()->imageDelete($id);
             } catch (Exception $e) {
+                /** We don't need a process exception on 'image delete' operation */
             }
         }
         $this->response->setJsonContent(['status' => 'success']);

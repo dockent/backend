@@ -44,8 +44,9 @@ class Settings extends FormModel implements JsonSerializable
 
     public function rules()
     {
-        $this->validator->add(['beanstalkHost', 'beanstalkPort'], new PresenceOf());
-        $this->validator->add(['beanstalkPort'], new Numericality());
+        $this->validator->add('beanstalkHost', new PresenceOf());
+        $this->validator->add('beanstalkPort', new PresenceOf());
+        $this->validator->add('beanstalkPort', new Numericality());
     }
 
     /**

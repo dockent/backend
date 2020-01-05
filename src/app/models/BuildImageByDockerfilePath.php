@@ -19,8 +19,8 @@ class BuildImageByDockerfilePath extends FormModel
 
     public function rules()
     {
-        $this->validator->add(['dockerfilePath'], new PresenceOf());
-        $this->validator->add(['dockerfilePath'], new Callback([
+        $this->validator->add('dockerfilePath', new PresenceOf());
+        $this->validator->add('dockerfilePath', new Callback([
             'callback' => function ($data): bool {
                 return is_dir($data['dockerfilePath']) && file_exists($data['dockerfilePath'] . DIRECTORY_SEPARATOR . 'Dockerfile');
             },

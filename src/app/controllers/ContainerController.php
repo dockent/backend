@@ -36,7 +36,7 @@ class ContainerController extends Controller
     public function indexAction(): ResponseInterface
     {
         $containers = $this->docker->ContainerResource()->containerList(['all' => true]);
-        $this->response->setContent($containers);
+        $this->response->setContent((string) $containers);
 
         return $this->response;
     }
@@ -152,9 +152,9 @@ class ContainerController extends Controller
     {
         $top = null;
         try {
-            $model = json_decode($this->docker->ContainerResource()->containerInspect($id));
+            $model = json_decode((string) $this->docker->ContainerResource()->containerInspect($id));
             if ($model->State->Status === ContainerState::RUNNING) {
-                $top = json_decode($this->docker->ContainerResource()->containerTop($id));
+                $top = json_decode((string) $this->docker->ContainerResource()->containerTop($id));
             }
             $this->response->setJsonContent([
                 'top' => $top,

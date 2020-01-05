@@ -33,7 +33,7 @@ class CreateContainer extends FormModel
 
     public function rules()
     {
-        $this->validator->add(['Image'], new PresenceOf());
+        $this->validator->add('Image', new PresenceOf());
     }
 
     /**

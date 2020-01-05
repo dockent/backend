@@ -20,7 +20,7 @@ class NetworkController extends Controller
     public function indexAction(): ResponseInterface
     {
         $networks = $this->docker->NetworkResource()->networkList();
-        $this->response->setContent($networks);
+        $this->response->setContent((string) $networks);
 
         return $this->response;
     }
@@ -36,6 +36,7 @@ class NetworkController extends Controller
             try {
                 $this->docker->NetworkResource()->networkDelete($id);
             } catch (Exception $e) {
+                /** We don't need to process this exception */
             }
         }
         $this->response->setJsonContent(['status' => 'success']);
@@ -50,7 +51,7 @@ class NetworkController extends Controller
     public function viewAction(string $id): ResponseInterface
     {
         try {
-            $this->response->setContent($this->docker->NetworkResource()->networkInspect($id));
+            $this->response->setContent((string) $this->docker->NetworkResource()->networkInspect($id));
         } catch (HttpException $httpException) {
             $this->response->setStatusCode($httpException->getCode());
         }

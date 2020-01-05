@@ -18,7 +18,7 @@ function formatBytes(int $size, int $precision = 2): string
  */
 function rmDirRecursive(string $dir): bool
 {
-    $files = array_diff(scandir($dir), ['.', '..']);
+    $files = array_diff(scandir($dir) ?: [], ['.', '..']);
     foreach ($files as $file) {
         $fullPath = "$dir/$file";
         (is_dir($fullPath)) ? rmDirRecursive($fullPath) : unlink($fullPath);

@@ -18,7 +18,7 @@ class BuildImageByDockerfileBody extends FormModel
 
     public function rules()
     {
-        $this->validator->add(['dockerfileBody'], new PresenceOf());
+        $this->validator->add('dockerfileBody', new PresenceOf());
     }
 
     /**

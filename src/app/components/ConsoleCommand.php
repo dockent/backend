@@ -42,7 +42,7 @@ class ConsoleCommand implements ConsoleCommandInterface
      */
     public static function findCommands(): array
     {
-        $scanCommands = scandir(__DIR__ . '/../console');
+        $scanCommands = scandir(__DIR__ . '/../console') ?: [];
         $ignore = ['.', '..', 'ConsoleCommandInterface.php'];
         return array_map(function ($item) {
             return substr($item, 0, -4);

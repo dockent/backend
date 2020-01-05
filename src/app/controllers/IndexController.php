@@ -27,9 +27,7 @@ class IndexController extends Controller
     public function indexAction()
     {
         $assetManifest = json_decode(file_get_contents(__DIR__ . '/../../asset-manifest.json'));
-        $this->view->setVars([
-            'assetManifest' => $assetManifest
-        ]);
+        $this->view->setVar('assetManifest', $assetManifest);
     }
 
     /**

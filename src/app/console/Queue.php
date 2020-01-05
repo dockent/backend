@@ -60,6 +60,9 @@ class Queue implements ConsoleCommandInterface
     public function start(): void
     {
         while (($job = $this->beanstalk->reserve()) !== false) {
+            if (is_bool($job)) {
+                continue;
+            }
             $this->processJob($job);
         }
     }

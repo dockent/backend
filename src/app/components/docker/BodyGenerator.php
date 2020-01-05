@@ -17,12 +17,12 @@ class BodyGenerator
     public function generateBody(DockerfileBuilder $parameters): string
     {
         $from = $parameters->getFrom() ? 'FROM ' . $parameters->getFrom() : null;
-        $run = $parameters->getRun() ? static::processMultistringCommands('RUN', $parameters->getRun()) : null;
+        $run = $parameters->getRun() ? $this->processMultistringCommands('RUN', $parameters->getRun()) : null;
         $cmd = $parameters->getCmd() ? 'CMD ' . $parameters->getCmd() : null;
         $expose = $parameters->getExpose() ? 'EXPOSE ' . $parameters->getExpose() : null;
-        $env = $parameters->getEnv() ? static::processMultistringCommands('ENV', $parameters->getEnv()) : null;
-        $add = $parameters->getAdd() ? static::processMultistringCommands('ADD', $parameters->getAdd()) : null;
-        $copy = $parameters->getCopy() ? static::processMultistringCommands('COPY', $parameters->getCopy()) : null;
+        $env = $parameters->getEnv() ? $this->processMultistringCommands('ENV', $parameters->getEnv()) : null;
+        $add = $parameters->getAdd() ? $this->processMultistringCommands('ADD', $parameters->getAdd()) : null;
+        $copy = $parameters->getCopy() ? $this->processMultistringCommands('COPY', $parameters->getCopy()) : null;
 
         $volume = null;
         if ($parameters->getVolume()) {

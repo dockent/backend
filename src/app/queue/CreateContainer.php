@@ -52,7 +52,7 @@ class CreateContainer extends QueueAction
         if ($name) {
             $parameters['name'] = $name;
         }
-        $containerCreateResult = json_decode($this->connector->ContainerResource()->containerCreate([
+        $containerCreateResult = json_decode((string) $this->connector->ContainerResource()->containerCreate([
             'Image' => $this->data->getImage(),
             'Cmd' => $this->data->getCmd()
         ], $parameters));

@@ -58,7 +58,7 @@ class DockerfileBuilder extends FormModel
 
     public function rules()
     {
-        $this->validator->add(['from'], new PresenceOf());
+        $this->validator->add('from', new PresenceOf());
     }
 
     /**
