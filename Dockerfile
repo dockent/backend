@@ -11,8 +11,9 @@ RUN printf "\n" | pecl install yaml
 RUN docker-php-ext-enable yaml
 ADD . /app
 WORKDIR /app
-RUN cp supervisord.conf /etc/supervisor/conf.d/dockent.conf
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN composer install --no-dev
 RUN composer frontend
-CMD ["/etc/init.d/supervisor", "start"]
+CMD ["/usr/bin/supervisord"]
 EXPOSE 8080
