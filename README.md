@@ -8,6 +8,10 @@
 
 Dockent - it's Web GUI for Docker.
 
+ABANDONED
+---
+At the moment, I'm not interested in this project. I tried to "makeup" it, but I won't develop it more. It's open to use it (maybe as a code base for other projects)
+
 ### Usage ###
 
 In this repository you have a Dockerfile for starting all parts of Dockent project.
